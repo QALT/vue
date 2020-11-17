@@ -9,4 +9,4 @@ install:
 	docker-compose run --rm yarn install
 
 start:
-	docker-compose run --rm --service-ports yarn vue ui --host 0.0.0.0
+	docker-compose run --rm --service-ports yarn serve

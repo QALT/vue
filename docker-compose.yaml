@@ -12,6 +12,7 @@ services:
         working_dir: /home/node/app
         entrypoint: yarn
         command: --help
+        env_file: .env
         volumes:
             - .:/home/node/app
         ports:
