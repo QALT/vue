@@ -20,6 +20,12 @@ $ cd ~/github.com/QALT/vue
 $ make install
 ```
 
+## Environment file
+
+```console
+$ cp .env.example .env
+```
+
 ## Start
 
 ```console

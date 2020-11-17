@@ -1,5 +1,2 @@
-/node_modules
-/yarn.lock
-/app/node_modules
-/app/yarn.lock
-/app/dist
+node_modules
+.env
