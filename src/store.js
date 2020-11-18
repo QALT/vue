@@ -48,6 +48,14 @@ export default new Vuex.Store({
             }
 
             state.firstname = firstname;
+        disconnectUser(state) {
+            state.token = null;
+            window.localStorage.removeItem('token');
+        }
+    },
+    getters: {
+        isLogged(state) {
+            return !!state?.token;
         }
     }
 })

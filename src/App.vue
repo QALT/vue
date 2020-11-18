@@ -2,7 +2,7 @@
     <div id="app" class="bg-gradient-primary d-flex vh-100">
         <sidebar v-if="showHeader"></sidebar>
         <div v-bind:class="{'content-wrapper': showHeader}" class="w-100 d-flex flex-column">
-            <app-header v-if="showHeader"></app-header>
+            <app-header></app-header>
             <div class="pl-4 pr-4 container-fluid">
                 <router-view></router-view>
             </div>
