@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <app-header></app-header>
+        <app-header v-if="showHeader"></app-header>
         <router-view></router-view>
     </div>
 </template>
@@ -12,6 +12,13 @@ export default {
     name: 'App',
     components: {
         AppHeader,
+    },
+    computed: {
+        showHeader() {
+            const excludedPaths = ['/login', '/register'];
+            const currentPath = this.$router.currentRoute.path;
+            return !excludedPaths.includes(currentPath);
+        }
     }
 }
 </script>
