@@ -1,7 +1,13 @@
 <template>
-    <div class="container">
-        <div class="row">
-            <div class="col-6 offset-3 pt-5">
+    <b-container>
+        <b-row>
+            <b-col>
+                <h1 class="text-center pt-5">Login</h1>
+            </b-col>
+        </b-row>
+
+        <b-row>
+            <b-col cols="6" offset="3" class="pt-5">
                 <b-card>
                     <b-form @submit="onSubmit">
                         <b-form-group
@@ -28,12 +34,18 @@
                                 placeholder="Enter password"
                             />
                         </b-form-group>
-                        <b-button type="submit" variant="primary">Submit</b-button>
+                        <b-button type="submit" variant="primary" class="w-100">Login</b-button>
                     </b-form>
                 </b-card>
-            </div>
-        </div>
-    </div>
+            </b-col>
+        </b-row>
+
+        <b-row>
+            <b-col cols="12 pt-5">
+                <p class="text-center">No account created. <b-link to="/register">Register instead?</b-link></p>
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
