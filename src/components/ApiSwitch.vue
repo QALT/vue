@@ -1,12 +1,6 @@
 <template>
-    <div class="row">
-        <div>
-            <select class="custom-select" @change="onChange">
-                <option selected disabled>Api provider</option>
-                <option value="api-platform">Api platform</option>
-                <option value="graphql">GraphQL</option>
-            </select>
-        </div>
+    <div>
+        <b-form-select :options="selectOptions" v-model="selected" @change="onChange"></b-form-select>
     </div>
 </template>
 
@@ -14,13 +8,23 @@
 import { mapMutations } from 'vuex'
 
 export default {
-    name: 'Home',
+    name: 'ApiSwitch',
     methods: {
         ...mapMutations([
             'setApiProvider'
         ]),
-        onChange(event) {
-            this.setApiProvider(event.currentTarget.value);
+        onChange() {
+            this.setApiProvider(this.selected);
+        }
+    },
+    data() {
+        return {
+            selected: null,
+            selectOptions: [
+                { value: 'nothing', text: 'Api provider', disabled: true },
+                { value: 'api-platform', text: 'API Platform' },
+                { value: 'graphql', text: 'GraphQL' }
+            ]
         }
     }
 }
