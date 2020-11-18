@@ -11,7 +11,7 @@
 					<span class="text-gray-600 mr-2">John Doe</span>
 					<b-icon-person-circle variant="secondary"></b-icon-person-circle>
 				</template>
-        <b-dropdown-item href="#" @click="disconnect()">Disconnect</b-dropdown-item>
+        <b-dropdown-item href="#" @click="disconnect()">Logout</b-dropdown-item>
       </b-nav-item-dropdown>
 		</b-navbar-nav>
 	</div>
