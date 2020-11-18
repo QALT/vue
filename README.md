@@ -14,16 +14,16 @@ $ git clone git@github.com:QALT/vue.git ~/github.com/QALT/vue
 $ cd ~/github.com/QALT/vue
 ```
 
-## Dependencies Installation
-
-```console
-$ make install
-```
-
 ## Environment file
 
 ```console
 $ cp .env.example .env
+```
+
+## Dependencies Installation
+
+```console
+$ make install
 ```
 
 ## Start
