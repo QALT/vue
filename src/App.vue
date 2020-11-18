@@ -16,7 +16,7 @@ export default {
     computed: {
         showHeader() {
             const excludedPaths = ['/login', '/register'];
-            const currentPath = this.$router.currentRoute.path;
+            const currentPath = this.$route.path;
             return !excludedPaths.includes(currentPath);
         }
     }
