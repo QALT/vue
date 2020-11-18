@@ -77,6 +77,8 @@ export default {
                 this.setFirstname(firstname);
                 this.setLastname(lastname);
 
+                this.$router.push("/");
+
                 toastNotification("success", "Successfully registered");
             } catch (error) {
                 toastNotification("error", error.message);
