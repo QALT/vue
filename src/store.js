@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         token: window.localStorage.getItem('token'),
-        apiUrl: null,
+        apiUrl: process.env.VUE_APP_API_PLATFORM_URL,
         apiProvider: 'api-platform',
     },
     mutations: {
