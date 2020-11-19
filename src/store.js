@@ -33,7 +33,7 @@ export default new Vuex.Store({
             if (null === lastname) {
                 window.localStorage.removeItem("lastname");
             } else {
-                window.localStorage.setItem("lastname");
+                window.localStorage.setItem("lastname", lastname);
             }
 
             state.lastname = lastname;
@@ -42,7 +42,7 @@ export default new Vuex.Store({
             if (null === firstname) {
                 window.localStorage.removeItem("firstname");
             } else {
-                window.localStorage.setItem("firstname");
+                window.localStorage.setItem("firstname", firstname);
             }
             state.firstname = firstname;
         },
