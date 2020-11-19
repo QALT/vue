@@ -9,16 +9,8 @@
         <hr class="sidebar-divider my-0 w-100">
         <b-navbar-nav class="flex-column w-100">
             <b-nav-item to="/" exact-active-class="text-light">
-                <b-icon-house class="mr-1"></b-icon-house>
-                Home
-            </b-nav-item>
-            <b-nav-item to="/login" exact-active-class="text-light">
-                <b-icon-box-arrow-in-right class="mr-1"></b-icon-box-arrow-in-right>
-                Login
-            </b-nav-item>
-            <b-nav-item to="/register" exact-active-class="text-light">
-                <b-icon-pencil-square class="mr-1"></b-icon-pencil-square>
-                Register
+                <b-icon-briefcase class="mr-1"></b-icon-briefcase>
+                Offers
             </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
