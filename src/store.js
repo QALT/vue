@@ -29,7 +29,6 @@ export default new Vuex.Store({
                 state.apiUrl = process.env.VUE_APP_GRAPHQL_URL
             }
         },
-
         setLastname(state, lastname) {
             if (null === lastname) {
                 window.localStorage.removeItem("lastname");
@@ -39,7 +38,6 @@ export default new Vuex.Store({
 
             state.lastname = lastname;
         },
-
         setFirstname(state, firstname) {
             if (null === firstname) {
                 window.localStorage.removeItem("firstname");

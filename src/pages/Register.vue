@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import jwt_decode from "jwt-decode";
 import {mapMutations} from "vuex";
 import { toastNotification } from '../helpers/Toastify';
 
@@ -57,7 +58,7 @@ export default {
 
         async onSubmit() {
             try {
-                const response = await fetch(`${this.$store.state.apiUrl}/register`, {
+                const response = await fetch(`${this.$store.state.apiUrl}/users`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -71,9 +72,10 @@ export default {
                 }
 
                 // TODO: check the values from the API
-                const {token, firstname, lastname} = await response.json();
+                const { token } = await response.json();
 
                 this.setToken(token);
+                const { firstname, lastname } = jwt_decode(token);
                 this.setFirstname(firstname);
                 this.setLastname(lastname);
 

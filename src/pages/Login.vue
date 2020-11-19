@@ -49,7 +49,8 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import jwt_decode from "jwt-decode";
+import { mapMutations } from 'vuex';
 import { toastNotification } from '../helpers/Toastify';
 
 export default {
@@ -62,11 +63,13 @@ export default {
     }),
     methods: {
         ...mapMutations([
-            'setToken'
+            'setToken',
+            'setFirstname',
+            'setLastname',
         ]),
         onSubmit(event) {
             event.preventDefault();
-            fetch('https://localhost:8443/authentication_token', {
+            fetch(`${this.$store.state.apiUrl}/authentication_token`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
@@ -81,7 +84,11 @@ export default {
                 throw new Error('Bad credentials')
             })
             .then(({ token }) => {
-                this.setToken(token)
+                this.setToken(token);
+                const { firstname, lastname } = jwt_decode(token);
+                this.setFirstname(firstname);
+                this.setLastname(lastname);
+
                 this.$router.push('/')
             })
             .catch(error => toastNotification('error', error.message))

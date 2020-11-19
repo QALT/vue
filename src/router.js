@@ -18,8 +18,6 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    console.log({token: store.state.token, route: to.path});
-
     if (!store.state.token) {
         if (to.path === "/register") {
             return next();
