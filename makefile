@@ -10,8 +10,3 @@ install:
 
 start:
 	docker-compose run --rm --service-ports yarn serve
-
-stop:
-	docker-compose down
-
-restart: stop start
