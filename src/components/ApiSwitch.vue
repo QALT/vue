@@ -23,7 +23,7 @@ export default {
             selectOptions: [
                 { value: 'nothing', text: 'Api provider', disabled: true },
                 { value: 'api-platform', text: 'API Platform' },
-                { value: 'graphql', text: 'GraphQL' }
+                { value: 'prisma', text: 'Prisma' }
             ]
         }
     }

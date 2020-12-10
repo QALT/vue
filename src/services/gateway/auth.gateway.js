@@ -5,15 +5,14 @@ import apiAuthService from '../api-platform/auth.service';
 import { toastNotification } from '../../helpers/Toastify';
 import jwt_decode from "jwt-decode";
 
+const providers = {
+    'api-platform': apiAuthService,
+    'prisma': prismaAuthService
+}
+
 export default {
     login(email, password) {
-        let promise;
-        if(store.getters.getApiProvider === 'api-platform') {
-            promise = apiAuthService.login;
-        } else {
-            promise = prismaAuthService.login;
-        }
-        promise(email, password).then(({token}) => {
+        providers[store.getters.getApiProvider].login(email, password).then(({token}) => {
             store.commit('setToken', token);
             const { firstname, lastname } = jwt_decode(token);
             store.commit('setFirstname', firstname);
