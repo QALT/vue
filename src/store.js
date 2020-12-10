@@ -54,6 +54,12 @@ export default new Vuex.Store({
     getters: {
         isLogged(state) {
             return !!state?.token;
+        },
+        getToken(state) {
+            return state.token;
+        },
+        getApiProvider(state) {
+            return state.apiProvider;
         }
     }
 })
