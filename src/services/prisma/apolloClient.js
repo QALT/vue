@@ -1,6 +1,5 @@
 import ApolloClient from 'apollo-boost'
 
 export const apolloClient = new ApolloClient({
-    // You should use an absolute URL here
-    uri: 'http://localhost:4000'
+    uri: process.env.VUE_APP_GRAPHQL_HTTP
   })

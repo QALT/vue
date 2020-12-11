@@ -7,7 +7,7 @@ import jwt_decode from "jwt-decode";
 
 const providers = {
     'api-platform': apiAuthService,
-    'prisma': prismaAuthService
+    'graphql': prismaAuthService
 }
 
 export default {
