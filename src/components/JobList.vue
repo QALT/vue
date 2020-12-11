@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import JobService from '../services/api-platform/job.service';
+import JobGateway from '../services/gateway/jobs.gateway'
 
 export default {
 	name: 'JobList',
@@ -17,7 +17,7 @@ export default {
 		}
 	},
 	async created() {
-		const jobs = await JobService.getAllJobs();
+		const jobs = await JobGateway.getJobs();
 		this.jobs = jobs.map(job => ({
 			id: job.id,
 			title: job.title,
