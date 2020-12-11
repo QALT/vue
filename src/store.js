@@ -6,7 +6,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
     state: {
         token: window.localStorage.getItem('token'),
-        apiUrl: process.env.VUE_APP_API_PLATFORM_URL,
         apiProvider: 'api-platform',
         firstname: window.localStorage.getItem("firstname"),
         lastname: window.localStorage.getItem("lastname")
@@ -23,11 +22,6 @@ export default new Vuex.Store({
         },
         setApiProvider(state, apiProvider) {
             state.apiProvider = apiProvider;
-            if (apiProvider === 'api-platform') {
-                state.apiUrl = process.env.VUE_APP_API_PLATFORM_URL
-            } else if(apiProvider === 'graphql') {
-                state.apiUrl = process.env.VUE_APP_GRAPHQL_URL
-            }
         },
         setLastname(state, lastname) {
             if (null === lastname) {
@@ -54,6 +48,12 @@ export default new Vuex.Store({
     getters: {
         isLogged(state) {
             return !!state?.token;
+        },
+        getToken(state) {
+            return state.token;
+        },
+        getApiProvider(state) {
+            return state.apiProvider;
         }
     }
 })

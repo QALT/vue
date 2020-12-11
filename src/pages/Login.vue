@@ -49,9 +49,8 @@
 </template>
 
 <script>
-import jwt_decode from "jwt-decode";
-import { mapMutations } from 'vuex';
-import { toastNotification } from '../helpers/Toastify';
+import { mapMutations } from 'vuex'
+import gatewayAuthService from '../services/gateway/auth.gateway';
 
 export default {
     name: 'Login',
@@ -69,29 +68,7 @@ export default {
         ]),
         onSubmit(event) {
             event.preventDefault();
-            fetch(`${this.$store.state.apiUrl}/authentication_token`, {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(this.form)
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                }
-
-                throw new Error('Bad credentials')
-            })
-            .then(({ token }) => {
-                this.setToken(token);
-                const { firstname, lastname } = jwt_decode(token);
-                this.setFirstname(firstname);
-                this.setLastname(lastname);
-
-                this.$router.push('/')
-            })
-            .catch(error => toastNotification('error', error.message))
+            gatewayAuthService.login(this.form.email, this.form.password);
         }
     }
 }
