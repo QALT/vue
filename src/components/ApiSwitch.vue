@@ -19,7 +19,7 @@ export default {
     },
     data() {
         return {
-            selected: null,
+            selected: this.$store.state.apiProvider,
             selectOptions: [
                 { value: 'nothing', text: 'Api provider', disabled: true },
                 { value: 'api-platform', text: 'API Platform' },
