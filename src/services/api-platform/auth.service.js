@@ -9,5 +9,9 @@ export default {
             }
             throw new Error('Bad credentials')
         })
+    },
+    register(email, password) {
+        return httpClient.post('/api/users', { email, password })
+        .then(response => response.data);
     }
 }

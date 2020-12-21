@@ -33,9 +33,7 @@
 </template>
 
 <script>
-import jwt_decode from "jwt-decode";
-import {mapMutations} from "vuex";
-import { toastNotification } from '../helpers/Toastify';
+import gatewayAuthService from '../services/gateway/auth.gateway';
 
 export default {
     name: "Register",
@@ -50,41 +48,9 @@ export default {
     },
 
     methods: {
-        ...mapMutations([
-            "setToken",
-            "setFirstname",
-            "setLastname",
-        ]),
-
-        async onSubmit() {
-            try {
-                const response = await fetch(`${this.$store.state.apiUrl}/users`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify(this.form)
-                });
-
-                if (!response.ok) {
-                    throw new Error("Unable to register, please try again later");
-                }
-
-                // TODO: check the values from the API
-                const { token } = await response.json();
-
-                this.setToken(token);
-                const { firstname, lastname } = jwt_decode(token);
-                this.setFirstname(firstname);
-                this.setLastname(lastname);
-
-                this.$router.push("/");
-
-                toastNotification("success", "Successfully registered");
-            } catch (error) {
-                toastNotification("error", error.message);
-            }
+        onSubmit() {
+            event.preventDefault();
+            gatewayAuthService.register(this.form.email, this.form.password);
         }
     }
 }

@@ -10,6 +10,6 @@ export const httpClient = axios.create({
 
 httpClient.interceptors.request.use(function (config) {
     const authKey = store.getters.getToken
-    config.headers["Authorization"] = "Bearer " + authKey;
+    if (authKey) { config.headers["Authorization"] = "Bearer " + authKey; }
     return config;
 });

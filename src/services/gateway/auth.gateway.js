@@ -19,5 +19,11 @@ export default {
             store.commit('setLastname', lastname);
             router.push('/');
         }).catch(error => toastNotification('error', error.message))
+    },
+    register(email, password) {
+        providers[store.getters.getApiProvider].register(email, password).then(() => {
+            toastNotification('success', 'Inscription réussite');
+            router.push('/login');
+        }).catch(() => toastNotification('error', 'Une erreur est survenue durant l\'inscription'))
     }
 }
