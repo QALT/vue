@@ -15,7 +15,7 @@
                         </b-form-group>
 
                         <b-form-group label="Password" label-for="password" >
-                            <b-form-input id="plainPassword" v-model="form.plainPassword" type="password" required placeholder="Enter password" />
+                            <b-form-input id="password" v-model="form.plainPassword" type="password" required placeholder="Enter password" />
                         </b-form-group>
 
                         <b-button type="submit" variant="primary" class="w-100">Register</b-button>
