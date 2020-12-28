@@ -13,7 +13,8 @@ export default {
                         description
                     }
                 }
-            `
+            `,
+            fetchPolicy: 'no-cache'
         })
         .then(response => response.data.offers)
         .catch(console.error);
