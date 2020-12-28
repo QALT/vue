@@ -15,7 +15,7 @@
                         </b-form-group>
 
                         <b-form-group label="Password" label-for="password" >
-                            <b-form-input id="password" v-model="form.password" type="password" required placeholder="Enter password" />
+                            <b-form-input id="password" v-model="form.plainPassword" type="password" required placeholder="Enter password" />
                         </b-form-group>
 
                         <b-button type="submit" variant="primary" class="w-100">Register</b-button>
@@ -42,7 +42,7 @@ export default {
         return {
             form: {
                 email: "",
-                password: ""
+                plainPassword: ""
             }
         };
     },
@@ -50,7 +50,7 @@ export default {
     methods: {
         onSubmit() {
             event.preventDefault();
-            gatewayAuthService.register(this.form.email, this.form.password);
+            gatewayAuthService.register(this.form.email, this.form.plainPassword);
         }
     }
 }
