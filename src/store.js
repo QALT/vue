@@ -8,7 +8,8 @@ export default new Vuex.Store({
         token: window.localStorage.getItem('token'),
         apiProvider: 'api-platform',
         firstname: window.localStorage.getItem("firstname"),
-        lastname: window.localStorage.getItem("lastname")
+        lastname: window.localStorage.getItem("lastname"),
+        email: window.localStorage.getItem("email")
     },
     mutations: {
         setToken(state, token) {
@@ -40,6 +41,14 @@ export default new Vuex.Store({
             }
             state.firstname = firstname;
         },
+        setEmail(state, email) {
+            if (null === email) {
+                window.localStorage.removeItem("email");
+            } else {
+                window.localStorage.setItem("email", email);
+            }
+            state.email = email;
+        },
         disconnectUser(state) {
             state.token = null;
             window.localStorage.removeItem('token');
@@ -54,6 +63,9 @@ export default new Vuex.Store({
         },
         getApiProvider(state) {
             return state.apiProvider;
+        },
+        getEmail(state) {
+            return state.email;
         }
     }
 })
