@@ -11,6 +11,19 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueApollo from 'vue-apollo';
 import { apolloClient } from './services/prisma/apolloClient'
 
+import AppForm from './components/form-elements/AppForm.vue';
+import AppFormInput from './components/form-elements/AppFormInput.vue';
+import AppFormLabel from './components/form-elements/AppFormLabel.vue';
+import AppFormField from './components/form-elements/AppFormField.vue';
+import AppFormButton from './components/form-elements/AppFormButton.vue';
+
+Vue.component('AppForm', AppForm)
+Vue.component('AppFormInput', AppFormInput)
+Vue.component('AppFormLabel', AppFormLabel)
+Vue.component('AppFormField', AppFormField)
+Vue.component('AppFormButton', AppFormButton)
+
+
 const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
   })

@@ -1,13 +1,15 @@
 <template>
 	<div>
-		<h1 class="h3 mb-2 text-gray-800">Offers</h1>
-		<p class="mb-4">There's a list of all our current offers available</p>
+		<h1 class="h3 mb-2 text-gray-800">Nos offres</h1>
+		<b-button to='/offers/add'>Ajouter une offre</b-button>
 		<b-table striped hover :items="jobs"></b-table>
+		<p class="mb-4" v-if="jobs.length === 0">Aucunes offre trouvée</p>
+
 	</div>
 </template>
 
 <script>
-import JobGateway from '../services/gateway/jobs.gateway'
+import OffersGateway from '../services/gateway/offers.gateway'
 
 export default {
 	name: 'JobList',
@@ -17,7 +19,7 @@ export default {
 		}
 	},
 	async created() {
-		const jobs = await JobGateway.getJobs();
+		const jobs = await OffersGateway.getOffers() || [];
 		this.jobs = jobs.map(job => ({
 			id: job.id,
 			title: job.title,

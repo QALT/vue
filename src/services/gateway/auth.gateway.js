@@ -17,6 +17,7 @@ export default {
             const { firstname, lastname } = jwt_decode(token);
             store.commit('setFirstname', firstname);
             store.commit('setLastname', lastname);
+            store.commit('setEmail', email);
             router.push('/');
         }).catch(error => toastNotification('error', error.message))
     },
