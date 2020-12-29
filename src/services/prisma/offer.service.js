@@ -50,5 +50,50 @@ export default {
         })
         .then(response => response.data.createOffer)
         .catch(console.error)
+    },
+    getOffer(id) {
+        return apolloClient.query({
+            query: gql`
+                query($id: ID!) {
+                    offers(where:{id: $id}) {
+                        id,
+                        title,
+                        description
+                    }
+                }
+            `,
+            variables: {
+                id
+            },
+            fetchPolicy: 'no-cache'
+        })
+        .then(response => response.data.offers[0])
+        .catch(console.error);
+    },
+    editOffer(id, newOffer) {
+        return apolloClient.mutate({
+            mutation: gql`
+                mutation($id: ID!, $updatedOffer: OfferUpdateInput!) {
+                    updateOffer(
+                        where: {
+                          id: $id
+                        }
+                        data: $updatedOffer
+                    ) {
+                        id,
+                        description
+                    }
+                }
+            `,
+            variables: {
+                id,
+                updatedOffer: {
+                    title: newOffer.title,
+                    description: newOffer.description
+                }
+            }
+        })
+        .then(response => response.data.updateOffer)
+        .catch(console.error)
     }
 }

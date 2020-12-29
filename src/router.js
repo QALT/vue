@@ -6,6 +6,7 @@ import NotFound from "./pages/NotFound.vue"
 import Register from "./pages/Register.vue";
 import About from "./pages/About.vue";
 import AddOfferPage from "./pages/offers/AddOffer.vue";
+import EditOfferPage from "./pages/offers/EditOffer.vue";
 import EmptyRouterView from './pages/EmptyRouterView.vue';
 
 const router = new VueRouter({
@@ -16,7 +17,8 @@ const router = new VueRouter({
         { 
             path: "/offers", component: EmptyRouterView,
             children: [
-                { path: 'add', component: AddOfferPage }
+                { path: 'add', component: AddOfferPage },
+                { path: ':id/edit', component: EditOfferPage, props: true }
             ]
         },
         { path: "/register", component: Register },
