@@ -1,8 +1,12 @@
 <template>
 	<div>
 		<h1 class="h3 mb-2 text-gray-800">Nos offres</h1>
-		<b-button to='/offers/add'>Ajouter une offre</b-button>
-		<b-table striped hover :items="jobs"></b-table>
+		<b-button to='/offers/add' variant="primary">Ajouter une offre</b-button>
+		<b-table striped hover :items="jobs" :fields="fields" class="mt-2">
+			<template #cell(actions)="data">
+				<b-button size="sm" :to="'/offers/' + data.item.id + '/edit'" variant="warning">Modifier</b-button>
+			</template>
+		</b-table>
 		<p class="mb-4" v-if="jobs.length === 0">Aucunes offre trouvée</p>
 
 	</div>
@@ -15,17 +19,16 @@ export default {
 	name: 'JobList',
 	data() {
 		return {
-			jobs: []
+			jobs: [],
+			fields: [
+				{key: 'id', label: 'ID'}, 
+				{key: 'title', label: 'Titre'}, 
+				{key: 'description', label: 'Description'}, 
+				'actions']
 		}
 	},
 	async created() {
-		const jobs = await OffersGateway.getOffers() || [];
-		this.jobs = jobs.map(job => ({
-			id: job.id,
-			title: job.title,
-			description: job.description,
-			lastUpdate: new Date(job.updatedAt).toLocaleString()
-		}))
+		this.jobs = await OffersGateway.getOffers();
 	}
 }
 </script>
