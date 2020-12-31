@@ -4,7 +4,7 @@
 		<b-button to='/offers/add' variant="primary">Ajouter une offre</b-button>
 		<b-table striped hover :items="jobs" :fields="fields" class="mt-2">
 			<template #cell(actions)="data">
-				<b-button size="sm" :to="'/offers/' + data.item.id + '/edit'" variant="warning" class="mr-2">Modifier</b-button>
+				<b-button size="sm" :to="`/offers/${data.item.id}/edit" variant="warning" class="mr-2">Modifier</b-button>
 				<b-button size="sm" variant="danger" @click="selectOffer(data.item)">Supprimer</b-button>
 			</template>
 		</b-table>
