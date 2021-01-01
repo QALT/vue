@@ -34,5 +34,10 @@ export default {
                 router.push('/');
             })
             .catch(() => toastNotification('error', 'Une erreur est survenue lors de l\'édition de l\'offre'))
+    },
+    deleteOffer(id) {
+        return providers[store.getters.getApiProvider].deleteOffer(id)
+        .then(() => toastNotification('success', 'Offre supprimée'))
+        .catch(() => toastNotification('error', 'Une erreur est survenue lors de la suppression de l\'offre'))
     }
 }

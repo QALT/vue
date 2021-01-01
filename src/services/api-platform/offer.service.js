@@ -18,5 +18,8 @@ export default {
 	editOffer(id, newOffer) {
 		return httpClient.put(`/api/offers/${id}`, newOffer)
 			.then(response => response.data)
+	},
+	deleteOffer(id) {
+		return httpClient.delete(`/api/offers/${id}`);
 	}
 }

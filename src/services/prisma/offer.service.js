@@ -95,5 +95,19 @@ export default {
         })
         .then(response => response.data.updateOffer)
         .catch(console.error)
+    },
+    deleteOffer(id) {
+        return apolloClient.mutate({
+            mutation: gql`
+                mutation($id: ID!) {
+                    deleteOffer(where:{id: $id}){
+                        id
+                    }
+                }
+            `,
+            variables: { id }
+        })
+        .then(response => response.data.deleteOffer)
+        .catch(console.error)
     }
 }
