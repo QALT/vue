@@ -4,6 +4,7 @@
 		<b-button to='/offers/add' variant="primary">Ajouter une offre</b-button>
 		<b-table striped hover :items="jobs" :fields="fields" class="mt-2">
 			<template #cell(actions)="data">
+				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)">Postuler</b-button>
 				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
 				<b-button size="sm" variant="danger" @click="selectOffer(data.item)">Supprimer</b-button>
 			</template>
@@ -17,24 +18,31 @@
 			<b-button class="mt-3" variant="danger" block @click="deleteOffer(selectedOffer.id)">Supprimer</b-button>
 			<b-button class="mt-2" variant="outline-primary" block @click="closeModal()">Annuler</b-button>
 		</b-modal>
+		<application-modal-vue :modalOpened="applicationModalOpened" :offer="selectedOffer" @close="closeApplicationModal()"></application-modal-vue>
 
 	</div>
 </template>
 
 <script>
 import OffersGateway from '../services/gateway/offers.gateway'
+import ApplicationModalVue from './applications/ApplicationModal.vue';
 
 export default {
 	name: 'JobList',
+	components: {
+		ApplicationModalVue
+	},
 	data() {
 		return {
 			jobs: [],
-			selectedOffer: {title: ''},
+			selectedOffer: {id: '', title: ''},
 			fields: [
 				{key: 'id', label: 'ID'}, 
 				{key: 'title', label: 'Titre'}, 
 				{key: 'description', label: 'Description'}, 
-				'actions']
+				'actions'
+			],
+			applicationModalOpened: false
 		}
 	},
 	methods: {
@@ -49,6 +57,13 @@ export default {
 			this.$refs['deletion-modal'].hide();
 			await OffersGateway.deleteOffer(offerId);
 			this.jobs = await OffersGateway.getOffers();
+		},
+		openApplicationModal(offer) {
+			this.selectedOffer = offer;
+			this.applicationModalOpened = true;
+		},
+		closeApplicationModal() {
+			this.applicationModalOpened = false;
 		}
 	},
 	async created() {
