@@ -6,18 +6,19 @@
 			<template #cell(actions)="data">
 				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)">Postuler</b-button>
 				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
-				<b-button size="sm" variant="danger" @click="selectOffer(data.item)">Supprimer</b-button>
+				<b-button size="sm" variant="danger" @click="triggerOfferDelete(data.item)">Supprimer</b-button>
 			</template>
 		</b-table>
 		<p class="mb-4" v-if="jobs.length === 0">Aucunes offre trouvée</p>
 
-		<b-modal ref="deletion-modal" hide-footer title="Supression d'une offre d'emplois">
-			<div class="d-block text-center">
-				<p class="font-weight-normal">Êtes-vous sûr de vouloir supprimer l'offre "{{selectedOffer.title}}"</p>
-			</div>
-			<b-button class="mt-3" variant="danger" block @click="deleteOffer(selectedOffer.id)">Supprimer</b-button>
-			<b-button class="mt-2" variant="outline-primary" block @click="closeModal()">Annuler</b-button>
-		</b-modal>
+		<delete-modal
+            :modalOpened="openDeleteModal"
+            :title="'Suppression d\'une offre d\'emplois'"
+            :text="`Êtes vous sûr de vouloir supprimer l'offre d'emplois intituliée: ${selectedOffer.title}`"
+            @close="closeModal()"
+            @confirm="deleteOffer(selectedOffer.id)"
+        ></delete-modal>
+
 		<application-modal-vue :modalOpened="applicationModalOpened" :offer="selectedOffer" @close="closeApplicationModal()"></application-modal-vue>
 
 	</div>
@@ -26,11 +27,13 @@
 <script>
 import OffersGateway from '../services/gateway/offers.gateway'
 import ApplicationModalVue from './applications/ApplicationModal.vue';
+import deleteModal from './deleteModal';
 
 export default {
 	name: 'JobList',
 	components: {
-		ApplicationModalVue
+		ApplicationModalVue,
+		deleteModal
 	},
 	data() {
 		return {
@@ -42,19 +45,20 @@ export default {
 				{key: 'description', label: 'Description'}, 
 				'actions'
 			],
-			applicationModalOpened: false
+			applicationModalOpened: false,
+			openDeleteModal: false
 		}
 	},
 	methods: {
-		selectOffer(offer) {
+		triggerOfferDelete(offer) {
 			this.selectedOffer = offer;
-			this.$refs['deletion-modal'].show()
+			this.openDeleteModal = true;
 		},
 		closeModal() {
-			this.$refs['deletion-modal'].hide();
+			this.openDeleteModal = false
 		},
 		async deleteOffer(offerId) {
-			this.$refs['deletion-modal'].hide();
+			this.closeModal();
 			await OffersGateway.deleteOffer(offerId);
 			this.jobs = await OffersGateway.getOffers();
 		},
