@@ -1,26 +1,29 @@
 import {httpClient} from "./httpClient"
+import store from '../../store';
 
 export default {
-	// getOffers() {
-	// 	return httpClient.get("/api/offers")
-	// 		.then(response => response.data)
-	// 		.then(data => data['hydra:member'])
-	// },
-	// getOffer(id) {
-	// 	return httpClient.get(`/api/offers/${id}`)
-	// 		.then(response => response.data)
-	// },
+	getApplication(id) {
+		return httpClient.get(`/api/applications/${id}`)
+			.then(response => response.data)
+	},
 	addApplication(offerId, customMessage) {
-        const formatedOfferId = `/api/offers/${offerId}`;
-		return httpClient.post("/api/applications", {offer: formatedOfferId, comment: customMessage, status: 'submitted'})
+		const formatedOfferId = `/api/offers/${offerId}`;
+		const userIri = store.getters.getId;
+		return httpClient.post("/api/applications", {offer: formatedOfferId, comment: customMessage, applicant: userIri})
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},
-	// editOffer(id, newOffer) {
-	// 	return httpClient.put(`/api/offers/${id}`, newOffer)
-	// 		.then(response => response.data)
-	// },
-	// deleteOffer(id) {
-	// 	return httpClient.delete(`/api/offers/${id}`);
-	// }
+	getUserApplications() {
+		const userIri = store.getters.getId;
+		return httpClient.get(`/api/applications?applicant=${userIri}`)
+			.then(response => response.data)
+			.then(data => data['hydra:member'])
+	},
+	editApplication(id, newApplication) {
+		return httpClient.put(`/api/applications/${id}`, newApplication)
+			.then(response => response.data)
+	},
+	deleteApplication(id) {
+		return httpClient.delete(`/api/applications/${id}`);
+	}
 }

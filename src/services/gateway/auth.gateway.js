@@ -14,10 +14,11 @@ export default {
     login(email, password) {
         providers[store.getters.getApiProvider].login(email, password).then(({token}) => {
             store.commit('setToken', token);
-            const { firstname, lastname } = jwt_decode(token);
+            const { firstname, lastname, id, email } = jwt_decode(token);
             store.commit('setFirstname', firstname);
             store.commit('setLastname', lastname);
             store.commit('setEmail', email);
+            store.commit('setId', id);
             router.push('/');
         }).catch(error => toastNotification('error', error.message))
     },

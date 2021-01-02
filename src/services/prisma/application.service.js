@@ -3,22 +3,32 @@ import store from '../../store';
 import gql from 'graphql-tag';
 
 export default {
-    // getOffers() {
-    //     return apolloClient.query({
-    //         query: gql`
-    //             query {
-    //                 offers {
-    //                     id,
-    //                     title,
-    //                     description
-    //                 }
-    //             }
-    //         `,
-    //         fetchPolicy: 'no-cache'
-    //     })
-    //     .then(response => response.data.offers)
-    //     .catch(console.error);
-    // },
+    getUserApplications() {
+        return apolloClient.query({
+            query: gql`
+                query($userId: ID!) {
+                    applications(where: { applicant: { id: $userId}}) {
+                        id,
+                        comment,
+                        status,
+                        offer {
+                            id
+                        }
+                    }
+                }
+            `,
+            variables: {
+                userId: store.getters.getId
+            },
+            fetchPolicy: 'no-cache'
+        })
+        .then(response => response.data.applications)
+        .then(applications => applications.map(application => ({
+            ...application,
+            offer: application.offer.id
+        })))
+        .catch(console.error);
+    },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({
             mutation: gql`
@@ -47,63 +57,58 @@ export default {
         .then(response => response.data.createApplication)
         .catch(console.error)
     },
-    // getOffer(id) {
-    //     return apolloClient.query({
-    //         query: gql`
-    //             query($id: ID!) {
-    //                 offers(where:{id: $id}) {
-    //                     id,
-    //                     title,
-    //                     description
-    //                 }
-    //             }
-    //         `,
-    //         variables: {
-    //             id
-    //         },
-    //         fetchPolicy: 'no-cache'
-    //     })
-    //     .then(response => response.data.offers[0])
-    //     .catch(console.error);
-    // },
-    // editOffer(id, newOffer) {
-    //     return apolloClient.mutate({
-    //         mutation: gql`
-    //             mutation($id: ID!, $updatedOffer: OfferUpdateInput!) {
-    //                 updateOffer(
-    //                     where: {
-    //                       id: $id
-    //                     }
-    //                     data: $updatedOffer
-    //                 ) {
-    //                     id,
-    //                     description
-    //                 }
-    //             }
-    //         `,
-    //         variables: {
-    //             id,
-    //             updatedOffer: {
-    //                 title: newOffer.title,
-    //                 description: newOffer.description
-    //             }
-    //         }
-    //     })
-    //     .then(response => response.data.updateOffer)
-    //     .catch(console.error)
-    // },
-    // deleteOffer(id) {
-    //     return apolloClient.mutate({
-    //         mutation: gql`
-    //             mutation($id: ID!) {
-    //                 deleteOffer(where:{id: $id}){
-    //                     id
-    //                 }
-    //             }
-    //         `,
-    //         variables: { id }
-    //     })
-    //     .then(response => response.data.deleteOffer)
-    //     .catch(console.error)
-    // }
+    getApplication(id) {
+        return apolloClient.query({
+            query: gql`
+                query($id: ID!) {
+                    application(where:{id: $id}) {
+                        id,
+                        comment
+                    }
+                }
+            `,
+            variables: {
+                id
+            },
+            fetchPolicy: 'no-cache'
+        })
+        .then(response => response.data.application)
+        .catch(console.error);
+    },
+    editApplication(id, newApplication) {
+        return apolloClient.mutate({
+            mutation: gql`
+                mutation($id: ID!, $newComment: String!) {
+                    updateApplication(
+                        where: {
+                          id: $id
+                        }
+                        data: { comment: $newComment }
+                    ) {
+                        id
+                    }
+                }
+            `,
+            variables: {
+                id,
+                newComment: newApplication.comment
+            }
+        })
+        .then(response => response.data.updateApplication)
+        .catch(console.error)
+    },
+    deleteApplication(id) {
+        return apolloClient.mutate({
+            mutation: gql`
+                mutation($id: ID!) {
+                    deleteApplication(where:{id: $id}){
+                        id
+                    }
+                }
+            `,
+            variables: { id }
+        })
+        .then(response => response.data.deleteApplication)
+        .catch(console.error)
+    }
 }
