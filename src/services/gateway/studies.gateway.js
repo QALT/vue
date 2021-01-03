@@ -3,11 +3,11 @@ import router from '../../router';
 
 import { toastNotification } from '../../helpers/Toastify';
 import ApiPlatformJobService from '../api-platform/studies.service';
-// import GraphQLJobService from '../prisma/studies.service';
+import GraphQLJobService from '../prisma/studies.service';
 
 const providers = {
     'api-platform': ApiPlatformJobService,
-    // 'graphql': GraphQLJobService
+    'graphql': GraphQLJobService
 }
 
 export default {
