@@ -12,7 +12,7 @@
 		<p class="mb-4" v-if="jobs.length === 0">Aucunes offre trouvée</p>
 
 		<delete-modal
-            :modalOpened="openDeleteModal"
+			:modalOpened="openDeleteModal"
             :title="'Suppression d\'une offre d\'emplois'"
             :text="`Êtes vous sûr de vouloir supprimer l'offre d'emplois intituliée: ${selectedOffer.title}`"
             @close="closeModal()"
@@ -55,6 +55,7 @@ export default {
 			this.openDeleteModal = true;
 		},
 		closeModal() {
+			this.selectedOffer = {id: '', title: ''};
 			this.openDeleteModal = false
 		},
 		async deleteOffer(offerId) {
@@ -67,6 +68,7 @@ export default {
 			this.applicationModalOpened = true;
 		},
 		closeApplicationModal() {
+			this.selectedOffer = {id: '', title: ''};
 			this.applicationModalOpened = false;
 		}
 	},

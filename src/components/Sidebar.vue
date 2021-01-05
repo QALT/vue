@@ -14,7 +14,7 @@
             </b-nav-item>
             <b-nav-item to="/applications" exact-active-class="text-light">
                 <b-icon-file-person class="mr-1"></b-icon-file-person>
-                Candiatures
+                Candidatures
             </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
