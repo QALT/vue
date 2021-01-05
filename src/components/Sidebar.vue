@@ -10,7 +10,11 @@
         <b-navbar-nav class="flex-column w-100">
             <b-nav-item to="/" exact-active-class="text-light">
                 <b-icon-briefcase class="mr-1"></b-icon-briefcase>
-                Offers
+                Offres
+            </b-nav-item>
+            <b-nav-item to="/applications" exact-active-class="text-light">
+                <b-icon-file-person class="mr-1"></b-icon-file-person>
+                Candidatures
             </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
