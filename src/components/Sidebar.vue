@@ -14,7 +14,7 @@
             </b-nav-item>
             <b-nav-item to="/studies" exact-active-class="text-light">
                 <b-icon icon="person-fill" class="mr-1"></b-icon>
-                Mes Diplômes
+                Diplômes
             </b-nav-item>
         </b-navbar-nav>
     </b-navbar>

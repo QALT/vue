@@ -37,7 +37,7 @@ export default {
     },
     deleteStudy(id) {
         return providers[store.getters.getApiProvider].deleteStudy(id)
-        .then(() => toastNotification('success', 'Diplôme supprimée'))
+        .then(() => toastNotification('success', 'Diplôme supprimé'))
         .catch(() => toastNotification('error', 'Une erreur est survenue lors de la suppression du diplôme'))
     }
 }
