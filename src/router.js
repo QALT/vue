@@ -10,6 +10,9 @@ import EditOfferPage from "./pages/offers/EditOffer.vue";
 import EmptyRouterView from './pages/EmptyRouterView.vue';
 import UserApplicationsPage from './pages/applications/ListApplication.vue';
 import EditApplicationPage from './pages/applications/EditApplication.vue';
+import ListStudiesPage from './pages/studies/ListStudy.vue';
+import AddStudyPage from './pages/studies/AddStudy.vue';
+import EditStudyPage from './pages/studies/EditStudy.vue';
 
 const router = new VueRouter({
     mode: "history",
@@ -29,6 +32,14 @@ const router = new VueRouter({
                 { path: '', component: UserApplicationsPage },
                 { path: ':id/edit', component: EditApplicationPage, props: true }
         ]},
+        { 
+            path: "/studies", component: EmptyRouterView,
+            children: [
+                { path: '', component : ListStudiesPage},
+                { path: 'add', component: AddStudyPage },
+                { path: ':id/edit/', component: EditStudyPage, props: true }
+            ]   
+        },
         { path: "/register", component: Register },
         { path: "/about", component: About },
         { path: "*", component: NotFound }
