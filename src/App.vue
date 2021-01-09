@@ -38,4 +38,8 @@ export default {
     overflow-x: hidden;
 }
 
+.cursor-pointer:hover {
+    cursor: pointer;
+}
+
 </style>
