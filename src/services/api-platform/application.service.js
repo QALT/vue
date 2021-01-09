@@ -8,13 +8,13 @@ export default {
 	},
 	addApplication(offerId, customMessage) {
 		const formatedOfferId = `/api/offers/${offerId}`;
-		const userIri = store.getters.getId;
+		const userIri = `/api/users/${store.getters.getId}`;
 		return httpClient.post("/api/applications", {offer: formatedOfferId, comment: customMessage, applicant: userIri})
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},
 	getUserApplications() {
-		const userIri = store.getters.getId;
+		const userIri = `/api/users/${store.getters.getId}`;
 		return httpClient.get(`/api/applications?applicant=${userIri}`)
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
