@@ -20,7 +20,6 @@
         ></delete-modal>
 
 		<application-modal-vue :modalOpened="applicationModalOpened" :offer="selectedOffer" @close="closeApplicationModal()"></application-modal-vue>
-
 	</div>
 </template>
 
@@ -40,7 +39,6 @@ export default {
 			jobs: [],
 			selectedOffer: {id: '', title: ''},
 			fields: [
-				{key: 'id', label: 'ID'}, 
 				{key: 'title', label: 'Titre'}, 
 				{key: 'description', label: 'Description'}, 
 				'actions'

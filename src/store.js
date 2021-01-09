@@ -64,6 +64,7 @@ export default new Vuex.Store({
             state.id = id;
         },
         disconnectUser(state) {
+            state.token = null;
             window.localStorage.clear();
             Object.assign(state,getDefaultStore());
         }

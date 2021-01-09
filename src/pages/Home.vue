@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div>
         <job-list></job-list>
     </div>
 </template>

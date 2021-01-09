@@ -31,10 +31,10 @@ export default {
 			jobs: [],
 			selectedStudy: {label: ''},
 			fields: [
-				{key: 'id', label: 'ID'}, 
 				{key: 'label', label: 'Titre'}, 
                 {key: 'school', label: 'Ecole'}, 
-				'actions']
+				'actions'
+			]
 		}
 	},
 	methods: {
