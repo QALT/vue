@@ -11,10 +11,13 @@ export default {
     name: 'ApiSwitch',
     methods: {
         ...mapMutations([
-            'setApiProvider'
+            'setApiProvider',
+            'disconnectUser'
         ]),
         onChange() {
+            this.disconnectUser();
             this.setApiProvider(this.selected);
+            this.$router.push('/login');    
         }
     },
     data() {

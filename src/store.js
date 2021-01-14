@@ -3,6 +3,17 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const getDefaultStore = () => {
+    return {
+        token: null,
+        apiProvider: null,
+        firstname: null,
+        lastname: null,
+        email: null,
+        id: null
+    }
+}
+
 export default new Vuex.Store({
     state: {
         token: window.localStorage.getItem('token'),
@@ -24,7 +35,6 @@ export default new Vuex.Store({
         },
         setApiProvider(state, apiProvider) {
             window.localStorage.setItem('apiProvider', apiProvider);
-
             state.apiProvider = apiProvider;
         },
         setLastname(state, lastname) {
@@ -61,9 +71,8 @@ export default new Vuex.Store({
             state.id = id;
         },
         disconnectUser(state) {
-            state.token = null;
+            Object.assign(state,getDefaultStore());
             window.localStorage.clear();
-            window.localStorage.setItem('apiProvider', state.apiProvider)
         }
     },
     getters: {
