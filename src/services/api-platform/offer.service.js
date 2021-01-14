@@ -1,4 +1,6 @@
 import {httpClient} from "./httpClient"
+import store from '../../store';
+
 
 export default {
 	getOffers() {
@@ -11,7 +13,8 @@ export default {
 			.then(response => response.data)
 	},
 	addOffer(title, description) {
-		return httpClient.post("/api/offers", {title, description})
+		const userIri = `/api/users/${store.getters.getId}`;
+		return httpClient.post("/api/offers", {title, description, employer: userIri})
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},
