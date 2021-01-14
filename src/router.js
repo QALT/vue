@@ -13,6 +13,9 @@ import EditApplicationPage from './pages/applications/EditApplication.vue';
 import ListStudiesPage from './pages/studies/ListStudy.vue';
 import AddStudyPage from './pages/studies/AddStudy.vue';
 import EditStudyPage from './pages/studies/EditStudy.vue';
+import ListDegrees from './pages/degrees/ListDegrees.vue';
+import AddDegree from './pages/degrees/AddDegree.vue';
+import EditDegree from './pages/degrees/EditDegree.vue';
 
 const router = new VueRouter({
     mode: "history",
@@ -38,6 +41,14 @@ const router = new VueRouter({
                 { path: '', component : ListStudiesPage},
                 { path: 'add', component: AddStudyPage },
                 { path: ':id/edit/', component: EditStudyPage, props: true }
+            ]   
+        },
+        { 
+            path: "/degrees", component: EmptyRouterView,
+            children: [
+                { path: '', component : ListDegrees},
+                { path: 'add', component: AddDegree },
+                { path: ':id/edit/', component: EditDegree, props: true }
             ]   
         },
         { path: "/register", component: Register },
