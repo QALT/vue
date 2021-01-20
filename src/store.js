@@ -3,18 +3,22 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
-    state: {
+const getDefaultStore = () => {
+    return {
         token: window.localStorage.getItem('token'),
-        apiProvider: 'api-platform',
+        apiProvider: window.localStorage.getItem('apiProvider') ?? 'api-platform',
         firstname: window.localStorage.getItem("firstname"),
         lastname: window.localStorage.getItem("lastname"),
         email: window.localStorage.getItem("email"),
         id: window.localStorage.getItem("id")
-    },
+    }
+}
+
+export default new Vuex.Store({
+    state: getDefaultStore(),
     mutations: {
         setToken(state, token) {
-            if (token === null) {
+            if (null === token) {
                 window.localStorage.removeItem("token");
             } else {
                 window.localStorage.setItem('token', token);
@@ -23,6 +27,7 @@ export default new Vuex.Store({
             state.token = token;
         },
         setApiProvider(state, apiProvider) {
+            window.localStorage.setItem('apiProvider', apiProvider);
             state.apiProvider = apiProvider;
         },
         setLastname(state, lastname) {
@@ -59,8 +64,8 @@ export default new Vuex.Store({
             state.id = id;
         },
         disconnectUser(state) {
-            state.token = null;
-            window.localStorage.removeItem('token');
+            window.localStorage.clear();
+            Object.assign(state,getDefaultStore());
         }
     },
     getters: {
@@ -73,11 +78,17 @@ export default new Vuex.Store({
         getApiProvider(state) {
             return state.apiProvider;
         },
+        getId(state){
+            return state.id
+        },
         getEmail(state) {
             return state.email;
         },
-        getId(state){
-            return state.id
-        }
+        getFirstname(state) {
+            return state.firstname ?? '';
+        },
+        getLastname(state) {
+            return state.lastname ?? '';
+        },
     }
 })
