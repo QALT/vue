@@ -5,24 +5,17 @@ Vue.use(Vuex)
 
 const getDefaultStore = () => {
     return {
-        token: null,
-        apiProvider: null,
-        firstname: null,
-        lastname: null,
-        email: null,
-        id: null
-    }
-}
-
-export default new Vuex.Store({
-    state: {
         token: window.localStorage.getItem('token'),
         apiProvider: window.localStorage.getItem('apiProvider') ?? 'api-platform',
         firstname: window.localStorage.getItem("firstname"),
         lastname: window.localStorage.getItem("lastname"),
         email: window.localStorage.getItem("email"),
         id: window.localStorage.getItem("id")
-    },
+    }
+}
+
+export default new Vuex.Store({
+    state: getDefaultStore(),
     mutations: {
         setToken(state, token) {
             if (null === token) {
@@ -71,8 +64,8 @@ export default new Vuex.Store({
             state.id = id;
         },
         disconnectUser(state) {
-            Object.assign(state,getDefaultStore());
             window.localStorage.clear();
+            Object.assign(state,getDefaultStore());
         }
     },
     getters: {
