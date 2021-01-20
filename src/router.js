@@ -14,6 +14,9 @@ import ListStudiesPage from './pages/studies/ListStudy.vue';
 import AddStudyPage from './pages/studies/AddStudy.vue';
 import EditStudyPage from './pages/studies/EditStudy.vue';
 import ListExperiencePage from './pages/experiences/ListExperience.vue'
+import AddExperiencePage from './pages/experiences/AddExperience.vue'
+import EditExperiencePage from './pages/experiences/EditExperience.vue'
+
 
 const router = new VueRouter({
     mode: "history",
@@ -44,7 +47,9 @@ const router = new VueRouter({
         { 
             path: "/experiences", component: EmptyRouterView,
             children: [
-                { path: '', component : ListExperiencePage}
+                { path: '', component : ListExperiencePage},
+                { path: 'add', component: AddExperiencePage },
+                { path: ':id/edit/', component: EditExperiencePage, props: true }
             ]   
         },
         { path: "/register", component: Register },

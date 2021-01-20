@@ -15,8 +15,8 @@ export default {
         return providers[store.getters.getApiProvider].getExperiences()
             .catch(() => toastNotification('error', 'Impossible de retrouver vos diplômes'))
     },
-    addExperience(label, description, startDate, endDate) {
-        return providers[store.getters.getApiProvider].addExperience(label, description, startDate, endDate)
+    addExperience(experience) {
+        return providers[store.getters.getApiProvider].addExperience(experience.label, experience.description, experience.startDate, experience.endDate)
             .then(() => {
                 toastNotification('success', 'Expérience ajoutée')
                 router.push('/experiences');

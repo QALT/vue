@@ -31,7 +31,7 @@ export default {
             experiences:[],
 			selectedExperience: {id: '',label: ''},
 			fields: [
-                {key: 'label', label: 'Titre'}, 
+                {key: 'label', label: 'Intitulé du poste'}, 
                 {key: 'description', label: 'Description'},
                 {key: 'startDate', label: 'Début le'}, 
                 {key: 'endDate', label: 'Fin le'}, 
