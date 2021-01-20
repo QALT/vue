@@ -1,4 +1,6 @@
 import {httpClient} from "./httpClient"
+import store from '../../store';
+
 
 export default {
 	getStudies() {
@@ -12,7 +14,8 @@ export default {
 			.then(response => response.data)
 	},
 	addStudy(label, school) {
-		return httpClient.post("/api/studies", {label, school})
+		const userIri = `/api/users/${store.getters.getId}`;
+		return httpClient.post("/api/studies", {label, school, useraccount: userIri})
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},
