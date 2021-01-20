@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-4">
             <h4 class="text-center">Ajout d'une expérience</h4>
             <b-form @submit="onSubmit">
@@ -49,7 +49,10 @@
                     >
                     </b-form-datepicker>
                 </b-form-group>
-                <b-button type="submit" variant="primary" class="mr-0">Ajouter</b-button>
+                <div class="row justify-content-center">
+                    <b-button variant="outline-primary" to="/experiences" class="mr-2 center">Retour</b-button>
+                    <b-button type="submit" variant="primary" class="mr-2">Ajouter</b-button>
+                </div>
             </b-form>
         </div>
     </div>
