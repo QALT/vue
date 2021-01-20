@@ -20,6 +20,10 @@
                 <b-icon-file-person class="mr-1"></b-icon-file-person>
                 Candidatures
             </b-nav-item>
+            <b-nav-item to="/experiences" exact-active-class="text-light">
+                <b-icon-asterisk class="mr-1"></b-icon-asterisk>
+                Expériences
+            </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
 </template>
