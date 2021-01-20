@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-4-s">
+        <div class="col-4">
             <h4 class="text-center">Ajout d'une expérience</h4>
             <b-form @submit="onSubmit">
                  <b-form-group
