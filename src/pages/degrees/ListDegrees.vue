@@ -35,7 +35,6 @@ export default {
 			selectedDegree: {id: '', label: ''},
 			openDeleteModal: false,
 			fields: [
-				{key: 'id', label: 'ID'}, 
 				{key: 'label', label: 'Label'}, 
                 {key: 'updatedAt', label: 'Dernière mise à jour'}, 
 				'actions'
