@@ -83,7 +83,6 @@ export default {
     },
     created() {
         userGateway.getUser(store.getters.getId).then(user => {
-            console.log(user)
             this.user = user
         });
     },
