@@ -15,8 +15,8 @@ export default {
         return providers[store.getters.getApiProvider].getStudies()
             .catch(() => toastNotification('error', 'Impossible de retrouver vos diplômes'))
     },
-    addStudy(label, school) {
-        return providers[store.getters.getApiProvider].addStudy(label, school)
+    addStudy(label, school, degree) {
+        return providers[store.getters.getApiProvider].addStudy(label, school, degree)
             .then(() => {
                 toastNotification('success', 'Diplôme ajouté')
                 router.push('/studies');
