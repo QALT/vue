@@ -13,6 +13,9 @@ import EditApplicationPage from './pages/applications/EditApplication.vue';
 import ListStudiesPage from './pages/studies/ListStudy.vue';
 import AddStudyPage from './pages/studies/AddStudy.vue';
 import EditStudyPage from './pages/studies/EditStudy.vue';
+import ListExperiencePage from './pages/experiences/ListExperience.vue'
+import AddExperiencePage from './pages/experiences/AddExperience.vue'
+import EditExperiencePage from './pages/experiences/EditExperience.vue'
 import ListDegrees from './pages/degrees/ListDegrees.vue';
 import AddDegree from './pages/degrees/AddDegree.vue';
 import EditDegree from './pages/degrees/EditDegree.vue';
@@ -44,6 +47,14 @@ const router = new VueRouter({
             ]   
         },
         { 
+            path: "/experiences", component: EmptyRouterView,
+            children: [
+                { path: '', component : ListExperiencePage},
+                { path: 'add', component: AddExperiencePage },
+                { path: ':id/edit/', component: EditExperiencePage, props: true }
+            ]
+        },
+        {
             path: "/degrees", component: EmptyRouterView,
             children: [
                 { path: '', component : ListDegrees},
