@@ -15,8 +15,9 @@ export default {
         return providers[store.getters.getApiProvider].getOffers()
             .catch(() => toastNotification('error', 'Can\'t retreive jobs'))
     },
-    addOffer(title, description) {
-        return providers[store.getters.getApiProvider].addOffer(title, description)
+    addOffer(title,description,selectedTags) {
+        console.log(selectedTags);
+        return providers[store.getters.getApiProvider].addOffer(title, description,selectedTags)
             .then(() => {
                 toastNotification('success', 'Offre ajoutée')
                 router.push('/');
