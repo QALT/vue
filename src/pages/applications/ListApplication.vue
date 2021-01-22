@@ -29,7 +29,6 @@ export default {
         return {
             applications: [],
             fields: [
-                'id', 
                 { key: 'comment', label: 'Message personnalisé' }, 
                 { key: 'offer', label: 'Offre' },
                 { key: 'status', label: 'Statut'},

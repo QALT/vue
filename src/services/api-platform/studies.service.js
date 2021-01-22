@@ -1,6 +1,5 @@
-import {httpClient} from "./httpClient"
+import { httpClient } from "./httpClient"
 import store from '../../store';
-
 
 export default {
 	getStudies() {
