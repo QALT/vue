@@ -11,9 +11,10 @@ export default {
 		return httpClient.get(`/api/offers/${id}`)
 			.then(response => response.data)
 	},
-	addOffer(title, description) {
+	addOffer(title,description,selectedTags) {
 		const userIri = `/api/users/${store.getters.getId}`;
-		return httpClient.post("/api/offers", {title, description, employer: userIri})
+		selectedTags = selectedTags.map(tag => '/api/tags/'+tag);
+		return httpClient.post("/api/offers", {title, description,tags:selectedTags, employer: userIri})
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},

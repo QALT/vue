@@ -40,7 +40,8 @@ export default {
 			selectedOffer: {id: '', title: ''},
 			fields: [
 				{key: 'title', label: 'Titre'}, 
-				{key: 'description', label: 'Description'}, 
+				{key: 'description', label: 'Description'},
+				{key: 'tags', label: 'Tags'},
 				'actions'
 			],
 			applicationModalOpened: false,
@@ -72,6 +73,8 @@ export default {
 	},
 	async created() {
 		this.jobs = await OffersGateway.getOffers();
+		// this.jobs = this.jobs.forEach( job => job.tags.map(({label}) => ({label})));
+		// this.jobs = this.jobs.forEach( job => console.log(job.tags));
 	}
 }
 </script>
