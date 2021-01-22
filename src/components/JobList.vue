@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<h1 class="h3 mb-2 text-gray-800">Nos offres</h1>
-		<b-button to='/offers/add' variant="primary">Ajouter une offre</b-button>
+		<b-button to='/offers/add' variant="primary" v-if="isEmployer">Ajouter une offre</b-button>
 		<b-table striped hover :items="jobs" :fields="fields" class="mt-2">
 			<template #cell(actions)="data">
-				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)">Postuler</b-button>
-				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
-				<b-button size="sm" variant="danger" @click="triggerOfferDelete(data.item)">Supprimer</b-button>
+				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)" v-if="isEmployee">Postuler</b-button>
+				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2" v-if="isEmployer">Modifier</b-button>
+				<b-button size="sm" variant="danger" @click="triggerOfferDelete(data.item)" v-if="isEmployer">Supprimer</b-button>
 			</template>
 		</b-table>
 		<p class="mb-4" v-if="jobs.length === 0">Aucunes offre trouvée</p>
@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import OffersGateway from '../services/gateway/offers.gateway'
 import ApplicationModalVue from './applications/ApplicationModal.vue';
 import deleteModal from './deleteModal';
@@ -46,6 +47,9 @@ export default {
 			applicationModalOpened: false,
 			openDeleteModal: false
 		}
+	},
+	computed: {
+		...mapGetters(['isEmployer', 'isEmployee']),
 	},
 	methods: {
 		triggerOfferDelete(offer) {

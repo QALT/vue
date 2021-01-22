@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import gatewayAuthService from '../services/gateway/auth.gateway';
+import gatewayAuthService from '../../services/gateway/auth.gateway';
 
 export default {
     name: 'Login',

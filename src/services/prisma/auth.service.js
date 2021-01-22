@@ -19,18 +19,19 @@ export default {
         .then(response => response.data.login)
         .catch(() => {throw new Error('Bad credentials')});
     },
-    register(email, password) {
+    register(email, password, role) {
         return apolloClient.mutate({
             mutation: gql`
-                mutation($email: String!, $password: String!) {
-                    signup(email: $email, password: $password) {
+                mutation($email: String!, $password: String!, $role: String!) {
+                    signup(email: $email, password: $password, role: $role) {
                         token
                     }
                 }
             `,
             variables: {
                 email,
-                password
+                password,
+                role
             }
         })
         .then(response => response.data.signup)

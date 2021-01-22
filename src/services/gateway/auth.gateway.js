@@ -14,16 +14,17 @@ export default {
     login(email, password) {
         providers[store.getters.getApiProvider].login(email, password).then(({token}) => {
             store.commit('setToken', token);
-            const { firstname, lastname, id, email } = jwt_decode(token);
+            const { id, email, firstname, lastname, roles } = jwt_decode(token);
+            store.commit('setId', id);
+            store.commit('setEmail', email);
             store.commit('setFirstname', firstname);
             store.commit('setLastname', lastname);
-            store.commit('setEmail', email);
-            store.commit('setId', id);
+            store.commit('setRoles', roles)
             router.push('/');
         }).catch(error => toastNotification('error', error.message))
     },
-    register(email, password) {
-        providers[store.getters.getApiProvider].register(email, password).then(() => {
+    register(email, password, roles) {
+        providers[store.getters.getApiProvider].register(email, password, roles).then(() => {
             toastNotification('success', 'Inscription réussite');
             router.push('/login');
         }).catch(() => toastNotification('error', 'Une erreur est survenue durant l\'inscription'))

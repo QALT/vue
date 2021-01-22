@@ -28,7 +28,7 @@ Vue.component('AppFormTextarea', AppFormTextarea)
 
 const apolloProvider = new VueApollo({
     defaultClient: apolloClient,
-  })
+})
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue);
