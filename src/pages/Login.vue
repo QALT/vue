@@ -40,7 +40,7 @@
 
         <b-row>
             <b-col cols="12 pt-5">
-                <p class="text-center text-white">Pas encore de compte. <b-link class="text-white" to="/register">En créer un?</b-link></p>
+                <p class="text-center text-white">Pas encore de compte. <b-link class="text-white text-decoration-underline" to="/register">En créer un?</b-link></p>
             </b-col>
         </b-row>
     </b-container>

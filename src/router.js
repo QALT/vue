@@ -2,10 +2,9 @@ import VueRouter from "vue-router"
 import store from "./store";
 import Login from "./pages/Login.vue"
 import Home from "./pages/Home.vue"
-import Profile from "./pages/Profile.vue"
+import Profile from "./pages/users/Profile.vue"
 import NotFound from "./pages/NotFound.vue"
 import Register from "./pages/Register.vue";
-import About from "./pages/About.vue";
 import AddOfferPage from "./pages/offers/AddOffer.vue";
 import EditOfferPage from "./pages/offers/EditOffer.vue";
 import EmptyRouterView from './pages/EmptyRouterView.vue';
@@ -65,7 +64,6 @@ const router = new VueRouter({
             ]   
         },
         { path: "/register", component: Register },
-        { path: "/about", component: About },
         { path: "*", component: NotFound }
     ]
 });

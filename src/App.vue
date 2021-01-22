@@ -42,4 +42,8 @@ export default {
     cursor: pointer;
 }
 
+.text-decoration-underline {
+    text-decoration: underline;
+}
+
 </style>

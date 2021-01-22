@@ -69,9 +69,9 @@
 </template>
 
 <script>
-import store from '../store';
-import router from '../router';
-import userGateway from '../services/gateway/users.gateway';
+import store from '../../store';
+import router from '../../router';
+import userGateway from '../../services/gateway/users.gateway';
 
 export default {
     name: 'Profile',

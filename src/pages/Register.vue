@@ -26,7 +26,7 @@
 
         <b-row>
             <b-col cols="12 pt-5">
-                <p class="text-center text-white">J'ai déjà un compte. <b-link class="text-white" to="/login">Vous connecter?</b-link></p>
+                <p class="text-center text-white">J'ai déjà un compte. <b-link class="text-white text-decoration-underline" to="/login">Vous connecter?</b-link></p>
             </b-col>
         </b-row>
     </b-container>
