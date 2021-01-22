@@ -1,5 +1,5 @@
 <template>
-    <div id="app" class="bg-gradient-primary d-flex vh-100">
+    <div id="app" class="bg-gradient-primary d-flex h-100">
         <sidebar v-if="showHeader"></sidebar>
         <div v-bind:class="{'content-wrapper': showHeader}" class="w-100 d-flex flex-column">
             <app-header></app-header>
@@ -40,10 +40,6 @@ export default {
 
 .cursor-pointer:hover {
     cursor: pointer;
-}
-
-.text-decoration-underline {
-    text-decoration: underline;
 }
 
 </style>
