@@ -10,19 +10,24 @@ export default {
                     studies{
                       id,
                       label,
-                      school
+                      school,
+                      degree {
+                          label
+                      }
                     }
                   }
             `,
             fetchPolicy: 'no-cache'
         })
+        
         .then(response => response.data.studies)
         .catch(console.error);
     },
-    addStudy(label, school) {
+    addStudy(label, school, degree) {
+        degree = {id:degree};
         return apolloClient.mutate({
             mutation: gql`
-                mutation($label: String!, $school: String!, $email: String!) {
+                mutation($label: String!, $school: String!, $email: String!, $degree:DegreeWhereUniqueInput) {
                     createStudy(data: {
                         label: $label, 
                         school: $school, 
@@ -30,7 +35,10 @@ export default {
                             connect: {
                                 email: $email
                             }
-                        }
+                        },
+                        degree: {
+                            connect: $degree
+                        },
                     }) {
                         id,
                         label,
@@ -45,7 +53,8 @@ export default {
             variables: {
                 label,
                 school,
-                email: store.getters.getEmail
+                email: store.getters.getEmail,
+                degree
             }
         })
         .then(response => response.data.createStudy)

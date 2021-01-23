@@ -1,13 +1,23 @@
 <template>
-    <div class="container">
-        <h1>Editer un niveau d'étude</h1>
-        <app-form :values="form" v-on:submit.prevent="onSubmit" v-if="!isLoading">
-            <app-form-field name="label">
-                <app-form-label>Nom du niveau</app-form-label>
-                <app-form-input></app-form-input>
-            </app-form-field>
-            <app-form-button>Modifier</app-form-button>
-        </app-form>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h4 class="text-center">Modifier le niveau d'étude</h4>
+            <b-form v-on:submit.prevent="onSubmit" v-if="!isLoading">
+                <b-form-group
+                    label="Nom du niveau"
+                    label-for="label"
+                >
+                    <b-form-input
+                        id="label"
+                        v-model="form.label"
+                    />
+                </b-form-group>   
+                <div class="row justify-content-center">
+                    <b-button variant="outline-primary" to="/degrees" class="mr-2 center">Retour</b-button>
+                    <b-button type="submit" variant="primary" class="mr-2 center">Modifier</b-button>
+                </div>
+            </b-form>
+        </div>
     </div>
 </template>
 

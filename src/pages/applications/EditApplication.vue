@@ -1,14 +1,24 @@
 <template>
-    <div class="container">
-        <h1>Editer une candidature</h1>
-        <app-form :values="form" v-on:submit.prevent="onSubmit" v-if="!isLoading">
-            <app-form-field name="comment">
-                <app-form-label>Message personnalisé</app-form-label>
-                <app-form-textarea></app-form-textarea>
-            </app-form-field>
-            <app-form-button>Modifier</app-form-button>
-        </app-form>
-    </div>
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h4 class="text-center">Modification de la candidature</h4>
+            <b-form v-on:submit.prevent="onSubmit" v-if="!isLoading">
+                <b-form-group
+                    label="Message personnalisé"
+                    label-for="comment"
+                >
+                    <b-form-textarea
+                        id="comment"
+                        v-model="form.comment"
+                    />
+                </b-form-group>   
+                <div class="row justify-content-center">
+                    <b-button variant="outline-primary" to="/applications" class="mr-2 center">Retour</b-button>
+                    <b-button type="submit" variant="primary" class="mr-2 center">Modifier</b-button>
+                </div>
+            </b-form>
+        </div>
+    </div>  
 </template>
 
 <script>
