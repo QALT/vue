@@ -1,22 +1,42 @@
 <template>
-    <div class="container">
-        <h1>Editer un diplôme</h1>
-        <app-form :values="form" v-on:submit="onSubmit" v-if="!isLoading">
-            <app-form-field name="label">
-                <app-form-label>Nom du diplôme</app-form-label>
-                <app-form-input></app-form-input>
-            </app-form-field>
-            <b-form-select v-model="form.degree" :options="degrees">
+    <div class="row justify-content-center">
+        <div class="col-4">
+            <h4 class="text-center">Modifier le diplôme</h4>
+            <b-form v-on:submit.prevent="onSubmit">
+                <b-form-group
+                    label="Nom du diplôme"
+                    label-for="label"
+                >
+                    <b-form-input
+                        id="label"
+                        v-model="form.label"
+                    />
+                </b-form-group>
+                <b-form-group
+                    label="Titre du diplôme"
+                    label-for=""
+                >
+                <b-form-select v-model="form.degree" :options="degrees">
                 <template #first>
-                    <b-form-select-option :value="null" disabled>-- Selectionner un niveau d'étude --</b-form-select-option>
+                    <b-form-select-option :value="degrees" disabled>-- Selectionner un niveau d'étude --</b-form-select-option>
                 </template>
-            </b-form-select>
-             <app-form-field name="school">
-                <app-form-label>Nom de l'école</app-form-label>
-                <app-form-input></app-form-input>
-            </app-form-field>
-            <app-form-button>Modifier</app-form-button>
-        </app-form>
+                </b-form-select>
+                </b-form-group>
+                <b-form-group
+                    label="Nom de l'école"
+                    label-for="school"
+                >
+                    <b-form-input
+                        id="school"
+                        v-model="form.school"
+                    />
+                </b-form-group>  
+                <div class="row justify-content-center">
+                    <b-button variant="outline-primary" to="/studies" class="mr-2 center">Retour</b-button>
+                    <b-button type="submit" variant="primary" class="mr-2 center">Modifier</b-button>
+                </div>
+            </b-form>
+        </div>
     </div>
 </template>
 

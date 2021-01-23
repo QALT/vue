@@ -41,7 +41,6 @@ export default {
     },
     async created() {
         this.applications = await applicationsGateway.getUserApplications();
-        console.log(this.applications);
         this.applicationsOffer = this.applications.map(application => { 
 			return { ...application, offer:this.getOfferTitle(application) }
 		})
@@ -57,11 +56,11 @@ export default {
             this.applications = await applicationsGateway.getUserApplications();
         },
         closeModal() {
-            this.openModal = false
+            this.openModal = false;
         },
-        getOfferTitle(application) { 
-			return application.offer.title;
-		}
+        getOfferTitle(application){
+            return application.offer.title;
+        }
     }
 }
 </script>
