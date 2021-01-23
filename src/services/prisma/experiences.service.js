@@ -64,6 +64,7 @@ export default {
             query: gql`
                 query($id: ID!) {
                     experiences(where:{id: $id}) {
+                        id,
                         label,
                         description,
                         startDate,

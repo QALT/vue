@@ -12,6 +12,7 @@ export default {
                         comment,
                         status,
                         offer{
+                            id,
                             title
                         }
                     }

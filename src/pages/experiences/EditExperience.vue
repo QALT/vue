@@ -3,7 +3,7 @@
         
         <div class="col-4">
             <h4 class="text-center">Modification de l'expérience</h4>
-            <b-form @submit="onSubmit">
+            <b-form v-on:submit.prevent="onSubmit" v-if="!isLoading">
                  <b-form-group
                     label="Intitulé du poste"
                     label-for="label"
