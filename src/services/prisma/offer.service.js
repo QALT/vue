@@ -45,12 +45,12 @@ export default {
                         employer {
                             id,
                             email
-                            }
                         },
                         tags {
                             id,
                             label
                         }
+                    }
                 }
             `,
             variables: {
