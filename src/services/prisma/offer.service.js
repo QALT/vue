@@ -10,7 +10,10 @@ export default {
                     offers {
                         id,
                         title,
-                        description
+                        description,
+                        tags{
+                            label
+                        }
                     }
                 }
             `,
@@ -19,10 +22,11 @@ export default {
         .then(response => response.data.offers)
         .catch(console.error);
     },
-    addOffer(title, description) {
+    addOffer(title, description,selectedTags) {
+        selectedTags = selectedTags.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
-                mutation($title: String!, $description: String!, $email: String!) {
+                mutation($title: String!, $description: String!, $email: String!, $selectedTags:[TagWhereUniqueInput!] ) {
                     createOffer(data: {
                         title: $title, 
                         description: $description, 
@@ -30,7 +34,10 @@ export default {
                             connect: {
                                 email: $email
                             }
-                        }
+                        },
+                        tags: {
+                            connect: $selectedTags
+                        } 
                     }) {
                         id,
                         title,
@@ -39,13 +46,19 @@ export default {
                             id,
                             email
                             }
+                        },
+                        tags {
+                            id,
+                            label
                         }
                 }
             `,
             variables: {
                 title,
                 description,
-                email: store.getters.getEmail
+                email: store.getters.getEmail,
+                selectedTags
+                
             }
         })
         .then(response => response.data.createOffer)
