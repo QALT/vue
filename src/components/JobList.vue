@@ -26,7 +26,7 @@
 			</b-input-group>
 			</b-form-group>
 		</b-col>
-		<b-table :filter="filter" striped hover :items="jobsLabel" :fields="fields" class="mt-2">
+		<b-table :filter="filter" striped hover :items="jobsLabel" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)">Postuler</b-button>
 				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
