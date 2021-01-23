@@ -18,6 +18,10 @@
                             <b-form-input id="password" v-model="form.plainPassword" type="password" required />
                         </b-form-group>
 
+                        <b-form-group label="Mon rôle" label-for="roles" >
+                            <b-form-select id="roles" v-model="form.roles" :options="options" required></b-form-select>
+                        </b-form-group>
+
                         <b-button type="submit" variant="primary" class="w-100">Register</b-button>
                     </b-form>
                 </b-card>
@@ -33,7 +37,7 @@
 </template>
 
 <script>
-import gatewayAuthService from '../services/gateway/auth.gateway';
+import gatewayAuthService from '../../services/gateway/auth.gateway';
 
 export default {
     name: "Register",
@@ -42,15 +46,21 @@ export default {
         return {
             form: {
                 email: "",
-                plainPassword: ""
-            }
+                plainPassword: "",
+                roles: null
+            },
+            options: [
+                { value: null, text: 'Choisissez ce que vous recherchez sur cette plateforme' },
+                { value: 'ROLE_EMPLOYEE', text: 'Je cherche une offre d\'emploi' },
+                { value: 'ROLE_EMPLOYER', text: 'Je souhaite publier une offre d\'emploi' }
+            ]
         };
     },
 
     methods: {
-        onSubmit() {
+        onSubmit(event) {
             event.preventDefault();
-            gatewayAuthService.register(this.form.email, this.form.plainPassword);
+            gatewayAuthService.register(this.form.email, this.form.plainPassword, this.form.roles);
         }
     }
 }

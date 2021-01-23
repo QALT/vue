@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapGetters } from 'vuex'
 export default {
     name: 'ApiSwitch',
     methods: {
@@ -13,6 +13,7 @@ export default {
             'setApiProvider',
             'disconnectUser'
         ]),
+        ...mapGetters(['getApiProvider']),
         onChange() {
             this.disconnectUser();
             this.setApiProvider(this.selected);
@@ -21,7 +22,7 @@ export default {
     },
     data() {
         return {
-            selected: this.$store.state.apiProvider,
+            selected: this.getApiProvider(),
             selectOptions: [
                 { value: 'nothing', text: 'Api provider', disabled: true },
                 { value: 'api-platform', text: 'API Platform' },

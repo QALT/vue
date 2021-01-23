@@ -14,24 +14,29 @@
                 <b-icon-file-person class="mr-1" />
                 Candidatures
             </b-nav-item>
-            <b-nav-item to="/studies" exact-active-class="text-light">
+            <b-nav-item to="/studies" exact-active-class="text-light" v-if="isEmployee">
                 <b-icon icon="person-fill" class="mr-1"></b-icon>
                 Diplômes
             </b-nav-item>
-            <b-nav-item to="/degrees" exact-active-class="text-light">
+            <b-nav-item to="/degrees" exact-active-class="text-light" v-if="isEmployee">
                 <b-icon icon="bar-chart" class="mr-1"></b-icon>
                 Niveau d'étude
             </b-nav-item>
-            <b-nav-item to="/experiences" exact-active-class="text-light">
+            <b-nav-item to="/experiences" exact-active-class="text-light" v-if="isEmployee">
                 <b-icon-asterisk class="mr-1"></b-icon-asterisk>
                 Expériences
             </b-nav-item>
         </b-navbar-nav>
     </b-navbar>
 </template>
+
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
     name: "Sidebar",
+    computed: {
+		...mapGetters(['isEmployee']),
+	},
 }
 </script>
