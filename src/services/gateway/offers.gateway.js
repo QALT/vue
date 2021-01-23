@@ -16,7 +16,6 @@ export default {
             .catch(() => toastNotification('error', 'Can\'t retreive jobs'))
     },
     addOffer(title,description,selectedTags) {
-        console.log(selectedTags);
         return providers[store.getters.getApiProvider].addOffer(title, description,selectedTags)
             .then(() => {
                 toastNotification('success', 'Offre ajoutée')

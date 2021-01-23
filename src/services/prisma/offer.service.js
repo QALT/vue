@@ -24,7 +24,6 @@ export default {
     },
     addOffer(title, description,selectedTags) {
         selectedTags = selectedTags.map( tag => ({id:tag}));
-        console.log(selectedTags);
         return apolloClient.mutate({
             mutation: gql`
                 mutation($title: String!, $description: String!, $email: String!, $selectedTags:[TagWhereUniqueInput!] ) {
