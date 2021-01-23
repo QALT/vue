@@ -41,6 +41,7 @@ export default {
     },
     async created() {
         this.applications = await applicationsGateway.getUserApplications();
+        console.log(this.applications);
         this.applicationsOffer = this.applications.map(application => { 
 			return { ...application, offer:this.getOfferTitle(application) }
 		})
