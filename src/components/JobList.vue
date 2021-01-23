@@ -2,7 +2,32 @@
 	<div>
 		<h1 class="h3 mb-2 text-gray-800">Nos offres</h1>
 		<b-button to='/offers/add' variant="primary">Ajouter une offre</b-button>
-		<b-table striped hover :items="jobs" :fields="fields" class="mt-2">
+		
+		<b-col lg="6" class="my-4">
+				<b-form-group
+				label="Filtre"
+				label-for="filter-input"
+				label-cols-sm="3"
+				label-align-sm="right"
+				label-size="sm"
+				class="mb-4"
+				>
+				<b-input-group size="sm">
+					<b-form-input
+					id="filter-input"
+					v-model="filter"
+					type="search"
+					placeholder="Rechercher ..."
+					></b-form-input>
+
+					<b-input-group-append>
+					<b-button :disabled="!filter" @click="filter = ''">Supprimer</b-button>
+					</b-input-group-append>
+				</b-input-group>
+				</b-form-group>
+			</b-col>
+
+		<b-table :filter="filter" striped hover :items="jobsLabel" :fields="fields" class="mt-2">
 			<template #cell(actions)="data">
 				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)">Postuler</b-button>
 				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
@@ -37,6 +62,7 @@ export default {
 	data() {
 		return {
 			jobs: [],
+			jobsLabel : [],
 			selectedOffer: {id: '', title: ''},
 			fields: [
 				{key: 'title', label: 'Titre'}, 
@@ -45,7 +71,8 @@ export default {
 				'actions'
 			],
 			applicationModalOpened: false,
-			openDeleteModal: false
+			openDeleteModal: false,
+			filter: null,
 		}
 	},
 	methods: {
@@ -69,12 +96,16 @@ export default {
 		closeApplicationModal() {
 			this.selectedOffer = {id: '', title: ''};
 			this.applicationModalOpened = false;
+		},
+		getJobsLabels(job) { 
+			return job.tags.map(tag => tag.label).join(", ");
 		}
 	},
 	async created() {
 		this.jobs = await OffersGateway.getOffers();
-		// this.jobs = this.jobs.forEach( job => job.tags.map(({label}) => ({label})));
-		// this.jobs = this.jobs.forEach( job => console.log(job.tags));
+		this.jobsLabel = this.jobs.map(job => { 
+			return { ...job, tags:this.getJobsLabels(job) }
+		})
 	}
 }
 </script>
