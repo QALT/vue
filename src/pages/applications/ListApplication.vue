@@ -44,7 +44,6 @@ export default {
         this.applicationsOffer = this.applications.map(application => { 
 			return { ...application, offer:this.getOfferTitle(application) }
 		})
-        console.log(this.applications);
     },
     methods: {
         triggerApplicationDelete(application) {
