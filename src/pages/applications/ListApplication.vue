@@ -1,7 +1,7 @@
 <template>
     <div>
         <h3>Mes candidatures</h3>
-        <b-table striped hover :items="applications" :fields="fields" class="mt-2">
+        <b-table striped hover :items="applicationsOffer" :fields="fields" class="mt-2 text-center">
             <template #cell(actions)="data">
                 <b-button size="sm" :to="`/applications/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
                 <b-button size="sm" variant="danger" @click="triggerApplicationDelete(data.item)">Supprimer</b-button>
@@ -28,6 +28,7 @@ export default {
     data() {
         return {
             applications: [],
+            applicationsOffer: [],
             fields: [
                 { key: 'comment', label: 'Message personnalisé' }, 
                 { key: 'offer', label: 'Offre' },
@@ -40,6 +41,10 @@ export default {
     },
     async created() {
         this.applications = await applicationsGateway.getUserApplications();
+        this.applicationsOffer = this.applications.map(application => { 
+			return { ...application, offer:this.getOfferTitle(application) }
+		})
+        console.log(this.applications);
     },
     methods: {
         triggerApplicationDelete(application) {
@@ -53,7 +58,10 @@ export default {
         },
         closeModal() {
             this.openModal = false
-        }   
+        },
+        getOfferTitle(application) { 
+			return application.offer.title;
+		}
     }
 }
 </script>
