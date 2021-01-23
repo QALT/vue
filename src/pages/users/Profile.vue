@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <div class="col-4">
+            <div class="col-6 offset-3 mb-5">
                 <h4 class="text-center">Informations personnelles</h4>
                 <b-form @submit="editUser">
                     <b-form-group
@@ -50,14 +50,14 @@
                     <b-button type="submit" variant="primary" class="mr-0">Modifier</b-button>
                 </b-form>
             </div>
-            <div class="col-4">
+            <div class="col-6 offset-3 mb-5" v-if="isEmployee">
                 <h4 class="text-center">Formation(s) <b-icon-pencil class="cursor-pointer ml-2" @click="onClickStudies" /></h4>
                 <b-card v-for="study in user.studies" v-bind:key="study.id">
                     <p><b>{{ study.school }}</b></p>
                     <p>{{ study.label }}</p>
                 </b-card>
             </div>
-            <div class="col-4">
+            <div class="col-6 offset-3" v-if="isEmployee">
                 <h4 class="text-center">Expérience(s) <b-icon-pencil class="cursor-pointer ml-2" @click="onClickExperiences" /></h4>
                 <b-card v-for="experience in user.experiences" v-bind:key="experience.id">
                     <p><b>{{ experience.label }}</b></p>
@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import store from '../../store';
 import router from '../../router';
 import userGateway from '../../services/gateway/users.gateway';
@@ -86,6 +87,9 @@ export default {
             this.user = user
         });
     },
+    computed: {
+		...mapGetters(['isEmployer', 'isEmployee']),
+	},
     methods: {
         editUser(event) {
             event.preventDefault();
