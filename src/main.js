@@ -13,18 +13,15 @@ import { apolloClient } from './services/prisma/apolloClient'
 
 import AppForm from './components/form-elements/AppForm.vue';
 import AppFormInput from './components/form-elements/AppFormInput.vue';
-import AppFormLabel from './components/form-elements/AppFormLabel.vue';
-import AppFormField from './components/form-elements/AppFormField.vue';
+import AppFormSelect from './components/form-elements/AppFormSelect.vue';
 import AppFormButton from './components/form-elements/AppFormButton.vue';
-import AppFormTextarea from './components/form-elements/AppFormTextarea.vue';
+import AppFormDatepicker from './components/form-elements/AppFormDatepicker.vue';
 
 Vue.component('AppForm', AppForm)
 Vue.component('AppFormInput', AppFormInput)
-Vue.component('AppFormLabel', AppFormLabel)
-Vue.component('AppFormField', AppFormField)
+Vue.component('AppFormSelect', AppFormSelect)
 Vue.component('AppFormButton', AppFormButton)
-Vue.component('AppFormTextarea', AppFormTextarea)
-
+Vue.component('AppFormDatepicker', AppFormDatepicker)
 
 const apolloProvider = new VueApollo({
     defaultClient: apolloClient,

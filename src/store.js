@@ -20,7 +20,9 @@ export default new Vuex.Store({
     mutations: {
         disconnectUser(state) {
             state.token = null;
+            const oldApiProvider = state.apiProvider;
             window.localStorage.clear();
+            window.localStorage.setItem("apiProvider", oldApiProvider);
         },
         setToken(state, token) {
             if (null === token) {

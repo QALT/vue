@@ -9,29 +9,39 @@
         <b-row>
             <b-col cols="6" offset="3" class="pt-5">
                 <b-card>
-                    <b-form @submit.prevent="onSubmit">
-                        <b-form-group label="Email" label-for="email">
-                            <b-form-input id="email" v-model="form.email" type="email" required />
-                        </b-form-group>
-
-                        <b-form-group label="Mot de passe" label-for="password" >
-                            <b-form-input id="password" v-model="form.plainPassword" type="password" required />
-                        </b-form-group>
-
-                        <b-form-group label="Nom" label-for="lastname">
-                            <b-form-input id="lastname" v-model="form.lastname" type="text" />
-                        </b-form-group>
-
-                        <b-form-group label="Prénom" label-for="firstname">
-                            <b-form-input id="firstname" v-model="form.firstname" type="text" />
-                        </b-form-group>
-
-                        <b-form-group label="Mon rôle" label-for="roles" >
-                            <b-form-select id="roles" v-model="form.roles" :options="options" required></b-form-select>
-                        </b-form-group>
-
-                        <b-button type="submit" variant="primary" class="w-100">Register</b-button>
-                    </b-form>
+                    <app-form :values="form" :handleSubmit="handleSubmit" :validations="validations">
+                        <app-form-input
+                            label="Email"
+                            name="email"
+                            type="email"
+                            required
+                        />
+                        <app-form-input
+                            label="Mot de passe"
+                            name="plainPassword"
+                            type="password"
+                            required
+                        />
+                        <app-form-input
+                            label="Nom"
+                            name="lastname"
+                        />
+                        <app-form-input
+                            label="Prénom"
+                            name="firstname"
+                        />
+                        <app-form-select
+                            label="Mon rôle"
+                            name="roles"
+                            :options="options"
+                            required
+                        />
+                        <div class="text-center">
+                            <app-form-button variant="primary">
+                                Créer votre compte
+                            </app-form-button>
+                        </div>
+                    </app-form>
                 </b-card>
             </b-col>
         </b-row>
@@ -45,9 +55,14 @@
 </template>
 
 <script>
+import AppForm from '../../components/form-elements/AppForm.vue';
+import AppFormButton from '../../components/form-elements/AppFormButton.vue';
+import AppFormInput from '../../components/form-elements/AppFormInput.vue';
+import AppFormSelect from '../../components/form-elements/AppFormSelect.vue';
 import gatewayAuthService from '../../services/gateway/auth.gateway';
 
 export default {
+    components: { AppForm, AppFormInput, AppFormButton, AppFormSelect },
     name: "Register",
 
     data() {
@@ -63,13 +78,18 @@ export default {
                 { value: null, text: 'Choisissez ce que vous recherchez sur cette plateforme' },
                 { value: 'ROLE_EMPLOYEE', text: 'Je cherche une offre d\'emploi' },
                 { value: 'ROLE_EMPLOYER', text: 'Je souhaite publier une offre d\'emploi' }
-            ]
+            ],
+            validations: {
+                email: 'required|min:10',
+                plainPassword: "required|password|min:8",
+                lastname: "required",
+                roles: "required|in:ROLE_EMPLOYEE,ROLE_EMPLOYER"
+            }
         };
     },
 
     methods: {
-        onSubmit(event) {
-            event.preventDefault();
+        handleSubmit() {
             gatewayAuthService.register(this.form.email, this.form.plainPassword, this.form.lastname, this.form.firstname, this.form.roles);
         }
     }

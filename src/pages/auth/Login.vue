@@ -9,31 +9,25 @@
         <b-row>
             <b-col cols="6" offset="3" class="pt-5">
                 <b-card>
-                    <b-form @submit="onSubmit">
-                        <b-form-group
+                    <app-form :values="form" :handleSubmit="handleSubmit" :validations="validations">
+                        <app-form-input
                             label="Email"
-                            label-for="email"
-                        >
-                            <b-form-input
-                                id="email"
-                                v-model="form.email"
-                                type="email"
-                                required
-                            />
-                        </b-form-group>
-                        <b-form-group
+                            name="email"
+                            type="email"
+                            required
+                        />
+                        <app-form-input
                             label="Mot de passe"
-                            label-for="password"
-                        >
-                            <b-form-input
-                                id="password"
-                                v-model="form.password"
-                                type="password"
-                                required
-                            />
-                        </b-form-group>
-                        <b-button type="submit" variant="primary" class="w-100">Connexion</b-button>
-                    </b-form>
+                            name="password"
+                            type="password"
+                            required
+                        />
+                        <div class="text-center">
+                            <app-form-button variant="primary">
+                                Connexion
+                            </app-form-button>
+                        </div>
+                    </app-form>
                 </b-card>
             </b-col>
         </b-row>
@@ -55,11 +49,14 @@ export default {
         form: {
             email: '',
             password: ''
+        },
+        validations: {
+            email: "required|min:3",
+            password: "required|password|min:8"
         }
     }),
     methods: {
-        onSubmit(event) {
-            event.preventDefault();
+        handleSubmit() {
             gatewayAuthService.login(this.form.email, this.form.password);
         }
     }

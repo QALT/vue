@@ -1,11 +1,9 @@
 <template>
-    <button v-on="$listeners" v-bind="$attrs" type="submit">
+    <b-button v-on="$listeners" v-bind="$attrs" type="submit">
         <slot />
-    </button>
+    </b-button>
 </template>
 
 <script>
-export default {
-    inject: ["submit"]
-}
+export default {}
 </script>
