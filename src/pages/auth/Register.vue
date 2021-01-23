@@ -18,6 +18,14 @@
                             <b-form-input id="password" v-model="form.plainPassword" type="password" required />
                         </b-form-group>
 
+                        <b-form-group label="Nom" label-for="lastname">
+                            <b-form-input id="lastname" v-model="form.lastname" type="text" />
+                        </b-form-group>
+
+                        <b-form-group label="Prénom" label-for="firstname">
+                            <b-form-input id="firstname" v-model="form.firstname" type="text" />
+                        </b-form-group>
+
                         <b-form-group label="Mon rôle" label-for="roles" >
                             <b-form-select id="roles" v-model="form.roles" :options="options" required></b-form-select>
                         </b-form-group>
@@ -47,6 +55,8 @@ export default {
             form: {
                 email: "",
                 plainPassword: "",
+                lastname: "",
+                firstname: "",
                 roles: null
             },
             options: [
@@ -60,7 +70,7 @@ export default {
     methods: {
         onSubmit(event) {
             event.preventDefault();
-            gatewayAuthService.register(this.form.email, this.form.plainPassword, this.form.roles);
+            gatewayAuthService.register(this.form.email, this.form.plainPassword, this.form.lastname, this.form.firstname, this.form.roles);
         }
     }
 }
