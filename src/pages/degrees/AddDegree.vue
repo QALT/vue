@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <h4 class="text-center">Ajouter un niveau d'étude</h4>
-            <b-form v-on:submit.prevent="onSubmit" v-if="!isLoading">
+            <b-form v-on:submit.prevent="onSubmit">
                 <b-form-group
                     label="Nom du niveau"
                     label-for="label"

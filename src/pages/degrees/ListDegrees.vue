@@ -2,7 +2,7 @@
 	<div>
 		<h1 class="h3 mb-2 text-gray-800">Niveau d'études</h1>
 		<b-button to='/degrees/add' variant="primary">Ajouter un niveau</b-button>
-		<b-table striped hover :items="degrees" :fields="fields" class="mt-2 text-center">
+		<b-table striped hover :items="withHumanDates(['updatedAt'], degrees)" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" :to="`/degrees/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
 				<b-button size="sm" variant="danger" @click="triggerDegreeDelete(data.item)">Supprimer</b-button>
@@ -24,6 +24,7 @@
 <script>
 import DegreesGateway from '../../services/gateway/degrees.gateway'
 import deleteModal from '../../components/deleteModal';
+import {withHumanDates} from "../../helpers/date";
 
 export default {
 	components: {
@@ -42,6 +43,7 @@ export default {
 		}
 	},
 	methods: {
+        withHumanDates,
 		triggerDegreeDelete(degree) {
 			this.selectedDegree = degree;
 			this.openDeleteModal = true;

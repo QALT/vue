@@ -1,36 +1,39 @@
 <template>
-    <form v-on="$listeners" v-bind="$attrs" @submit="submitForm">
+    <b-form v-on="$listeners" v-bind="$attrs" @submit.prevent="submit">
         <slot />
-    </form>
+        <div class="text-center">
+            <small>Les champs marqués d'une <span class="text-danger">*</span> sont obligatoire</small>
+        </div>
+    </b-form>
 </template>
 
 <script>
 export default {
     props: {
-        values: Object
-    },
-
-    methods: {
-        submit() {},
-
-        submitForm(event) {
-            event.preventDefault();
-            this.submit();
+        values: {
+            type: Object,
+            required: true
+        },
+        handleSubmit: {
+            type: Function,
+            required: true
+        },
+        validations: {
+            type: Object,
+            required: true
         }
     },
-
-    data() {
-        return {
-            formValues: this.values
-        };
+    methods: {
+        submit() {
+            this.handleSubmit();
+        }
     },
-
     provide() {
-        const {submit, formValues: values} = this;
+        const { values, validations } = this;
 
         return {
-            submit,
-            values
+            values,
+            validations
         };
     }
 }
