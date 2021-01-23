@@ -23,8 +23,8 @@ export default {
             router.push('/');
         }).catch(error => toastNotification('error', error.message))
     },
-    register(email, password, roles) {
-        providers[store.getters.getApiProvider].register(email, password, roles).then(() => {
+    register(email, password, lastname, firstname, roles) {
+        providers[store.getters.getApiProvider].register(email, password, lastname, firstname, roles).then(() => {
             toastNotification('success', 'Inscription réussite');
             router.push('/login');
         }).catch(() => toastNotification('error', 'Une erreur est survenue durant l\'inscription'))
