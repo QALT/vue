@@ -4,29 +4,28 @@
 		<b-button to='/offers/add' variant="primary">Ajouter une offre</b-button>
 		
 		<b-col lg="6" class="my-4">
-				<b-form-group
+			<b-form-group
 				label="Filtre"
 				label-for="filter-input"
 				label-cols-sm="3"
 				label-align-sm="right"
 				label-size="sm"
 				class="mb-4"
-				>
-				<b-input-group size="sm">
-					<b-form-input
+			>
+			<b-input-group size="sm">
+				<b-form-input
 					id="filter-input"
 					v-model="filter"
 					type="search"
 					placeholder="Rechercher ..."
-					></b-form-input>
-
-					<b-input-group-append>
+				>
+				</b-form-input>
+				<b-input-group-append>
 					<b-button :disabled="!filter" @click="filter = ''">Supprimer</b-button>
-					</b-input-group-append>
-				</b-input-group>
-				</b-form-group>
-			</b-col>
-
+				</b-input-group-append>
+			</b-input-group>
+			</b-form-group>
+		</b-col>
 		<b-table :filter="filter" striped hover :items="jobsLabel" :fields="fields" class="mt-2">
 			<template #cell(actions)="data">
 				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)">Postuler</b-button>
