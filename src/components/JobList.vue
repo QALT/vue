@@ -33,7 +33,7 @@
 				<b-button size="sm" variant="danger" @click="triggerOfferDelete(data.item)" v-if="isEmployer">Supprimer</b-button>
 			</template>
 		</b-table>
-		<p class="mb-4" v-if="jobs.length === 0">Aucunes offre trouvée</p>
+		<p class="mb-4 text-center" v-if="jobs.length === 0">Aucunes offre trouvée</p>
 
 		<delete-modal
 			:modalOpened="openDeleteModal"
