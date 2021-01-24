@@ -1,5 +1,7 @@
 # vue
 
+![Code Style](https://github.com/QALT/vue/workflows/Code%20Style/badge.svg)
+
 ## Requirements
 
 - [Git](https://git-scm.com/)
