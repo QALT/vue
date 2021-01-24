@@ -4,21 +4,43 @@ import gql from 'graphql-tag';
 
 export default {
     getOffers() {
-        return apolloClient.query({
-            query: gql`
-                query {
-                    offers {
-                        id,
-                        title,
-                        description,
-                        tags{
-                            label
+        let query = null;
+        if (store.getters.isEmployer) {
+            query = {
+                query: gql`
+                    query($employerId: ID!) {
+                        offers(where: { employer: { id: $employerId}}) {
+                            id,
+                            title,
+                            description,
+                            tags{
+                                label
+                            }
                         }
                     }
+                `,
+                variables: {
+                    employerId: store.getters.getId
                 }
-            `,
-            fetchPolicy: 'no-cache'
-        })
+            }
+        } else {
+            query = {
+                query: gql`
+                    query {
+                        offers {
+                            id,
+                            title,
+                            description,
+                            tags{
+                                label
+                            }
+                        }
+                    }
+                `
+            }
+        }
+
+        return apolloClient.query(query)
         .then(response => response.data.offers)
         .catch(console.error);
     },

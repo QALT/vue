@@ -3,7 +3,13 @@ import store from '../../store';
 
 export default {
 	getOffers() {
-		return httpClient.get("/api/offers")
+		let queryParams = '';
+
+		if (store.getters.isEmployer) {
+			queryParams = `?employer.id=${store.getters.getId}`
+		}
+
+		return httpClient.get(`/api/offers${queryParams}`)
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},

@@ -4,25 +4,54 @@ import gql from 'graphql-tag';
 
 export default {
     getUserApplications() {
-        return apolloClient.query({
-            query: gql`
-                query($userId: ID!) {
-                    applications(where: { applicant: { id: $userId}}) {
-                        id,
-                        comment,
-                        status,
-                        offer{
+        let query = null;
+        if (store.getters.isEmployer) {
+            query = {
+                query: gql`
+                    query($employerId: ID!) {
+                        applications(where: { offer: { employer: { id: $employerId } }}) {
                             id,
-                            title
+                            comment,
+                            status,
+                            offer {
+                                id,
+                                title
+                            },
+                            applicant {
+                                firstname,
+                                lastname
+                            }
                         }
                     }
-                }
-            `,
-            variables: {
-                userId: store.getters.getId
-            },
-            fetchPolicy: 'no-cache'
-        })
+                `,
+                variables: {
+                    employerId: store.getters.getId
+                },
+                fetchPolicy: 'no-cache'
+            }
+        } else {
+            query = {
+                query: gql`
+                    query($userId: ID!) {
+                        applications(where: { applicant: { id: $userId}}) {
+                            id,
+                            comment,
+                            status,
+                            offer{
+                                id,
+                                title
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    userId: store.getters.getId
+                },
+                fetchPolicy: 'no-cache'
+            }
+        }
+
+        return apolloClient.query(query)
         .then(response => response.data.applications)
         .catch(console.error);
     },

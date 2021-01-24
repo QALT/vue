@@ -20,21 +20,33 @@
 <script>
 import applicationsGateway from '../../services/gateway/applications.gateway';
 import deleteModal from '../../components/deleteModal';
+import store from '../../store';
 
 export default {
     components: {
         deleteModal
     },
     data() {
+        let additionalFields = [];
+        const commonFields = [
+            { key: 'comment', label: 'Message personnalisé' }, 
+            { key: 'offer', label: 'Offre' },
+            { key: 'status', label: 'Statut'},
+            'actions'
+        ];
+
+        if (store.getters.isEmployer || store.getters.isAdmin) {
+            additionalFields = [
+                {key: 'applicant', label: 'Candidat'},
+            ]
+        }
+
+        const fields = [...additionalFields, ...commonFields];
+
         return {
             applications: [],
             applicationsOffer: [],
-            fields: [
-                { key: 'comment', label: 'Message personnalisé' }, 
-                { key: 'offer', label: 'Offre' },
-                { key: 'status', label: 'Statut'},
-                'actions'
-            ],
+            fields,
             selectedApplication: { id: '', offer: '' },
             openModal: false
         }
@@ -42,7 +54,10 @@ export default {
     async created() {
         this.applications = await applicationsGateway.getUserApplications();
         this.applicationsOffer = this.applications.map(application => { 
-			return { ...application, offer:this.getOfferTitle(application) }
+			return {
+                ...application,
+                offer: this.getOfferTitle(application),
+                applicant: this.getApplicant(application.applicant)}
 		})
     },
     methods: {
@@ -58,8 +73,11 @@ export default {
         closeModal() {
             this.openModal = false;
         },
-        getOfferTitle(application){
+        getOfferTitle(application) {
             return application.offer.title;
+        },
+        getApplicant(applicant) {
+            return `${applicant.lastname} ${applicant.firstname}`
         }
     }
 }

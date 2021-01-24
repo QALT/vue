@@ -14,8 +14,17 @@ export default {
 			.then(data => data['hydra:member'])
 	},
 	getUserApplications() {
-		const userIri = `/api/users/${store.getters.getId}`;
-		return httpClient.get(`/api/applications?applicant=${userIri}`)
+		let queryParams = '';
+
+		if (store.getters.isEmployer) {
+			queryParams = `?offer.employer.id=${store.getters.getId}`
+		}
+
+		if(store.getters.isEmployee) {
+			queryParams = `?applicant.id=${store.getters.getId}`
+		}
+
+		return httpClient.get(`/api/applications${queryParams}`)
 			.then(response => response.data)
 			.then(data => data['hydra:member'])
 	},
