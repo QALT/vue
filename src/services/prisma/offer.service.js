@@ -26,7 +26,7 @@ export default {
             fetchPolicy: 'no-cache'
         })
         .then(response => response.data.offers)
-        .catch(console.error);
+        .catch(handleError);
     },
     addOffer(title, description, selectedTags) {
         selectedTags = selectedTags.map( tag => ({id:tag}));

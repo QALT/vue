@@ -52,12 +52,7 @@ export default {
     },
     async created() {
         const applications = await applicationsGateway.getUserApplications();
-        this.applications = applications.map(application => { 
-			return {
-                ...application,
-                offer: this.getOfferTitle(application),
-                applicant: this.getApplicant(application.applicant)}
-		})
+        this.applications = this.convertData(applications);
     },
     methods: {
         triggerApplicationDelete(application) {
@@ -67,7 +62,8 @@ export default {
         async deleteApplication() {
             this.closeModal();
             await applicationsGateway.deleteApplication(this.selectedApplication.id);
-            this.applications = await applicationsGateway.getUserApplications();
+            const applications = await applicationsGateway.getUserApplications();
+            this.applications = this.convertData(applications);
         },
         closeModal() {
             this.openModal = false;
@@ -77,7 +73,16 @@ export default {
         },
         getApplicant(applicant) {
             return `${applicant.lastname} ${applicant.firstname}`
-        }
+        },
+        convertData(applications) {
+            return applications.map(application => { 
+                return {
+                    ...application,
+                    offer: this.getOfferTitle(application),
+                    applicant: this.getApplicant(application.applicant)
+                }
+            })
+        } 
     }
 }
 </script>
