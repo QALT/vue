@@ -2,13 +2,13 @@
 	<div>
 		<h1 class="h3 mb-2 text-gray-800">Mes expériences</h1>
 		<b-button to='/experiences/add' variant="primary">Ajouter une expérience</b-button>
-		<b-table striped hover :items="withHumanDates(['startDate', 'endDate'], experiences)" :fields="fields" class="mt-2">
+		<b-table striped hover :items="withHumanDates(['startDate', 'endDate'], experiences)" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" :to="`/experiences/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
 				<b-button size="sm" variant="danger" @click="selectExperience(data.item)">Supprimer</b-button>
 			</template>
 		</b-table>
-		<p class="mb-4" v-if="experiences.length === 0">Aucune expérience trouvée</p>
+		<p class="mb-4 text-center" v-if="experiences.length === 0">Aucune expérience trouvée</p>
 
 		<b-modal ref="deletion-modal" hide-footer title="Supression d'une expérience">
 			<div class="d-block text-center">
