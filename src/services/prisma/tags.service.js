@@ -1,5 +1,5 @@
 import { apolloClient } from "./apolloClient";
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export default {
     getTags() {
@@ -12,9 +12,9 @@ export default {
                     }
                   }
             `,
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.tags)
-        .catch(console.error);
+            .then(response => response.data.tags)
+            .catch(console.error);
     }
-}
+};

@@ -1,7 +1,7 @@
 export const validate = (label, rules, value) => {
     let error = "";
 
-    for (const rule of rules.split('|')) {
+    for (const rule of rules.split("|")) {
         if (rule === "required") {
             if (!value) {
                 error = `Le champ ${label} est obligatoire`;
@@ -9,8 +9,8 @@ export const validate = (label, rules, value) => {
             }
         }
 
-        if (rule.startsWith('min')) {
-            const [ , min ] = rule.split(':');
+        if (rule.startsWith("min")) {
+            const [ , min ] = rule.split(":");
             const intMin = Number(min);
 
             if (!Number.isNaN(intMin) && value.length < intMin) {
@@ -19,8 +19,8 @@ export const validate = (label, rules, value) => {
             }
         }
 
-        if (rule.startsWith('max')) {
-            const [ , max ] = rule.split(':');
+        if (rule.startsWith("max")) {
+            const [ , max ] = rule.split(":");
             const intMax = Number(max);
 
             if (!Number.isNaN(intMax) && value.length > intMax) {
@@ -29,7 +29,7 @@ export const validate = (label, rules, value) => {
             }
         }
 
-        if (rule.startsWith('password')) {
+        if (rule.startsWith("password")) {
             const regex = /.*[A-Z].*/;
 
             if (value.match(regex) === null) {
@@ -38,10 +38,10 @@ export const validate = (label, rules, value) => {
             }
         }
 
-        if (rule.startsWith('notIn')) {
-            const [ , values ] = rule.split(':');
+        if (rule.startsWith("notIn")) {
+            const [ , values ] = rule.split(":");
 
-            if (values.split(',').includes(value)) {
+            if (values.split(",").includes(value)) {
                 error = `Le champ ${label} ne doit pas être une des valeurs suivantes: ${values}`;
                 break;
             }

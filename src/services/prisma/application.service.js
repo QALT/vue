@@ -1,6 +1,6 @@
 import { apolloClient } from "./apolloClient";
-import store from '../../store';
-import gql from 'graphql-tag';
+import store from "../../store";
+import gql from "graphql-tag";
 
 export default {
     getUserApplications() {
@@ -27,8 +27,8 @@ export default {
                 variables: {
                     employerId: store.getters.getId
                 },
-                fetchPolicy: 'no-cache'
-            }
+                fetchPolicy: "no-cache"
+            };
         } else {
             query = {
                 query: gql`
@@ -47,13 +47,13 @@ export default {
                 variables: {
                     userId: store.getters.getId
                 },
-                fetchPolicy: 'no-cache'
-            }
+                fetchPolicy: "no-cache"
+            };
         }
 
         return apolloClient.query(query)
-        .then(response => response.data.applications)
-        .catch(console.error);
+            .then(response => response.data.applications)
+            .catch(console.error);
     },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({
@@ -80,8 +80,8 @@ export default {
                 email: store.getters.getEmail
             }
         })
-        .then(response => response.data.createApplication)
-        .catch(console.error)
+            .then(response => response.data.createApplication)
+            .catch(console.error);
     },
     getApplication(id) {
         return apolloClient.query({
@@ -100,10 +100,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.application)
-        .catch(console.error);
+            .then(response => response.data.application)
+            .catch(console.error);
     },
     editApplication(id, newApplication) {
         return apolloClient.mutate({
@@ -124,8 +124,8 @@ export default {
                 newComment: newApplication.comment
             }
         })
-        .then(response => response.data.updateApplication)
-        .catch(console.error)
+            .then(response => response.data.updateApplication)
+            .catch(console.error);
     },
     deleteApplication(id) {
         return apolloClient.mutate({
@@ -138,7 +138,7 @@ export default {
             `,
             variables: { id }
         })
-        .then(response => response.data.deleteApplication)
-        .catch(console.error)
+            .then(response => response.data.deleteApplication)
+            .catch(console.error);
     }
-}
+};

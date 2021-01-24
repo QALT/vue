@@ -1,5 +1,5 @@
-import axios from 'axios';
-import store from '../../store';
+import axios from "axios";
+import store from "../../store";
 
 export const httpClient = axios.create({
     baseURL: process.env.VUE_APP_API_PLATFORM_URL,
@@ -9,7 +9,7 @@ export const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use(function (config) {
-    const authKey = store.getters.getToken
+    const authKey = store.getters.getToken;
     if (authKey) { config.headers["Authorization"] = "Bearer " + authKey; }
     return config;
 });
