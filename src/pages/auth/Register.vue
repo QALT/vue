@@ -37,7 +37,7 @@
                             required
                         />
                         <div class="text-center">
-                            <app-form-button variant="primary">
+                            <app-form-button>
                                 Créer votre compte
                             </app-form-button>
                         </div>

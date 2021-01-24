@@ -36,25 +36,18 @@ export default {
                     query($userId: ID!) {
                         applications(where: { applicant: { id: $userId}}) {
                             id,
-                            comment,
-                            status,
-                            offer{
-                                id,
-                                title
-                            }
+                            title
                         }
                     }
-                `,
-                variables: {
-                    userId: store.getters.getId
-                },
-                fetchPolicy: "no-cache"
-            };
-        }
-
-        return apolloClient.query(query)
-            .then(response => response.data.applications)
-            .catch(handleError);
+                }
+            `,
+            variables: {
+                userId: store.getters.getId
+            },
+            fetchPolicy: 'no-cache'
+        })
+        .then(response => response.data.applications)
+        .catch(console.error);
     },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({

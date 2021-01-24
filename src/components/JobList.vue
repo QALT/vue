@@ -26,7 +26,7 @@
 			</b-input-group>
 			</b-form-group>
 		</b-col>
-		<b-table :filter="filter" striped hover :items="jobsLabel" :fields="fields" class="mt-2 text-center">
+		<b-table :filter="filter" striped hover :items="jobs" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)" v-if="isEmployee">Postuler</b-button>
 				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2" v-if="isEmployer">Modifier</b-button>
@@ -62,7 +62,6 @@ export default {
 	data() {
 		return {
 			jobs: [],
-			jobsLabel : [],
 			selectedOffer: {id: '', title: ''},
 			fields: [
 				{key: 'title', label: 'Titre'}, 
@@ -105,10 +104,10 @@ export default {
 		}
 	},
 	async created() {
-		this.jobs = await OffersGateway.getOffers();
-		this.jobsLabel = this.jobs.map(job => { 
+		const jobs = await OffersGateway.getOffers()
+		this.jobs = jobs.map(job => { 
 			return { ...job, tags:this.getJobsLabels(job) }
-		})
+		});
 	}
 }
 </script>

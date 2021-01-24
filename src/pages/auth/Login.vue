@@ -23,7 +23,7 @@
                             required
                         />
                         <div class="text-center">
-                            <app-form-button variant="primary">
+                            <app-form-button>
                                 Connexion
                             </app-form-button>
                         </div>

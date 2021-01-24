@@ -36,8 +36,8 @@ export default {
 			selectedDegree: {id: '', label: ''},
 			openDeleteModal: false,
 			fields: [
-				{key: 'label', label: 'Label'}, 
-                {key: 'updatedAt', label: 'Dernière mise à jour'}, 
+				{ key: 'label', label: 'Label' }, 
+                { key: 'updatedAt', label: 'Dernière mise à jour' }, 
 				'actions'
 			]
 		}
@@ -63,7 +63,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-
-</style>

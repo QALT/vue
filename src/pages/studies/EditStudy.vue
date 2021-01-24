@@ -2,40 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <h4 class="text-center">Modifier le diplôme</h4>
-            <b-form v-on:submit.prevent="onSubmit">
-                <b-form-group
-                    label="Nom du diplôme"
-                    label-for="label"
-                >
-                    <b-form-input
-                        id="label"
-                        v-model="form.label"
-                    />
-                </b-form-group>
-                <b-form-group
-                    label="Titre du diplôme"
-                    label-for=""
-                >
-                <b-form-select v-model="form.degree" :options="degrees">
-                <template #first>
-                    <b-form-select-option :value="degrees" disabled>-- Selectionner un niveau d'étude --</b-form-select-option>
-                </template>
-                </b-form-select>
-                </b-form-group>
-                <b-form-group
-                    label="Nom de l'école"
-                    label-for="school"
-                >
-                    <b-form-input
-                        id="school"
-                        v-model="form.school"
-                    />
-                </b-form-group>  
-                <div class="row justify-content-center">
-                    <b-button variant="outline-primary" to="/studies" class="mr-2 center">Retour</b-button>
-                    <b-button type="submit" variant="primary" class="mr-2 center">Modifier</b-button>
-                </div>
-            </b-form>
+            <form-study :form="form" :handleSubmit="handleSubmit" :options="degrees" buttonValue="Ajouter" />
         </div>
     </div>
 </template>
@@ -43,8 +10,10 @@
 <script>
 import studiesGateway from '../../services/gateway/studies.gateway';
 import degreesGateway from '../../services/gateway/degrees.gateway';
+import FormStudy from './FormStudy.vue';
 
 export default {
+    components: { FormStudy }, 
     name: 'EditStudyPage',
     props: ['id'],
     data() {
@@ -64,7 +33,7 @@ export default {
         .then(study => {
             this.form.label = study.label;
             this.form.school = study.school;
-            this.form.degree = study.degree;
+            this.form.degree = study.degree['@id'] ?? study.degree.id;
             this.originalStudy = study;
             this.isLoading = false;
         })
@@ -73,8 +42,7 @@ export default {
         });
     },
     methods: {
-        onSubmit(e) {
-            e.preventDefault();
+        handleSubmit() {
             const newStudy = {
                 ...this.originalStudy,
                 ...this.form
