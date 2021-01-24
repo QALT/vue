@@ -1,6 +1,7 @@
 import { apolloClient } from "./apolloClient";
 import store from "../../store";
 import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getUserApplications() {
@@ -53,7 +54,7 @@ export default {
 
         return apolloClient.query(query)
             .then(response => response.data.applications)
-            .catch(console.error);
+            .catch(handleError);
     },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({
