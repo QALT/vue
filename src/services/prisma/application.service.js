@@ -1,17 +1,40 @@
 import { apolloClient } from "./apolloClient";
-import store from '../../store';
-import gql from 'graphql-tag';
+import store from "../../store";
+import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getUserApplications() {
-        return apolloClient.query({
-            query: gql`
-                query($userId: ID!) {
-                    applications(where: { applicant: { id: $userId}}) {
-                        id,
-                        comment,
-                        status,
-                        offer{
+        let query = null;
+        if (store.getters.isEmployer) {
+            query = {
+                query: gql`
+                    query($employerId: ID!) {
+                        applications(where: { offer: { employer: { id: $employerId } }}) {
+                            id,
+                            comment,
+                            status,
+                            offer {
+                                id,
+                                title
+                            },
+                            applicant {
+                                firstname,
+                                lastname
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    employerId: store.getters.getId
+                },
+                fetchPolicy: "no-cache"
+            };
+        } else {
+            query = {
+                query: gql`
+                    query($userId: ID!) {
+                        applications(where: { applicant: { id: $userId}}) {
                             id,
                             title
                         }
@@ -51,8 +74,8 @@ export default {
                 email: store.getters.getEmail
             }
         })
-        .then(response => response.data.createApplication)
-        .catch(console.error)
+            .then(response => response.data.createApplication)
+            .catch(console.error);
     },
     getApplication(id) {
         return apolloClient.query({
@@ -71,10 +94,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.application)
-        .catch(console.error);
+            .then(response => response.data.application)
+            .catch(console.error);
     },
     editApplication(id, newApplication) {
         return apolloClient.mutate({
@@ -95,8 +118,8 @@ export default {
                 newComment: newApplication.comment
             }
         })
-        .then(response => response.data.updateApplication)
-        .catch(console.error)
+            .then(response => response.data.updateApplication)
+            .catch(console.error);
     },
     deleteApplication(id) {
         return apolloClient.mutate({
@@ -109,7 +132,7 @@ export default {
             `,
             variables: { id }
         })
-        .then(response => response.data.deleteApplication)
-        .catch(console.error)
+            .then(response => response.data.deleteApplication)
+            .catch(console.error);
     }
-}
+};

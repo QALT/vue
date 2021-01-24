@@ -1,6 +1,7 @@
 import { apolloClient } from "./apolloClient";
-import store from '../../store';
-import gql from 'graphql-tag';
+import store from "../../store";
+import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getStudies() {
@@ -17,11 +18,11 @@ export default {
                     }
                   }
             `,
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
         
-        .then(response => response.data.studies)
-        .catch(console.error);
+            .then(response => response.data.studies)
+            .catch(handleError);
     },
     addStudy(label, school, degree) {
         degree = {id:degree};
@@ -57,8 +58,8 @@ export default {
                 degree
             }
         })
-        .then(response => response.data.createStudy)
-        .catch(console.error)
+            .then(response => response.data.createStudy)
+            .catch(handleError);
     },
     getStudy(id) {
         return apolloClient.query({
@@ -74,10 +75,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.studies[0])
-        .catch(console.error);
+            .then(response => response.data.studies[0])
+            .catch(handleError);
     },
     editStudy(id, newStudy) {
         return apolloClient.mutate({
@@ -103,8 +104,8 @@ export default {
                 }
             }
         })
-        .then(response => response.data.updateStudy)
-        .catch(console.error)
+            .then(response => response.data.updateStudy)
+            .catch(handleError);
     },
     deleteStudy(id) {
         return apolloClient.mutate({
@@ -117,7 +118,7 @@ export default {
             `,
             variables: { id }
         })
-        .then(response => response.data.deleteStudy)
-        .catch(console.error)
+            .then(response => response.data.deleteStudy)
+            .catch(handleError);
     }
-}
+};

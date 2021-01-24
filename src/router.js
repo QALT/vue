@@ -1,10 +1,10 @@
-import VueRouter from "vue-router"
+import VueRouter from "vue-router";
 import store from "./store";
-import Login from "./pages/auth/Login.vue"
+import Login from "./pages/auth/Login.vue";
 import Register from "./pages/auth/Register.vue";
-import Home from "./pages/Home.vue"
-import Profile from "./pages/users/Profile.vue"
-import NotFound from "./pages/NotFound.vue"
+import Home from "./pages/Home.vue";
+import Profile from "./pages/users/Profile.vue";
+import NotFound from "./pages/NotFound.vue";
 import AddOfferPage from "./pages/offers/AddOffer.vue";
 import EditOfferPage from "./pages/offers/EditOffer.vue";
 import EmptyRouterView from './pages/EmptyRouterView.vue';
@@ -33,38 +33,38 @@ const router = new VueRouter({
         { 
             path: "/offers", component: EmptyRouterView,
             children: [
-                { path: 'add', component: AddOfferPage },
-                { path: ':id/edit', component: EditOfferPage, props: true }
+                { path: "add", component: AddOfferPage },
+                { path: ":id/edit", component: EditOfferPage, props: true }
             ]
         },
         {
-            path: '/applications', component: EmptyRouterView,
+            path: "/applications", component: EmptyRouterView,
             children: [
-                { path: '', component: UserApplicationsPage },
-                { path: ':id/edit', component: EditApplicationPage, props: true }
-        ]},
+                { path: "", component: UserApplicationsPage },
+                { path: ":id/edit", component: EditApplicationPage, props: true }
+            ]},
         { 
             path: "/studies", component: EmptyRouterView,
             children: [
-                { path: '', component : ListStudiesPage},
-                { path: 'add', component: AddStudyPage },
-                { path: ':id/edit/', component: EditStudyPage, props: true }
+                { path: "", component : ListStudiesPage},
+                { path: "add", component: AddStudyPage },
+                { path: ":id/edit/", component: EditStudyPage, props: true }
             ]   
         },
         { 
             path: "/experiences", component: EmptyRouterView,
             children: [
-                { path: '', component : ListExperiencePage},
-                { path: 'add', component: AddExperiencePage },
-                { path: ':id/edit/', component: EditExperiencePage, props: true }
+                { path: "", component : ListExperiencePage},
+                { path: "add", component: AddExperiencePage },
+                { path: ":id/edit/", component: EditExperiencePage, props: true }
             ]
         },
         {
             path: "/degrees", component: EmptyRouterView,
             children: [
-                { path: '', component : ListDegrees},
-                { path: 'add', component: AddDegree },
-                { path: ':id/edit/', component: EditDegree, props: true }
+                { path: "", component : ListDegrees},
+                { path: "add", component: AddDegree },
+                { path: ":id/edit/", component: EditDegree, props: true }
             ]   
         },
         {
@@ -93,19 +93,15 @@ router.beforeEach((to, from, next) => {
     if (store.state.token && to.path === "/login" || to.path === "/register") {
         return next("/");
     }
-
-    const employeeRoutes = ['/studies', '/experiences'];
-    const adminRoutes = ['/degrees', '/tags'];
-
-    if (store.getters.isEmployer && employeeRoutes.includes(to.path)) {
-        return next('/');
-    }
-
-    if ((store.getters.isEmployee || store.getters.isEmployer) && adminRoutes.includes(to.path)) {
-        return next('/');
+  
+    if (store.state.roles) {
+        const employeeRoutes = ["/studies", "/experiences"];
+        if (store.getters.isEmployer && employeeRoutes.includes(to.path)) {
+            return next("/");
+        }
     }
 
     next();
-})
+});
 
 export default router;

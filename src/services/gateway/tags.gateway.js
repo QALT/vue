@@ -1,14 +1,14 @@
 import store from '../../store';
 import router from '../../router';
 
-import { toastNotification } from '../../helpers/Toastify';
-import ApiPlatformJobService from '../api-platform/tags.service';
-import GraphQLJobService from '../prisma/tags.service';
+import { toastNotification } from "../../helpers/Toastify";
+import ApiPlatformJobService from "../api-platform/tags.service";
+import GraphQLJobService from "../prisma/tags.service";
 
 const providers = {
-    'api-platform': ApiPlatformJobService,
-    'graphql': GraphQLJobService
-}
+    "api-platform": ApiPlatformJobService,
+    "graphql": GraphQLJobService
+};
 
 export default {
     getTags() {
@@ -40,4 +40,4 @@ export default {
         .then(() => toastNotification('success', 'Tag supprimé'))
         .catch(() => toastNotification('error', 'Une erreur est survenue lors de la suppression du tag'))
     }
-}
+};

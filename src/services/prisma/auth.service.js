@@ -1,5 +1,6 @@
+import {handleError} from "../../helpers/prisma/error";
 import { apolloClient } from "./apolloClient";
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export default {
     login(email, password) {
@@ -16,8 +17,8 @@ export default {
                 password
             }
         })
-        .then(response => response.data.login)
-        .catch(() => {throw new Error('Bad credentials')});
+            .then(response => response.data.login)
+            .catch(handleError);
     },
     register(email, password, lastname, firstname, role) {
         return apolloClient.mutate({
@@ -36,6 +37,7 @@ export default {
                 role
             }
         })
-        .then(response => response.data.signup)
+            .then(response => response.data.signup)
+            .catch(handleError);
     }
-}
+};

@@ -1,5 +1,6 @@
 import { apolloClient } from "./apolloClient";
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getDegrees() {
@@ -13,10 +14,10 @@ export default {
                     }
                   }
             `,
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.degrees.map(degree => ({...degree, updatedAt: degree.updated_at})))
-        .catch(console.error);
+            .then(response => response.data.degrees.map(degree => ({...degree, updatedAt: degree.updated_at})))
+            .catch(console.error);
     },
     addDegree(label) {
         return apolloClient.mutate({
@@ -33,8 +34,8 @@ export default {
                 label
             }
         })
-        .then(response => response.data.createDegree)
-        .catch(console.error)
+            .then(response => response.data.createDegree)
+            .catch(handleError);
     },
     getDegree(id) {
         return apolloClient.query({
@@ -49,10 +50,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.degrees[0])
-        .catch(console.error);
+            .then(response => response.data.degrees[0])
+            .catch(handleError);
     },
     editDegree(id, updatedDegree) {
         return apolloClient.mutate({
@@ -73,8 +74,8 @@ export default {
                 updatedDegree
             }
         })
-        .then(response => response.data.updateDegree)
-        .catch(console.error)
+            .then(response => response.data.updateDegree)
+            .catch(handleError);
     },
     deleteDegree(id) {
         return apolloClient.mutate({
@@ -87,7 +88,7 @@ export default {
             `,
             variables: { id }
         })
-        .then(response => response.data.deleteDegree)
-        .catch(console.error)
+            .then(response => response.data.deleteDegree)
+            .catch(handleError);
     }
-}
+};

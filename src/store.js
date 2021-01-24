@@ -1,19 +1,19 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const getDefaultStore = () => {
     return {
-        token: window.localStorage.getItem('token'),
-        apiProvider: window.localStorage.getItem('apiProvider') ?? 'api-platform',
+        token: window.localStorage.getItem("token"),
+        apiProvider: window.localStorage.getItem("apiProvider") ?? "api-platform",
         id: window.localStorage.getItem("id"),
         email: window.localStorage.getItem("email"),
         firstname: window.localStorage.getItem("firstname"),
         lastname: window.localStorage.getItem("lastname"),
         roles: window.localStorage.getItem("roles"),
-    }
-}
+    };
+};
 
 export default new Vuex.Store({
     state: getDefaultStore(),
@@ -28,13 +28,13 @@ export default new Vuex.Store({
             if (null === token) {
                 window.localStorage.removeItem("token");
             } else {
-                window.localStorage.setItem('token', token);
+                window.localStorage.setItem("token", token);
             }
 
             state.token = token;
         },
         setApiProvider(state, apiProvider) {
-            window.localStorage.setItem('apiProvider', apiProvider);
+            window.localStorage.setItem("apiProvider", apiProvider);
             state.apiProvider = apiProvider;
         },
         setId(state, id) {
@@ -85,10 +85,13 @@ export default new Vuex.Store({
             return !!state?.token;
         },
         isEmployee(state) {
-            return state?.roles?.includes('ROLE_EMPLOYEE');
+            return state?.roles?.includes("ROLE_EMPLOYEE");
         },
         isEmployer(state) {
-            return state?.roles?.includes('ROLE_EMPLOYER');
+            return state?.roles?.includes("ROLE_EMPLOYER");
+        },
+        isAdmin(state) {
+            return state?.roles?.includes("ROLE_ADMIN");
         },
         getToken(state) {
             return state.token;
@@ -97,19 +100,19 @@ export default new Vuex.Store({
             return state.apiProvider;
         },
         getId(state){
-            return state.id
+            return state.id;
         },
         getEmail(state) {
             return state.email;
         },
         getFirstname(state) {
-            return state.firstname ?? '';
+            return state.firstname ?? "";
         },
         getLastname(state) {
-            return state.lastname ?? '';
+            return state.lastname ?? "";
         },
         getRoles(state) {
-            return state.roles ?? '';
+            return state.roles ?? "";
         },
     }
-})
+});
