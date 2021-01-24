@@ -1,7 +1,7 @@
 import { apolloClient } from "./apolloClient";
 import store from "../../store";
 import gql from "graphql-tag";
-import {handleError} from "../../helpers/prisma/error";
+import { handleError } from "../../helpers/prisma/error";
 
 export default {
     getUserApplications() {
@@ -36,7 +36,16 @@ export default {
                     query($userId: ID!) {
                         applications(where: { applicant: { id: $userId}}) {
                             id,
-                            title
+                            comment,
+                            status,
+                            offer {
+                                id,
+                                title
+                            },
+                            applicant {
+                                firstname,
+                                lastname
+                            }
                         }
                     }
                 `,
@@ -49,7 +58,7 @@ export default {
 
         return apolloClient.query(query)
         .then(response => response.data.applications)
-        .catch(console.error);
+        .catch(handleError);
     },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({
@@ -77,7 +86,7 @@ export default {
             }
         })
             .then(response => response.data.createApplication)
-            .catch(console.error);
+            .catch(handleError);
     },
     getApplication(id) {
         return apolloClient.query({
@@ -99,7 +108,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.application)
-            .catch(console.error);
+            .catch(handleError);
     },
     editApplication(id, newApplication) {
         return apolloClient.mutate({
@@ -121,7 +130,7 @@ export default {
             }
         })
             .then(response => response.data.updateApplication)
-            .catch(console.error);
+            .catch(handleError);
     },
     deleteApplication(id) {
         return apolloClient.mutate({
@@ -135,6 +144,6 @@ export default {
             variables: { id }
         })
             .then(response => response.data.deleteApplication)
-            .catch(console.error);
+            .catch(handleError);
     }
 };

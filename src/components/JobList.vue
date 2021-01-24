@@ -95,8 +95,10 @@ export default {
 		},
 		openApplicationModal(offer) {
 			const applicants = offer.applications.map(application => application.applicant.id);
+			const idStore = store.getters.getId
+			const id = store.getters.getApiProvider === 'api-platform' ? parseInt(idStore) : idStore;
 
-			if (!applicants.includes(parseInt(store.getters.getId))) {
+			if (!applicants.includes(id)) {
 				this.selectedOffer = offer;
 				this.applicationModalOpened = true;
 			} else {

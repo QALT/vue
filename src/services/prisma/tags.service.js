@@ -16,7 +16,7 @@ export default {
             fetchPolicy: "no-cache"
         })
         .then(response => response.data.tags)
-        .catch(console.error);
+        .catch(handleError);
     },
     getTag(id) {
         return apolloClient.query({
@@ -34,7 +34,7 @@ export default {
             fetchPolicy: 'no-cache'
         })
         .then(response => response.data.tags[0])
-        .catch(console.error);
+        .catch(handleError);
     },
     addTag(label) {
         return apolloClient.mutate({
@@ -52,7 +52,7 @@ export default {
             }
         })
         .then(response => response.data.createTag)
-        .catch(console.error)
+        .catch(handleError)
     },
     editTag(id, updatedTag) {
         return apolloClient.mutate({
@@ -74,7 +74,7 @@ export default {
             }
         })
         .then(response => response.data.updateTag)
-        .catch(console.error)
+        .catch(handleError)
     },
     deleteTag(id) {
         return apolloClient.mutate({
@@ -88,6 +88,6 @@ export default {
             variables: { id }
         })
         .then(response => response.data.deleteTag)
-        .catch(console.error)
+        .catch(handleError)
     }
 };

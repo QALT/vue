@@ -17,7 +17,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.degrees.map(degree => ({...degree, updatedAt: degree.updated_at})))
-            .catch(console.error);
+            .catch(handleError);
     },
     addDegree(label) {
         return apolloClient.mutate({
