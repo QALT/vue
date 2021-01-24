@@ -84,7 +84,7 @@ router.beforeEach((to, from, next) => {
     }
 
     if (store.state.roles) {
-        const employeeRoutes = ['/studies', '/experiences', '/degrees'];
+        const employeeRoutes = ['/studies', '/experiences'];
         if (store.getters.isEmployer && employeeRoutes.includes(to.path)) {
             return next('/');
         }
