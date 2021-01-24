@@ -56,11 +56,11 @@ export default {
             this.applications = await applicationsGateway.getUserApplications();
         },
         closeModal() {
-            this.openModal = false
+            this.openModal = false;
         },
-        getOfferTitle(application) { 
-			return application.offer.title;
-		}
+        getOfferTitle(application){
+            return application.offer.title;
+        }
     }
 }
 </script>

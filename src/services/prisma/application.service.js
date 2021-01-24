@@ -11,8 +11,9 @@ export default {
                         id,
                         comment,
                         status,
-                        offer {
-                            id
+                        offer{
+                            id,
+                            title
                         }
                     }
                 }
@@ -23,10 +24,6 @@ export default {
             fetchPolicy: 'no-cache'
         })
         .then(response => response.data.applications)
-        .then(applications => applications.map(application => ({
-            ...application,
-            offer: application.offer.id
-        })))
         .catch(console.error);
     },
     addApplication(offerId, customMessage) {
@@ -63,7 +60,11 @@ export default {
                 query($id: ID!) {
                     application(where:{id: $id}) {
                         id,
-                        comment
+                        comment,
+                        offer {
+                            id,
+                            title
+                        }
                     }
                 }
             `,

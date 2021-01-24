@@ -1,39 +1,31 @@
 <template>
    <div class="row justify-content-center">
         <div class="col-4">
-            <h1>Déposer une offre d'emploi</h1>   
-            <b-form @submit="onSubmit">
-                <b-form-group
+            <h1>Déposer une offre d'emploi</h1>
+            <app-form :values="offer" :handleSubmit="onSubmit">
+                <app-form-input
                     label="Titre de l'offre"
-                    label-for="title"
-                >
-                    <b-form-input
-                        id="title"
-                        v-model="offer.title"
-                    />
-                </b-form-group>
-                <b-form-group
+                    name=title
+                    required
+                />
+                <app-form-input
                     label="Description de l'offre"
-                    label-for="description"
-                >
-                    <b-form-input
-                        id="description"
-                        v-model="offer.description"
-                    />
-                </b-form-group>
-                 <b-form-group
+                    name=description
+                />
+                <app-form-select
                     label="Tags de l'offre"
-                    label-for="tags"
-                >
-                    <b-form-select v-model="selected" :options="options" multiple :select-size="4">
-
-                    </b-form-select>
-                 </b-form-group>
-                <div class="row justify-content-center">
+                    name=tags
+                    :options="options"
+                    multiple
+                    required
+                />
+                <div class="text-center">
                     <b-button variant="outline-primary" to="/" class="mr-2 center">Retour</b-button>
-                    <b-button type="submit" variant="primary" class="mr-2">Ajouter</b-button>
+                    <app-form-button variant="primary">
+                        Ajouter
+                    </app-form-button>
                 </div>
-            </b-form>
+            </app-form>
         </div>
     </div>
 </template>
@@ -46,19 +38,17 @@ export default {
     name: 'AddOfferPage',
     data() {
         return {
-            selected:[],
-            tags:[],
             options:[],
             offer: {
                 title: '',
-                description: ''   
+                description: '',
+                tags:[],
             }
         }
     },
     methods: {
-        onSubmit(e) {
-            e.preventDefault();
-            offersGateway.addOffer(this.offer.title,this.offer.description,this.selected);
+        onSubmit() {
+            offersGateway.addOffer(this.offer.title, this.offer.description, this.offer.tags);
         },
     },
     async created() {

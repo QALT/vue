@@ -2,58 +2,39 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <h4 class="text-center">Ajout d'une expérience</h4>
-            <b-form @submit="onSubmit">
-                 <b-form-group
+            <app-form :values="experience" :validations="validations" :handleSubmit="onSubmit">
+                <app-form-input
                     label="Intitulé du poste"
-                    label-for="label"
-                >
-                    <b-form-input
-                        id="label"
-                        v-model="experience.label"
-                    />
-                </b-form-group>
-                <b-form-group
-                    label="Description"
-                    label-for="description"
-                >
-                    <b-form-input
-                        id="description"
-                        v-model="experience.description"
-                    />
-                </b-form-group>
-                <b-form-group
+                    name="label"
+                    type="text"
+                    required
+                />
+                <app-form-input
+                    label="Description du poste"
+                    name="description"
+                    type="text"
+                    required
+                />
+                <app-form-datepicker
                     label="Date de début"
-                    label-for="startDate"
-                >
-                    <b-form-datepicker
-                        id="startDate"
-                        v-model="experience.startDate"
-                        placeholder=""
-                        :max="max"
-                        :start-weekday="1"
-                        :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                    >
-                    </b-form-datepicker>
-                </b-form-group>
-                <b-form-group
+                    name="startDate"
+                    v-model="experience.startDate"
+                    :max="max"
+                    :start-weekday="1"
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                />
+                <app-form-datepicker
                     label="Date de fin"
-                    label-for="endDate"
-                >
-                    <b-form-datepicker
-                        id="endDate"
-                        v-model="experience.endDate"
-                        placeholder=""
-                        :max="max"
-                        :start-weekday="1"
-                        :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                    >
-                    </b-form-datepicker>
-                </b-form-group>
+                    name="endDate"
+                    :max="max"
+                    :start-weekday="1"
+                    :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                />
                 <div class="row justify-content-center">
                     <b-button variant="outline-primary" to="/experiences" class="mr-2 center">Retour</b-button>
                     <b-button type="submit" variant="primary" class="mr-2">Ajouter</b-button>
                 </div>
-            </b-form>
+            </app-form>
         </div>
     </div>
 </template>
@@ -70,12 +51,12 @@ export default {
                 startDate: '',
                 endDate: ''
             },
-            max: new Date()
+            max: new Date(),
+            validations: {}
         }
     },
     methods: {
-        onSubmit(e) {
-            e.preventDefault();
+        onSubmit() {
             experiencesGateway.addExperience(this.experience);
         }
     }

@@ -7,16 +7,23 @@ const getDefaultStore = () => {
     return {
         token: window.localStorage.getItem('token'),
         apiProvider: window.localStorage.getItem('apiProvider') ?? 'api-platform',
+        id: window.localStorage.getItem("id"),
+        email: window.localStorage.getItem("email"),
         firstname: window.localStorage.getItem("firstname"),
         lastname: window.localStorage.getItem("lastname"),
-        email: window.localStorage.getItem("email"),
-        id: window.localStorage.getItem("id")
+        roles: window.localStorage.getItem("roles"),
     }
 }
 
 export default new Vuex.Store({
     state: getDefaultStore(),
     mutations: {
+        disconnectUser(state) {
+            state.token = null;
+            const oldApiProvider = state.apiProvider;
+            window.localStorage.clear();
+            window.localStorage.setItem("apiProvider", oldApiProvider);
+        },
         setToken(state, token) {
             if (null === token) {
                 window.localStorage.removeItem("token");
@@ -30,22 +37,13 @@ export default new Vuex.Store({
             window.localStorage.setItem('apiProvider', apiProvider);
             state.apiProvider = apiProvider;
         },
-        setLastname(state, lastname) {
-            if (null === lastname) {
-                window.localStorage.removeItem("lastname");
+        setId(state, id) {
+            if (null === id) {
+                window.localStorage.removeItem("id");
             } else {
-                window.localStorage.setItem("lastname", lastname);
+                window.localStorage.setItem("id", id);
             }
-
-            state.lastname = lastname;
-        },
-        setFirstname(state, firstname) {
-            if (null === firstname) {
-                window.localStorage.removeItem("firstname");
-            } else {
-                window.localStorage.setItem("firstname", firstname);
-            }
-            state.firstname = firstname;
+            state.id = id;
         },
         setEmail(state, email) {
             if (null === email) {
@@ -55,23 +53,42 @@ export default new Vuex.Store({
             }
             state.email = email;
         },
-        setId(state, id) {
-            if (null === id) {
-                window.localStorage.removeItem("id");
+        setFirstname(state, firstname) {
+            if (null === firstname) {
+                window.localStorage.removeItem("firstname");
             } else {
-                window.localStorage.setItem("id", id);
+                window.localStorage.setItem("firstname", firstname);
             }
-            state.id = id;
+            state.firstname = firstname;
         },
-        disconnectUser(state) {
-            state.token = null;
-            window.localStorage.clear();
-            Object.assign(state,getDefaultStore());
-        }
+        setLastname(state, lastname) {
+            if (null === lastname) {
+                window.localStorage.removeItem("lastname");
+            } else {
+                window.localStorage.setItem("lastname", lastname);
+            }
+
+            state.lastname = lastname;
+        },
+        setRoles(state, roles) {
+            if (null === roles) {
+                window.localStorage.removeItem("roles");
+            } else {
+                window.localStorage.setItem("roles", roles);
+            }
+
+            state.roles = roles;
+        },
     },
     getters: {
         isLogged(state) {
             return !!state?.token;
+        },
+        isEmployee(state) {
+            return state?.roles?.includes('ROLE_EMPLOYEE');
+        },
+        isEmployer(state) {
+            return state?.roles?.includes('ROLE_EMPLOYER');
         },
         getToken(state) {
             return state.token;
@@ -90,6 +107,9 @@ export default new Vuex.Store({
         },
         getLastname(state) {
             return state.lastname ?? '';
+        },
+        getRoles(state) {
+            return state.roles ?? '';
         },
     }
 })

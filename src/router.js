@@ -1,10 +1,10 @@
 import VueRouter from "vue-router"
 import store from "./store";
-import Login from "./pages/Login.vue"
+import Login from "./pages/auth/Login.vue"
+import Register from "./pages/auth/Register.vue";
 import Home from "./pages/Home.vue"
 import Profile from "./pages/users/Profile.vue"
 import NotFound from "./pages/NotFound.vue"
-import Register from "./pages/Register.vue";
 import AddOfferPage from "./pages/offers/AddOffer.vue";
 import EditOfferPage from "./pages/offers/EditOffer.vue";
 import EmptyRouterView from './pages/EmptyRouterView.vue';
@@ -24,6 +24,7 @@ const router = new VueRouter({
     mode: "history",
     routes: [
         { path: "/login", component: Login },
+        { path: "/register", component: Register },
         { path: "/", component: Home },
         { path: "/profil", component: Profile },
         { 
@@ -63,7 +64,6 @@ const router = new VueRouter({
                 { path: ':id/edit/', component: EditDegree, props: true }
             ]   
         },
-        { path: "/register", component: Register },
         { path: "*", component: NotFound }
     ]
 });
@@ -81,6 +81,13 @@ router.beforeEach((to, from, next) => {
 
     if (store.state.token && to.path === "/login" || to.path === "/register") {
         return next("/");
+    }
+
+    if (store.state.roles) {
+        const employeeRoutes = ['/studies', '/experiences', '/degrees'];
+        if (!store.state.roles.includes('ROLE_EMPLOYEE') && employeeRoutes.includes(to.path)) {
+            return next('/');
+        }
     }
 
     next();
