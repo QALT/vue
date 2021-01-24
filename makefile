@@ -5,14 +5,20 @@
 
 .PHONY: install start lint fix
 
+DOCKER_COMPOSE_RUN_OPTIONS=--rm
+
+ifeq (${CI},true)
+	DOCKER_COMPOSE_RUN_OPTIONS=--rm --user root -T
+endif
+
 install:
-	docker-compose run --rm yarn install
+	docker-compose run $(DOCKER_COMPOSE_RUN_OPTIONS) yarn install
 
 start:
-	docker-compose run --rm --service-ports yarn serve
+	docker-compose run $(DOCKER_COMPOSE_RUN_OPTIONS) --service-ports yarn serve
 
 lint:
-	docker-compose run --rm yarn lint
+	docker-compose run $(DOCKER_COMPOSE_RUN_OPTIONS) yarn lint
 
 fix:
-	docker-compose run --rm yarn fix
+	docker-compose run $(DOCKER_COMPOSE_RUN_OPTIONS) yarn fix
