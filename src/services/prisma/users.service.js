@@ -1,5 +1,6 @@
 import { apolloClient } from "./apolloClient";
 import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getUser(id) {
@@ -45,7 +46,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.user)
-            .catch(console.error);
+            .catch(handleError);
     },
     editUser(id, user) {
         return apolloClient.mutate({
@@ -74,6 +75,6 @@ export default {
             }
         })
             .then(response => response.data.updateUser)
-            .catch(console.error);
+            .catch(handleError);
     },
 };

@@ -1,3 +1,4 @@
+import {handleError} from "../../helpers/prisma/error";
 import { apolloClient } from "./apolloClient";
 import store from "../../store";
 import gql from "graphql-tag";
@@ -19,7 +20,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.experiences)
-            .catch(console.error);
+            .catch(handleError);
     },
     addExperience(label, description, startDate, endDate) {
         return apolloClient.mutate({
@@ -57,7 +58,7 @@ export default {
             }
         })
             .then(response => response.data.createExperience)
-            .catch(console.error);
+            .catch(handleError);
     },
     getExperience(id) {
         return apolloClient.query({
@@ -78,7 +79,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.experiences[0])
-            .catch(console.error);
+            .catch(handleError);
     },
     editExperience(id, newExperience) {
         return apolloClient.mutate({
@@ -108,7 +109,7 @@ export default {
             }
         })
             .then(response => response.data.updateExperience)
-            .catch(console.error);
+            .catch(handleError);
     },
     deleteExperience(id) {
         return apolloClient.mutate({
@@ -122,6 +123,6 @@ export default {
             variables: { id }
         })
             .then(response => response.data.deleteExperience)
-            .catch(console.error);
+            .catch(handleError);
     }
 };

@@ -1,5 +1,6 @@
 import { apolloClient } from "./apolloClient";
 import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getTags() {
@@ -15,6 +16,6 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.tags)
-            .catch(console.error);
+            .catch(handleError);
     }
 };

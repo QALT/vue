@@ -1,5 +1,6 @@
 import { apolloClient } from "./apolloClient";
 import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getDegrees() {
@@ -34,7 +35,7 @@ export default {
             }
         })
             .then(response => response.data.createDegree)
-            .catch(console.error);
+            .catch(handleError);
     },
     getDegree(id) {
         return apolloClient.query({
@@ -52,7 +53,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.degrees[0])
-            .catch(console.error);
+            .catch(handleError);
     },
     editDegree(id, updatedDegree) {
         return apolloClient.mutate({
@@ -74,7 +75,7 @@ export default {
             }
         })
             .then(response => response.data.updateDegree)
-            .catch(console.error);
+            .catch(handleError);
     },
     deleteDegree(id) {
         return apolloClient.mutate({
@@ -88,6 +89,6 @@ export default {
             variables: { id }
         })
             .then(response => response.data.deleteDegree)
-            .catch(console.error);
+            .catch(handleError);
     }
 };

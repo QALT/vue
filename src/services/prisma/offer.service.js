@@ -1,6 +1,7 @@
 import { apolloClient } from "./apolloClient";
 import store from "../../store";
 import gql from "graphql-tag";
+import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getOffers() {
@@ -42,7 +43,7 @@ export default {
 
         return apolloClient.query(query)
             .then(response => response.data.offers)
-            .catch(console.error);
+            .catch(handleError);
     },
     addOffer(title, description,selectedTags) {
         selectedTags = selectedTags.map( tag => ({id:tag}));
@@ -84,7 +85,7 @@ export default {
             }
         })
             .then(response => response.data.createOffer)
-            .catch(console.error);
+            .catch(handleError);
     },
     getOffer(id) {
         return apolloClient.query({
@@ -103,7 +104,7 @@ export default {
             fetchPolicy: "no-cache"
         })
             .then(response => response.data.offers[0])
-            .catch(console.error);
+            .catch(handleError);
     },
     editOffer(id, newOffer) {
         return apolloClient.mutate({
@@ -129,7 +130,7 @@ export default {
             }
         })
             .then(response => response.data.updateOffer)
-            .catch(console.error);
+            .catch(handleError);
     },
     deleteOffer(id) {
         return apolloClient.mutate({
@@ -143,6 +144,6 @@ export default {
             variables: { id }
         })
             .then(response => response.data.deleteOffer)
-            .catch(console.error);
+            .catch(handleError);
     }
 };
