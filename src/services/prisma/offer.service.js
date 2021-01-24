@@ -12,7 +12,12 @@ export default {
                         id,
                         title,
                         description,
-                        tags{
+                        applications {
+                            applicant {
+                                id
+                            }
+                        },
+                        tags {
                             label
                         }
                     }

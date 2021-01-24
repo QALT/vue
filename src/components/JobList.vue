@@ -29,8 +29,8 @@
 		<b-table :filter="filter" striped hover :items="jobs" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" variant="primary" class="mr-2" @click="openApplicationModal(data.item)" v-if="isEmployee">Postuler</b-button>
-				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2" v-if="isEmployer">Modifier</b-button>
-				<b-button size="sm" variant="danger" @click="triggerOfferDelete(data.item)" v-if="isEmployer">Supprimer</b-button>
+				<b-button size="sm" :to="`/offers/${data.item.id}/edit`" variant="warning" class="mr-2" v-if="isEmployer || isAdmin">Modifier</b-button>
+				<b-button size="sm" variant="danger" @click="triggerOfferDelete(data.item)" v-if="isEmployer || isAdmin">Supprimer</b-button>
 			</template>
 		</b-table>
 		<p class="mb-4 text-center" v-if="jobs.length === 0">Aucunes offre trouvée</p>
@@ -48,8 +48,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import OffersGateway from '../services/gateway/offers.gateway'
+import { mapGetters } from 'vuex';
+import store from '../store';
+import { toastNotification } from '../helpers/Toastify';
+import OffersGateway from '../services/gateway/offers.gateway';
 import ApplicationModalVue from './applications/ApplicationModal.vue';
 import deleteModal from './deleteModal';
 
@@ -75,7 +77,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters(['isEmployer', 'isEmployee']),
+		...mapGetters(['isEmployer', 'isEmployee', 'isAdmin']),
 	},
 	methods: {
 		triggerOfferDelete(offer) {
@@ -92,8 +94,14 @@ export default {
 			this.jobs = await OffersGateway.getOffers();
 		},
 		openApplicationModal(offer) {
-			this.selectedOffer = offer;
-			this.applicationModalOpened = true;
+			const applicants = offer.applications.map(application => application.applicant.id);
+
+			if (!applicants.includes(parseInt(store.getters.getId))) {
+				this.selectedOffer = offer;
+				this.applicationModalOpened = true;
+			} else {
+				toastNotification('error', 'Vous avez déjà postulé à cette offre')
+			}
 		},
 		closeApplicationModal() {
 			this.selectedOffer = {id: '', title: ''};
@@ -101,7 +109,7 @@ export default {
 		},
 		getJobsLabels(job) { 
 			return job.tags.map(tag => tag.label).join(", ");
-		}
+		},
 	},
 	async created() {
 		const jobs = await OffersGateway.getOffers()
@@ -111,7 +119,3 @@ export default {
 	}
 }
 </script>
-
-<style>
-
-</style>

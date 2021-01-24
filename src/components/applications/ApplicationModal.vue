@@ -38,7 +38,6 @@ export default {
     },
     methods: {
         handleSubmit() {
-            console.log('ici')
             applicationsGateway.addApplication(this.offer.id, this.form.customMessage);
         },
         closeModal() {
