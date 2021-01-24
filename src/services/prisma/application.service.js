@@ -39,13 +39,15 @@ export default {
                             title
                         }
                     }
-                }
-            `,
-            variables: {
-                userId: store.getters.getId
-            },
-            fetchPolicy: 'no-cache'
-        })
+                `,
+                variables: {
+                    userId: store.getters.getId
+                },
+                fetchPolicy: 'no-cache'
+            }
+        }
+
+        return apolloClient.query(query)
         .then(response => response.data.applications)
         .catch(console.error);
     },

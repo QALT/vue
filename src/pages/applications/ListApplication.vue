@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import store from '../../store';
 import applicationsGateway from '../../services/gateway/applications.gateway';
 import deleteModal from '../../components/deleteModal';
 
@@ -26,6 +27,22 @@ export default {
         deleteModal
     },
     data() {
+        let additionalFields = [];
+        const commonFields = [
+            { key: 'comment', label: 'Message personnalisé' }, 
+            { key: 'offer', label: 'Offre' },
+            { key: 'status', label: 'Statut'},
+            'actions'
+        ];
+
+        if (store.getters.isEmployer) {
+            additionalFields = [
+                {key: 'applicant', label: 'Candidat'},
+            ];
+        }
+
+        const fields = [...additionalFields, ...commonFields];
+
         return {
             applications: [],
             fields,
@@ -55,8 +72,11 @@ export default {
         closeModal() {
             this.openModal = false;
         },
-        getOfferTitle(application){
+        getOfferTitle(application) {
             return application.offer.title;
+        },
+        getApplicant(applicant) {
+            return `${applicant.lastname} ${applicant.firstname}`
         }
     }
 }

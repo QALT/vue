@@ -40,7 +40,7 @@ import { mapGetters } from 'vuex'
 export default {
     name: "Sidebar",
     computed: {
-		...mapGetters(['isEmployee']),
+		...mapGetters(['isEmployee', 'isAdmin']),
 	},
 }
 </script>
