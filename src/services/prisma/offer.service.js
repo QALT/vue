@@ -1,26 +1,48 @@
 import { apolloClient } from "./apolloClient";
-import store from '../../store';
-import gql from 'graphql-tag';
+import store from "../../store";
+import gql from "graphql-tag";
 
 export default {
     getOffers() {
-        return apolloClient.query({
-            query: gql`
-                query {
-                    offers {
-                        id,
-                        title,
-                        description,
-                        tags{
-                            label
+        let query = null;
+        if (store.getters.isEmployer) {
+            query = {
+                query: gql`
+                    query($employerId: ID!) {
+                        offers(where: { employer: { id: $employerId}}) {
+                            id,
+                            title,
+                            description,
+                            tags{
+                                label
+                            }
                         }
                     }
+                `,
+                variables: {
+                    employerId: store.getters.getId
                 }
-            `,
-            fetchPolicy: 'no-cache'
-        })
-        .then(response => response.data.offers)
-        .catch(console.error);
+            };
+        } else {
+            query = {
+                query: gql`
+                    query {
+                        offers {
+                            id,
+                            title,
+                            description,
+                            tags{
+                                label
+                            }
+                        }
+                    }
+                `
+            };
+        }
+
+        return apolloClient.query(query)
+            .then(response => response.data.offers)
+            .catch(console.error);
     },
     addOffer(title, description,selectedTags) {
         selectedTags = selectedTags.map( tag => ({id:tag}));
@@ -61,8 +83,8 @@ export default {
                 
             }
         })
-        .then(response => response.data.createOffer)
-        .catch(console.error)
+            .then(response => response.data.createOffer)
+            .catch(console.error);
     },
     getOffer(id) {
         return apolloClient.query({
@@ -78,10 +100,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.offers[0])
-        .catch(console.error);
+            .then(response => response.data.offers[0])
+            .catch(console.error);
     },
     editOffer(id, newOffer) {
         return apolloClient.mutate({
@@ -106,8 +128,8 @@ export default {
                 }
             }
         })
-        .then(response => response.data.updateOffer)
-        .catch(console.error)
+            .then(response => response.data.updateOffer)
+            .catch(console.error);
     },
     deleteOffer(id) {
         return apolloClient.mutate({
@@ -120,7 +142,7 @@ export default {
             `,
             variables: { id }
         })
-        .then(response => response.data.deleteOffer)
-        .catch(console.error)
+            .then(response => response.data.deleteOffer)
+            .catch(console.error);
     }
-}
+};

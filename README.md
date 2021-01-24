@@ -1,5 +1,7 @@
 # vue
 
+![Code Style](https://github.com/QALT/vue/workflows/Code%20Style/badge.svg)
+
 ## Requirements
 
 - [Git](https://git-scm.com/)
@@ -33,3 +35,15 @@ $ make start
 ```
 
 > *Open [`127.0.0.1:8000`](http://127.0.0.1:8000) in your favorite browser, hit the `import` tab and select the `app` folder.*
+
+## Lint
+
+```console
+$ make lint
+```
+
+## Fix
+
+```console
+$ make fix
+```

@@ -1,5 +1,5 @@
 import { apolloClient } from "./apolloClient";
-import gql from 'graphql-tag';
+import gql from "graphql-tag";
 
 export default {
     getUser(id) {
@@ -42,10 +42,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.user)
-        .catch(console.error);
+            .then(response => response.data.user)
+            .catch(console.error);
     },
     editUser(id, user) {
         return apolloClient.mutate({
@@ -73,7 +73,7 @@ export default {
                 }
             }
         })
-        .then(response => response.data.updateUser)
-        .catch(console.error)
+            .then(response => response.data.updateUser)
+            .catch(console.error);
     },
-}
+};

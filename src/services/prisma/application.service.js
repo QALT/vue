@@ -1,30 +1,59 @@
 import { apolloClient } from "./apolloClient";
-import store from '../../store';
-import gql from 'graphql-tag';
+import store from "../../store";
+import gql from "graphql-tag";
 
 export default {
     getUserApplications() {
-        return apolloClient.query({
-            query: gql`
-                query($userId: ID!) {
-                    applications(where: { applicant: { id: $userId}}) {
-                        id,
-                        comment,
-                        status,
-                        offer{
+        let query = null;
+        if (store.getters.isEmployer) {
+            query = {
+                query: gql`
+                    query($employerId: ID!) {
+                        applications(where: { offer: { employer: { id: $employerId } }}) {
                             id,
-                            title
+                            comment,
+                            status,
+                            offer {
+                                id,
+                                title
+                            },
+                            applicant {
+                                firstname,
+                                lastname
+                            }
                         }
                     }
-                }
-            `,
-            variables: {
-                userId: store.getters.getId
-            },
-            fetchPolicy: 'no-cache'
-        })
-        .then(response => response.data.applications)
-        .catch(console.error);
+                `,
+                variables: {
+                    employerId: store.getters.getId
+                },
+                fetchPolicy: "no-cache"
+            };
+        } else {
+            query = {
+                query: gql`
+                    query($userId: ID!) {
+                        applications(where: { applicant: { id: $userId}}) {
+                            id,
+                            comment,
+                            status,
+                            offer{
+                                id,
+                                title
+                            }
+                        }
+                    }
+                `,
+                variables: {
+                    userId: store.getters.getId
+                },
+                fetchPolicy: "no-cache"
+            };
+        }
+
+        return apolloClient.query(query)
+            .then(response => response.data.applications)
+            .catch(console.error);
     },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({
@@ -51,8 +80,8 @@ export default {
                 email: store.getters.getEmail
             }
         })
-        .then(response => response.data.createApplication)
-        .catch(console.error)
+            .then(response => response.data.createApplication)
+            .catch(console.error);
     },
     getApplication(id) {
         return apolloClient.query({
@@ -71,10 +100,10 @@ export default {
             variables: {
                 id
             },
-            fetchPolicy: 'no-cache'
+            fetchPolicy: "no-cache"
         })
-        .then(response => response.data.application)
-        .catch(console.error);
+            .then(response => response.data.application)
+            .catch(console.error);
     },
     editApplication(id, newApplication) {
         return apolloClient.mutate({
@@ -95,8 +124,8 @@ export default {
                 newComment: newApplication.comment
             }
         })
-        .then(response => response.data.updateApplication)
-        .catch(console.error)
+            .then(response => response.data.updateApplication)
+            .catch(console.error);
     },
     deleteApplication(id) {
         return apolloClient.mutate({
@@ -109,7 +138,7 @@ export default {
             `,
             variables: { id }
         })
-        .then(response => response.data.deleteApplication)
-        .catch(console.error)
+            .then(response => response.data.deleteApplication)
+            .catch(console.error);
     }
-}
+};
