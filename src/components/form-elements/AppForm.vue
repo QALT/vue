@@ -20,7 +20,7 @@ export default {
         },
         validations: {
             type: Object,
-            required: true
+            default: () => ({})
         }
     },
     methods: {

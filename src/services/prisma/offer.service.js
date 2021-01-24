@@ -4,47 +4,25 @@ import gql from 'graphql-tag';
 
 export default {
     getOffers() {
-        let query = null;
-        if (store.getters.isEmployer) {
-            query = {
-                query: gql`
-                    query($employerId: ID!) {
-                        offers(where: { employer: { id: $employerId}}) {
-                            id,
-                            title,
-                            description,
-                            tags{
-                                label
-                            }
+        return apolloClient.query({
+            query: gql`
+                query {
+                    offers {
+                        id,
+                        title,
+                        description,
+                        tags{
+                            label
                         }
                     }
-                `,
-                variables: {
-                    employerId: store.getters.getId
                 }
-            }
-        } else {
-            query = {
-                query: gql`
-                    query {
-                        offers {
-                            id,
-                            title,
-                            description,
-                            tags{
-                                label
-                            }
-                        }
-                    }
-                `
-            }
-        }
-
-        return apolloClient.query(query)
+            `,
+            fetchPolicy: 'no-cache'
+        })
         .then(response => response.data.offers)
         .catch(console.error);
     },
-    addOffer(title, description,selectedTags) {
+    addOffer(title, description, selectedTags) {
         selectedTags = selectedTags.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
@@ -59,7 +37,7 @@ export default {
                         },
                         tags: {
                             connect: $selectedTags
-                        } 
+                        }
                     }) {
                         id,
                         title,
@@ -93,7 +71,11 @@ export default {
                     offers(where:{id: $id}) {
                         id,
                         title,
-                        description
+                        description,
+                        tags {
+                            id,
+                            label
+                        }
                     }
                 }
             `,
@@ -106,17 +88,23 @@ export default {
         .catch(console.error);
     },
     editOffer(id, newOffer) {
+        const selectedTags = newOffer.tags.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
                 mutation($id: ID!, $updatedOffer: OfferUpdateInput!) {
                     updateOffer(
                         where: {
-                          id: $id
+                            id: $id
                         }
                         data: $updatedOffer
                     ) {
                         id,
-                        description
+                        title,
+                        description,
+                        tags {
+                            id,
+                            label
+                        }
                     }
                 }
             `,
@@ -124,7 +112,10 @@ export default {
                 id,
                 updatedOffer: {
                     title: newOffer.title,
-                    description: newOffer.description
+                    description: newOffer.description,
+                    tags: {
+                        connect: selectedTags
+                    }
                 }
             }
         })

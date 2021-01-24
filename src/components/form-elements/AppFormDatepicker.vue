@@ -1,5 +1,6 @@
 <template>
-    <b-form-group :label="label">
+    <b-form-group>
+        <slot name="label">{{label}} <span class="text-danger">{{typeof $attrs.required === 'string' ? '*' : ''}}</span></slot>
         <b-form-datepicker
             v-bind="$attrs"
             v-on="$listeners"

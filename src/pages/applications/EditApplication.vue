@@ -2,27 +2,25 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <h4 class="text-center">Modification de la candidature</h4>
-            <b-form v-on:submit.prevent="onSubmit" v-if="!isLoading">
-                <b-form-group
+            <app-form :values="form" :handleSubmit="handleSubmit">
+                <app-form-input
                     label="Message personnalisé"
-                    label-for="comment"
-                >
-                    <b-form-textarea
-                        id="comment"
-                        v-model="form.comment"
-                    />
-                </b-form-group>   
+                    name="comment"
+                />
                 <div class="row justify-content-center">
                     <b-button variant="outline-primary" to="/applications" class="mr-2 center">Retour</b-button>
-                    <b-button type="submit" variant="primary" class="mr-2 center">Modifier</b-button>
+                    <app-form-button>
+                        Modifier
+                    </app-form-button>
                 </div>
-            </b-form>
+            </app-form>
         </div>
     </div>  
 </template>
 
 <script>
 import applicationGateway from '../../services/gateway/applications.gateway';
+
 export default {
     props: ['id'],
     data() {
@@ -41,7 +39,7 @@ export default {
         })
     },
     methods: {
-        onSubmit() {
+        handleSubmit() {
             applicationGateway.editApplication(this.id, this.form);
         }
     }

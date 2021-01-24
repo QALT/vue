@@ -1,5 +1,6 @@
 <template>
-    <b-form-group v-bind:label="$attrs.label" :invalid-feedback="invalidFeedback" :state="state">
+    <b-form-group :invalid-feedback="invalidFeedback" :state="state">
+        <slot name="label">{{$attrs.label}} <span class="text-danger">{{typeof $attrs.required === 'string' ? '*' : ''}}</span></slot>
         <b-form-select
             v-on="$listeners"
             v-bind="$attrs"

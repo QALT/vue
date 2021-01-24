@@ -90,9 +90,6 @@ export default new Vuex.Store({
         isEmployer(state) {
             return state?.roles?.includes('ROLE_EMPLOYER');
         },
-        isAdmin(state) {
-            return state?.roles?.includes('ROLE_ADMIN');
-        },
         getToken(state) {
             return state.token;
         },
