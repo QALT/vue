@@ -39,5 +39,15 @@ export default {
         return providers[store.getters.getApiProvider].deleteApplication(id)
             .then(() => toastNotification("success", "Candidature supprimée"))
             .catch(() => toastNotification("error", "Une erreur est survenue lors de la suppression de la candidature")); 
+    },
+    validApplication(id) {
+        return providers[store.getters.getApiProvider].validApplication(id)
+            .then(() => toastNotification("success", "Candidature validée"))
+            .catch(() => toastNotification("error", "Une erreur est survenue lors de la validation de la candidature")); 
+    },
+    rejectApplication(id) {
+        return providers[store.getters.getApiProvider].rejectApplication(id)
+            .then(() => toastNotification("success", "Candidature rejetée"))
+            .catch(() => toastNotification("error", "Une erreur est survenue lors du refus de la candidature")); 
     }
 };
