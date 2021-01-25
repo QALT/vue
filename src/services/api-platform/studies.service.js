@@ -4,7 +4,14 @@ import {handleError} from "../../helpers/api-platform/error";
 
 export default {
     getStudies() {
-        return httpClient.get("/api/studies")
+        let queryParams = '';
+
+        if (store.getters.isEmployee) {
+            const userIri = `/api/users/${store.getters.getId}`;
+            queryParams = `?userAccount.id=${userIri}`;
+        }
+
+        return httpClient.get(`/api/studies${queryParams}`)
             .then(response => response.data)
             .then(data => data["hydra:member"])
             .catch(handleError);
