@@ -18,7 +18,7 @@ export default {
     addStudy(label, school, degree) {
         const userIri = `/api/users/${store.getters.getId}`;
         return httpClient
-            .post("/api/studies", {label, school, degree, useraccount: userIri})
+            .post("/api/studies", {label, school, degree, userAccount: userIri})
             .then(response => response.data)
             .then(data => data["hydra:member"])
             .catch(handleError);
