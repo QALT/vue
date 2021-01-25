@@ -105,7 +105,6 @@ export default {
     methods: {
         showCandidate(applicant) {
             const id = applicant.target.dataset.id.split('-')[0];
-            console.log(id)
             router.push(`/users/${id}`);
         },
         async refreshApplications() {
