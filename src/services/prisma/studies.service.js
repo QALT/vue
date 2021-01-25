@@ -5,22 +5,44 @@ import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getStudies() {
-        return apolloClient.query({
+        let query = {
             query: gql`
                 query {
                     studies{
-                      id,
-                      label,
-                      school,
-                      degree {
-                          label
-                      }
+                        id,
+                        label,
+                        school,
+                        degree {
+                            label
+                        }
                     }
                   }
             `,
             fetchPolicy: "no-cache"
-        })
-        
+        };
+
+        if (store.getters.isEmployee) {
+            query = {
+                query: gql`
+                    query ($userId: ID) {
+                        studies(where: { userAccount: { id: $userId } }) {
+                            id,
+                            label,
+                            school,
+                            degree {
+                                label
+                            }
+                        }
+                      }
+                `,
+                variables: {
+                    userId: store.getters.getId
+                },
+                fetchPolicy: "no-cache"
+            }
+        }
+
+        return apolloClient.query(query)
             .then(response => response.data.studies)
             .catch(handleError);
     },
@@ -47,8 +69,8 @@ export default {
                         userAccount {
                             id,
                             email
-                            }
                         }
+                    }
                 }
             `,
             variables: {

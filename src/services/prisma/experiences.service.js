@@ -5,7 +5,7 @@ import gql from "graphql-tag";
 
 export default {
     getExperiences() {
-        return apolloClient.query({
+        let query = {
             query: gql`
                 query {
                     experiences {
@@ -18,7 +18,29 @@ export default {
                 }
             `,
             fetchPolicy: "no-cache"
-        })
+        };
+
+        if (store.getters.isEmployee) {
+            query = {
+                query: gql`
+                    query ($userId: ID) {
+                        experiences(where: { userAccount: { id: $userId } }) {
+                            id,
+                            label,
+                            description,
+                            startDate,
+                            endDate
+                        }
+                    }
+                `,
+                variables: {
+                    userId: store.getters.getId
+                },
+                fetchPolicy: "no-cache"
+            }
+        }
+
+        return apolloClient.query(query)
             .then(response => response.data.experiences)
             .catch(handleError);
     },

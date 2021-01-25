@@ -4,8 +4,15 @@ import {handleError} from "../../helpers/api-platform/error";
 
 export default {
     getExperiences() {
+        let queryParams = '';
+
+        if (store.getters.isEmployee) {
+            const userIri = `/api/users/${store.getters.getId}`;
+            queryParams = `?userAccount.id=${userIri}`;
+        }
+
         return httpClient
-            .get("/api/experiences")
+            .get(`/api/experiences${queryParams}`)
             .then(response => response.data)
             .then(data => data["hydra:member"])
             .catch(handleError);
