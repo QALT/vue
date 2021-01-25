@@ -3,21 +3,23 @@
         <h3>Mes candidatures</h3>
         <b-table striped hover :items="applications" :fields="fields" class="mt-2 text-center">
             <template #cell(actions)="data">
-                <b-button size="sm" :to="`/applications/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
-                <b-button size="sm" variant="danger" @click="triggerApplicationDelete(data.item)">Supprimer</b-button>
+                <b-button size="sm" :to="`/applications/${data.item.id}/edit`" variant="warning" class="mr-2" v-if="isEmployee || isAdmin">Modifier</b-button>
+                <b-button size="sm" variant="danger" @click="triggerApplicationDelete(data.item)" v-if="isEmployee || isAdmin">Supprimer</b-button>
+                <b-button size="sm" variant="danger" @click="triggerApplicationDelete(data.item)" v-if="isEmployer">Refuser</b-button>
             </template>
         </b-table>
         <delete-modal
-            :modalOpened="openModal"
+            :modalOpened="openDeleteModal"
             :title="'Suppression d\'une candidature'"
             :text="`Êtes vous sûr de vouloir supprimer votre candidature pour ${selectedApplication.offer}`"
             @close="closeModal()"
-            @confirm="deleteApplication()"
+            @confirm="deleteApplication(selectedApplication.id)"
         ></delete-modal>
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import store from '../../store';
 import applicationsGateway from '../../services/gateway/applications.gateway';
 import deleteModal from '../../components/deleteModal';
@@ -26,6 +28,9 @@ export default {
     components: {
         deleteModal
     },
+    computed: {
+		...mapGetters(['isEmployer', 'isEmployee', 'isAdmin']),
+	},
     data() {
         let additionalFields = [];
         const commonFields = [
@@ -47,7 +52,7 @@ export default {
             applications: [],
             fields,
             selectedApplication: { id: '', offer: '' },
-            openModal: false
+            openDeleteModal: false
         }
     },
     async created() {
@@ -56,17 +61,18 @@ export default {
     },
     methods: {
         triggerApplicationDelete(application) {
-            this.selectedApplication = application
-            this.openModal = true
+            this.selectedApplication = application;
+            this.openDeleteModal = true;
         },
-        async deleteApplication() {
+        async deleteApplication(selectedApplicationId) {
             this.closeModal();
-            await applicationsGateway.deleteApplication(this.selectedApplication.id);
+            await applicationsGateway.deleteApplication(selectedApplicationId);
             const applications = await applicationsGateway.getUserApplications();
             this.applications = this.convertData(applications);
         },
         closeModal() {
-            this.openModal = false;
+            this.openDeleteModal = false;
+            this.selectedApplication = { id: '', offer: '' };
         },
         getOfferTitle(application) {
             return application.offer.title;

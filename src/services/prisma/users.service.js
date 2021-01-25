@@ -58,7 +58,6 @@ export default {
                         }
                         data: $updatedUser
                     ) {
-                        email,
                         firstname,
                         lastname
                     }
@@ -71,6 +70,9 @@ export default {
                     lastname: user.lastname,
                     firstname: user.firstname,
                     birthday: user.birthday,
+                    address: {
+                        update: user.address
+                    }
                 }
             }
         })

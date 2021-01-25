@@ -85,8 +85,8 @@ export default {
 			this.openDeleteModal = true;
 		},
 		closeModal() {
-			this.selectedOffer = {id: '', title: ''};
 			this.openDeleteModal = false
+			this.selectedOffer = {id: '', title: ''};
 		},
 		async deleteOffer(offerId) {
 			this.closeModal();

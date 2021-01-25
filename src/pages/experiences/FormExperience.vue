@@ -1,5 +1,5 @@
 <template>
-    <app-form :values="form" :validations="validations" :handleSubmit="handleSubmit" >
+    <app-form :values="form" :handleSubmit="handleSubmit" :validations="validations" >
         <app-form-input
             label="Intitulé du poste"
             name="label"
@@ -52,14 +52,15 @@ export default {
             type: Function,
             required: true
         },
-        validations: {
-            type: Object,
-            required: true
-        }
     },
     data() {
         return {
-            max: new Date()
+            max: new Date(),
+            validations: {
+                label: "required",
+                startDate: `required|before:${this.form.endDate}`,
+                endDate: "required"
+            }
         }
     }
 }

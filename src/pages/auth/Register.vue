@@ -55,16 +55,10 @@
 </template>
 
 <script>
-import AppForm from '../../components/form-elements/AppForm.vue';
-import AppFormButton from '../../components/form-elements/AppFormButton.vue';
-import AppFormInput from '../../components/form-elements/AppFormInput.vue';
-import AppFormSelect from '../../components/form-elements/AppFormSelect.vue';
 import gatewayAuthService from '../../services/gateway/auth.gateway';
 
 export default {
-    components: { AppForm, AppFormInput, AppFormButton, AppFormSelect },
     name: "Register",
-
     data() {
         return {
             form: {
@@ -80,14 +74,13 @@ export default {
                 { value: 'ROLE_EMPLOYER', text: 'Je souhaite publier une offre d\'emploi' }
             ],
             validations: {
-                email: 'required|min:10',
+                email: "required|min:10",
                 plainPassword: "required|password|min:8",
                 lastname: "required",
                 roles: "required|in:ROLE_EMPLOYEE,ROLE_EMPLOYER"
             }
         };
     },
-
     methods: {
         handleSubmit() {
             gatewayAuthService.register(this.form.email, this.form.plainPassword, this.form.lastname, this.form.firstname, this.form.roles);
