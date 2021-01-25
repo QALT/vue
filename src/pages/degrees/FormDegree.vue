@@ -1,5 +1,5 @@
 <template>
-    <app-form :values="form" :handleSubmit="handleSubmit">
+    <app-form :values="form" :handleSubmit="handleSubmit" :validations="validations" >
         <app-form-input
             label="Nom du niveau"
             name="label"
@@ -29,6 +29,13 @@ export default {
         handleSubmit: {
             type: Function,
             required: true
+        }
+    },
+    data() {
+        return {
+            validations: {
+                label: "required"
+            }
         }
     }
 }

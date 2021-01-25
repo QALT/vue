@@ -4,7 +4,7 @@
             <h4 class="font-weight-normal">Postuler pour l'offre "{{offer.title}}"</h4>
             <b-form @submit.prevent="handleSubmit">
                 <b-form-group label="Message personnalisé pour la candidature">
-                    <textarea style="resize: auto; max-width: 450px;" v-model="form.customMessage"></textarea>
+                    <textarea v-model="form.comment" style="resize: auto; max-width: 450px;"></textarea>
                 </b-form-group>
                 <div class="d-flex mt-3 justify-content-center">
                     <app-form-button>Postuler</app-form-button>
@@ -32,13 +32,13 @@ export default {
     data() {
         return {
             form: {
-                customMessage: ''
+                comment: ''
             }
         }
     },
     methods: {
         handleSubmit() {
-            applicationsGateway.addApplication(this.offer.id, this.form.customMessage);
+            applicationsGateway.addApplication(this.offer.id, this.form.comment);
         },
         closeModal() {
             this.$emit('close');

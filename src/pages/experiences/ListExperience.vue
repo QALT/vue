@@ -5,18 +5,18 @@
 		<b-table striped hover :items="withHumanDates(['startDate', 'endDate'], experiences)" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" :to="`/experiences/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
-				<b-button size="sm" variant="danger" @click="selectExperience(data.item)">Supprimer</b-button>
+				<b-button size="sm" variant="danger" @click="triggerExperienceDelete(data.item)">Supprimer</b-button>
 			</template>
 		</b-table>
 		<p class="mb-4 text-center" v-if="experiences.length === 0">Aucune expérience trouvée</p>
 
-		<b-modal ref="deletion-modal" hide-footer title="Supression d'une expérience">
-			<div class="d-block text-center">
-				<p class="font-weight-normal">Êtes-vous sûr de vouloir supprimer l'expérience "{{selectedExperience.label}}"</p>
-			</div>
-			<b-button class="mt-3" variant="danger" block @click="deleteExperience(selectedExperience.id)">Supprimer</b-button>
-			<b-button class="mt-2" variant="outline-primary" block @click="closeModal()">Annuler</b-button>
-		</b-modal>
+		<delete-modal
+            :modalOpened="openDeleteModal"
+            :title="'Suppression d\'une expérience'"
+            :text="`Êtes vous sûr de vouloir supprimer votre expérience intitulée: ${selectedExperience.offer}`"
+            @close="closeModal()"
+            @confirm="deleteExperience(selectedExperience.id)"
+        ></delete-modal>
 
 	</div>
 </template>
@@ -24,8 +24,10 @@
 <script>
 import experiencesGateway from '../../services/gateway/experiences.gateway'
 import {withHumanDates} from "../../helpers/date";
+import deleteModal from '../../components/deleteModal.vue';
 
 export default {
+    components: { deleteModal },
 	name: 'ListExperience',
 	data() {
 		return {
@@ -36,21 +38,24 @@ export default {
                 {key: 'description', label: 'Description'},
                 {key: 'startDate', label: 'Début le'}, 
                 {key: 'endDate', label: 'Fin le'}, 
-				'actions']
+				'actions'
+			],
+			openDeleteModal: false
 		}
 	},
 	methods: {
         withHumanDates,
-		selectExperience(experience) {
-			this.selectedExperience = experience;
-			this.$refs['deletion-modal'].show()
-		},
-		closeModal() {
-			this.$refs['deletion-modal'].hide();
-		},
-		async deleteExperience(experienceId) {
-			this.$refs['deletion-modal'].hide();
-			await experiencesGateway.deleteExperience(experienceId);
+		triggerExperienceDelete(experience) {
+            this.selectedExperience = experience;
+            this.openDeleteModal = true;
+        },
+        closeModal() {
+            this.openDeleteModal = false;
+			this.selectedExperience = {id: '',label: ''};
+        },
+		async deleteExperience(selectedExperienceId) {
+			this.closeModal();
+			await experiencesGateway.deleteExperience(selectedExperienceId);
 			this.experiences = await experiencesGateway.getExperiences();
 		}
 	},

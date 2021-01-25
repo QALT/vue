@@ -1,5 +1,5 @@
 <template>
-    <app-form :values="form" :handleSubmit="handleSubmit">
+    <app-form :values="form" :handleSubmit="handleSubmit" :validations="validations">
         <app-form-input
             label="Titre de l'offre"
             name="title"
@@ -44,6 +44,14 @@ export default {
         options: {
             type: Array,
             required: true
+        },
+    },
+    data() {
+        return {
+            validations: {
+                title: "required",
+                tags: "required",
+            }
         }
     }
 }

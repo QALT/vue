@@ -17,7 +17,6 @@ export default {
     editUser(id, user) {
         return providers[store.getters.getApiProvider].editUser(id, user)
             .then((user) => {
-                store.commit("setEmail", user.email);
                 store.commit("setLastname", user.lastname);
                 store.commit("setFirstname", user.firstname);
                 toastNotification("success", "Profil mis à jour");

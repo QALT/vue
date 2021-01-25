@@ -5,47 +5,51 @@
 		<b-table striped hover :items="tags" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" :to="`/tags/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
-				<b-button size="sm" variant="danger" @click="selectTag(data.item)">Supprimer</b-button>
+				<b-button size="sm" variant="danger" @click="triggerTagDelete(data.item)">Supprimer</b-button>
 			</template>
 		</b-table>
 		<p class="mb-4 text-center" v-if="tags.length === 0">Aucun tag trouvé</p>
 
-		<b-modal ref="deletion-modal" hide-footer title="Supression d'un tag">
-			<div class="d-block text-center">
-				<p class="font-weight-normal">Êtes-vous sûr de vouloir supprimer le tag "{{selectedTag.label}}" ?</p>
-			</div>
-			<b-button class="mt-3" variant="danger" block @click="deleteTag(selectedTag.id)">Supprimer</b-button>
-			<b-button class="mt-2" variant="outline-primary" block @click="closeModal()">Annuler</b-button>
-		</b-modal>
+		<delete-modal
+            :modalOpened="openDeleteModal"
+            :title="'Suppression d\'un tag'"
+            :text="`Êtes vous sûr de vouloir supprimer le tag intitulé: ${selectedTag.label}`"
+            @close="closeModal()"
+            @confirm="deleteTag(selectedTag.id)"
+        ></delete-modal>
 	</div>
 </template>
 
 <script>
+import deleteModal from '../../components/deleteModal.vue';
 import TagsGateway from '../../services/gateway/tags.gateway'
 
 export default {
+    components: { deleteModal },
 	name: 'ListTag',
 	data() {
 		return {
 			tags: [],
-			selectedTag: {label: ''},
+			selectedTag: {id: '', label: ''},
 			fields: [
 				{key: 'label', label: 'Label'}, 
 				'actions'
-			]
+			],
+			openDeleteModal: false
 		}
 	},
 	methods: {
-		selectTag(tag) {
-			this.selectedTag = tag;
-			this.$refs['deletion-modal'].show()
-		},
-		closeModal() {
-			this.$refs['deletion-modal'].hide();
-		},
-		async deleteTag(tagId) {
-			this.$refs['deletion-modal'].hide();
-			await TagsGateway.deleteTag(tagId);
+		triggerTagDelete(tag) {
+            this.selectedTag = tag;
+            this.openDeleteModal = true;
+        },
+        closeModal() {
+            this.openDeleteModal = false;
+			this.selectedTag = {id: '',label: ''};
+        },
+		async deleteTag(selectedTagId) {
+			this.closeModal();
+			await TagsGateway.deleteTag(selectedTagId);
 			this.tags = await TagsGateway.getTags();
 		},
 	},

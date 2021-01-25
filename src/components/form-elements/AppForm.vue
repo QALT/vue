@@ -30,7 +30,6 @@ export default {
     },
     provide() {
         const { values, validations } = this;
-
         return {
             values,
             validations

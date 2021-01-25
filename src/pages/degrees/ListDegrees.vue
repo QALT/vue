@@ -13,11 +13,10 @@
 		<delete-modal
 			:modalOpened="openDeleteModal"
             :title="'Suppression d\'un niveau d\'étude'"
-            :text="`Êtes vous sûr de vouloir supprimer le niveau intitullé: ${selectedDegree.label}`"
+            :text="`Êtes vous sûr de vouloir supprimer le niveau intitulé: ${selectedDegree.label}`"
             @close="closeModal()"
             @confirm="deleteDegree(selectedDegree.id)"
         ></delete-modal>
-
 	</div>
 </template>
 
@@ -49,8 +48,8 @@ export default {
 			this.openDeleteModal = true;
 		},
 		closeModal() {
-			this.selectedDegree = {id: '',label: ''};
 			this.openDeleteModal = false
+			this.selectedDegree = {id: '',label: ''};
 		},
 		async deleteDegree(degreeId) {
 			this.closeModal();

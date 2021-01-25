@@ -1,63 +1,68 @@
 <template>
-    <div>
+    <div :key="key">
         <div class="row">
-            <div class="col-6 offset-3 mb-5">
+            <div class="col-12 mb-5">
                 <h4 class="text-center">Informations personnelles</h4>
-                <b-form @submit="editUser">
-                    <b-form-group
-                        label="Email"
-                        label-for="email"
-                    >
-                        <b-form-input
-                            id="email"
-                            v-model="user.email"
-                            type="email"
-                            required
-                        />
-                    </b-form-group>
-                    <b-form-group
-                        label="Nom"
-                        label-for="lastname"
-                    >
-                        <b-form-input
-                            id="lastname"
-                            v-model="user.lastname"
-                        />
-                    </b-form-group>
-                    <b-form-group
-                        label="Prénom"
-                        label-for="firstname"
-                    >
-                        <b-form-input
-                            id="firstname"
-                            v-model="user.firstname"
-                        />
-                    </b-form-group>
-                    <b-form-group
-                        label="Date de naissance"
-                        label-for="birthday"
-                    >
-                        <b-form-datepicker
-                            id="birthday"
-                            v-model="user.birthday"
-                            placeholder=""
-                            :max="max"
-                            :start-weekday="1"
-                            :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
-                        >
-                        </b-form-datepicker>
-                    </b-form-group>
-                    <b-button type="submit" variant="primary" class="mr-0">Modifier</b-button>
-                </b-form>
+                <app-form :values="user" :handleSubmit="handleSubmit" >
+                    <div class="row">
+                        <div class="col-4 offset-1">
+                            <app-form-input
+                                label="Email"
+                                name="email"
+                                type="email"
+                                disabled
+                            />
+                            <app-form-input
+                                label="Nom"
+                                name="lastname"
+                            />
+                            <app-form-input
+                                label="Prénom"
+                                name="firstname"
+                            />
+                            <app-form-datepicker
+                                label="Date de naissance"
+                                name="birthday"
+                                :max="max"
+                                :start-weekday="1"
+                                :date-format-options="{ year: 'numeric', month: 'numeric', day: 'numeric' }"
+                            />
+                        </div>
+                        <div class="col-4 offset-2">
+                            <app-form-input
+                                label="Région"
+                                name="region"
+                            />
+                            <app-form-input
+                                label="Code postal"
+                                name="postalCode"
+                            />
+                            <app-form-input
+                                label="Ville"
+                                name="town"
+                            />
+                            <app-form-input
+                                label="Rue"
+                                name="street"
+                            />
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <app-form-button>Modifier</app-form-button>
+                    </div>
+                </app-form>
             </div>
-            <div class="col-6 offset-3 mb-5" v-if="isEmployee">
+        </div>
+        <div class="row">
+            <div class="col-6 mb-5" v-if="isEmployee">
                 <h4 class="text-center">Formation(s) <b-icon-pencil class="cursor-pointer ml-2" @click="onClickStudies" /></h4>
                 <b-card v-for="study in user.studies" v-bind:key="study.id">
                     <p><b>{{ study.school }}</b></p>
                     <p>{{ study.label }}</p>
+                    <p>{{ study.degree.label }}</p>
                 </b-card>
             </div>
-            <div class="col-6 offset-3" v-if="isEmployee">
+            <div class="col-6" v-if="isEmployee">
                 <h4 class="text-center">Expérience(s) <b-icon-pencil class="cursor-pointer ml-2" @click="onClickExperiences" /></h4>
                 <b-card v-for="experience in user.experiences" v-bind:key="experience.id">
                     <p><b>{{ experience.label }}</b></p>
@@ -78,22 +83,50 @@ export default {
     name: 'Profile',
     data() {
         return {
-            user: {},
+            user: {
+                email: '',
+                lastname: '',
+                firstname: '',
+                birthday: '',
+                country: '',
+                region: '',
+                postalCode: '',
+                town: '',
+                street: '',
+            },
+            key: Math.round(Math.random() * 100),
             max: new Date()
         }
     },
-    created() {
+    async created() {
         userGateway.getUser(store.getters.getId).then(user => {
-            this.user = user
+            this.user = {
+                ...user,
+                country: 'France',
+                region: user.address?.region,
+                postalCode: user.address?.postalCode,
+                town: user.address?.town,
+                street: user.address?.street,
+            };
+            this.key = Math.round(Math.random() * 100)
         });
     },
     computed: {
 		...mapGetters(['isEmployer', 'isEmployee']),
 	},
     methods: {
-        editUser(event) {
-            event.preventDefault();
-            userGateway.editUser(store.getters.getId, this.user);
+        handleSubmit() {
+            const newUser = {
+                ...this.user,
+                address: {
+                    country: this.user.country,
+                    region: this.user.region,
+                    postalCode: this.user.postalCode,
+                    town: this.user.town,
+                    street: this.user.street,
+                }
+            }
+            userGateway.editUser(store.getters.getId, newUser);
         },
         onClickStudies() {
             router.push('studies')

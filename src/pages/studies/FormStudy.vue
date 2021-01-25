@@ -1,5 +1,5 @@
 <template>
-    <app-form :values="form" :handleSubmit="handleSubmit">
+    <app-form :values="form" :handleSubmit="handleSubmit" :validations="validations">
         <app-form-input
             label="Nom du diplôme"
             name="label"
@@ -44,6 +44,15 @@ export default {
         options: {
             type: Array,
             required: true
+        },
+    },
+    data() {
+        return {
+            validations: {
+                label: "required",
+                degree: "required",
+                school: "required",
+            }
         }
     }
 }

@@ -3,7 +3,7 @@
         
         <div class="col-4">
             <h4 class="text-center">Modification de l'expérience</h4>
-            <form-experience :form="form" :validations="validations" :handleSubmit="handleSubmit" buttonValue="Modifier" />
+            <form-experience :form="form" :handleSubmit="handleSubmit" buttonValue="Modifier" />
         </div>
     </div>
 </template>
@@ -24,7 +24,6 @@ export default {
                 startDate: '',
                 endDate: ''
             },
-            validations: {},
             originalExperience: null,
             isLoading: true,
             max: new Date()

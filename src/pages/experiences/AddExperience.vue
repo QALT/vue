@@ -2,7 +2,7 @@
     <div class="row justify-content-center">
         <div class="col-4">
             <h4 class="text-center">Ajout d'une expérience</h4>
-            <form-experience :form="form" :validations="validations" :handleSubmit="handleSubmit" buttonValue="Ajouter" />
+            <form-experience :form="form" :handleSubmit="handleSubmit" buttonValue="Ajouter" />
         </div>
     </div>
 </template>
@@ -21,7 +21,6 @@ export default {
                 startDate: '',
                 endDate: ''
             },
-            validations: {}
         }
     },
     methods: {

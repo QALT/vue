@@ -5,50 +5,53 @@
 		<b-table striped hover :items="studies" :fields="fields" class="mt-2 text-center">
 			<template #cell(actions)="data">
 				<b-button size="sm" :to="`/studies/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
-				<b-button size="sm" variant="danger" @click="selectStudy(data.item)">Supprimer</b-button>
+				<b-button size="sm" variant="danger" @click="triggerStudyDelete(data.item)">Supprimer</b-button>
 			</template>
 		</b-table>
 		<p class="mb-4 text-center" v-if="studies.length === 0">Aucun diplôme trouvé</p>
 
-		<b-modal ref="deletion-modal" hide-footer title="Supression d'un diplôme">
-			<div class="d-block text-center">
-				<p class="font-weight-normal">Êtes-vous sûr de vouloir supprimer le diplôme "{{selectedStudy.label}}"</p>
-			</div>
-			<b-button class="mt-3" variant="danger" block @click="deleteStudy(selectedStudy.id)">Supprimer</b-button>
-			<b-button class="mt-2" variant="outline-primary" block @click="closeModal()">Annuler</b-button>
-		</b-modal>
-
+		<delete-modal
+			:modalOpened="openDeleteModal"
+            :title="'Suppression d\'un diplôme'"
+            :text="`Êtes vous sûr de vouloir supprimer le diplôme intitulé: ${selectedStudy.label}`"
+            @close="closeModal()"
+            @confirm="deleteStudy(selectedStudy.id)"
+        ></delete-modal>
 	</div>
 </template>
 
 <script>
+import deleteModal from '../../components/deleteModal.vue';
 import StudiesGateway from '../../services/gateway/studies.gateway'
 
 export default {
+    components: { deleteModal },
 	name: 'ListStudies',
 	data() {
 		return {
 			studies: [],
-			selectedStudy: {label: ''},
+			selectedStudy: {id: '', label: ''},
 			fields: [
 				{key: 'label', label: 'Titre'}, 
 				{key: 'degree', label:'Diplôme'},
 				{key: 'school', label: 'Ecole'}, 
 				'actions'
-			]
+			],
+			openDeleteModal: false
 		}
 	},
 	methods: {
-		selectStudy(study) {
-			this.selectedStudy = study;
-			this.$refs['deletion-modal'].show()
+		triggerStudyDelete(study) {
+            this.selectedStudy = study;
+            this.openDeleteModal = true;
 		},
 		closeModal() {
-			this.$refs['deletion-modal'].hide();
+			this.openDeleteModal = false
+			this.selectedDegree = {id: '',label: ''};
 		},
-		async deleteStudy(studyId) {
-			this.$refs['deletion-modal'].hide();
-			await StudiesGateway.deleteStudy(studyId);
+		async deleteStudy(selectedStudyId) {
+			this.closeModal();
+			await StudiesGateway.deleteStudy(selectedStudyId);
 			this.studies = await StudiesGateway.getStudies();
 		},
 		getDegreeLabel(study){ 

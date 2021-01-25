@@ -5,26 +5,56 @@ import {handleError} from "../../helpers/prisma/error";
 
 export default {
     getOffers() {
-        return apolloClient.query({
-            query: gql`
-                query {
-                    offers {
-                        id,
-                        title,
-                        description,
-                        applications {
-                            applicant {
-                                id
+        let query = {};
+
+        if (store.getters.isEmployer) {
+            query = {
+                query: gql`
+                    query ($employerId: ID) {
+                        offers(where:{employer: {id: $employerId}}) {
+                            id,
+                            title,
+                            description,
+                            applications {
+                                applicant {
+                                    id
+                                }
+                            },
+                            tags {
+                                label
                             }
-                        },
-                        tags {
-                            label
                         }
                     }
-                }
-            `,
-            fetchPolicy: 'no-cache'
-        })
+                `,
+                variables: {
+                    employerId: store.getters.getId
+                },
+                fetchPolicy: 'no-cache'
+            }
+        } else {
+            query = {
+                query: gql`
+                    query {
+                        offers {
+                            id,
+                            title,
+                            description,
+                            applications {
+                                applicant {
+                                    id
+                                }
+                            },
+                            tags {
+                                label
+                            }
+                        }
+                    }
+                `,
+                fetchPolicy: 'no-cache'
+            };
+        }
+
+        return apolloClient.query(query)
         .then(response => response.data.offers)
         .catch(handleError);
     },
