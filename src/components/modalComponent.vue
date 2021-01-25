@@ -5,8 +5,8 @@
             <h4>{{text}}</h4>
         </div>
         <div class="d-flex mt-3 justify-content-center">
-            <b-button class="mr-2" variant="primary" @click.prevent="confirmation()">{{confirmLabel}}</b-button>
-            <b-button class="" variant="outline-primary" @click.prevent="cancelModal()">{{cancelLabel}}</b-button>
+            <b-button class="mr-2" variant="primary" @click.prevent="confirmation">{{confirmLabel}}</b-button>
+            <b-button variant="outline-primary" @click.prevent="cancelModal">{{cancelLabel}}</b-button>
         </div>
     </b-modal>
 </template>
