@@ -2,19 +2,41 @@
     <div>
         <h3>Mes candidatures</h3>
         <b-table striped hover :items="applications" :fields="fields" class="mt-2 text-center">
+            <template #cell(status)="data">
+                {{ data.value | applicationStatus }}
+            </template>
             <template #cell(actions)="data">
-                <b-button size="sm" :to="`/applications/${data.item.id}/edit`" variant="warning" class="mr-2" v-if="isEmployee || isAdmin">Modifier</b-button>
-                <b-button size="sm" variant="danger" @click="triggerApplicationDelete(data.item)" v-if="isEmployee || isAdmin">Supprimer</b-button>
-                <b-button size="sm" variant="danger" @click="triggerApplicationDelete(data.item)" v-if="isEmployer">Refuser</b-button>
+                <b-button size="sm" v-if="isEmployee || isAdmin" :to="`/applications/${data.item.id}/edit`" variant="warning" class="mr-2">Modifier</b-button>
+                <b-button size="sm" variant="danger" v-if="isEmployee || isAdmin" @click="triggerApplicationDelete(data.item)">Supprimer</b-button>
+                <b-button size="sm" variant="success" v-if="isEmployer" @click="triggerApplicationValidation(data.item)" class="mr-2">Valider</b-button>
+                <b-button size="sm" variant="danger" v-if="isEmployer" @click="triggerApplicationReject(data.item)">Refuser</b-button>
             </template>
         </b-table>
         <delete-modal
             :modalOpened="openDeleteModal"
             :title="'Suppression d\'une candidature'"
-            :text="`Êtes vous sûr de vouloir supprimer votre candidature pour ${selectedApplication.offer}`"
-            @close="closeModal()"
-            @confirm="deleteApplication(selectedApplication.id)"
+            :text="`Êtes vous sûr de vouloir supprimer votre candidature pour ${selectedApplication.offer} ?`"
+            @close="closeModals()"
+            @confirm="deleteApplication()"
         ></delete-modal>
+        <modal-component
+            :modalOpened="validApplicationModal"
+            :title="'Validation d\'une candidature'"
+            :text="`Êtes vous sûr de vouloir valider cette candidature pour ${selectedApplication.offer} ?`"
+            :confirmLabel="'Confirmer'"
+            :cancelLabel="'Annuler'"
+            @cancel="closeModals()"
+            @confirm="validApplication()"
+        ></modal-component>
+        <modal-component
+            :modalOpened="rejectApplicationModal"
+            :title="'Refus d\'une candidature'"
+            :text="`Êtes vous sûr de vouloir refuser cette candidature pour ${selectedApplication.offer} ?`"
+            :confirmLabel="'Refuser'"
+            :cancelLabel="'Annuler'"
+            @cancel="closeModals()"
+            @confirm="rejectApplication()"
+        ></modal-component>
     </div>
 </template>
 
@@ -23,10 +45,23 @@ import { mapGetters } from 'vuex';
 import store from '../../store';
 import applicationsGateway from '../../services/gateway/applications.gateway';
 import deleteModal from '../../components/deleteModal';
+import modalComponent from '../../components/modalComponent';
 
 export default {
     components: {
-        deleteModal
+        deleteModal,
+        modalComponent
+    },
+    filters: {
+        applicationStatus: function(status) {
+            status = status.toString().toLowerCase();
+            const statusTranslation = {
+                'accepted': 'Acceptée',
+                'refused': 'Rejetée',
+                'submitted': 'Soumise'
+            }
+            return statusTranslation[status];
+        }
     },
     computed: {
 		...mapGetters(['isEmployer', 'isEmployee', 'isAdmin']),
@@ -52,27 +87,32 @@ export default {
             applications: [],
             fields,
             selectedApplication: { id: '', offer: '' },
-            openDeleteModal: false
+            openDeleteModal: false,
+            validApplicationModal: false,
+            rejectApplicationModal: false
         }
     },
     async created() {
-        const applications = await applicationsGateway.getUserApplications();
-        this.applications = this.convertData(applications);
+        this.refreshApplications();
     },
     methods: {
+        async refreshApplications() {
+            const applications = await applicationsGateway.getUserApplications();
+            this.applications = this.convertData(applications);
+        },
         triggerApplicationDelete(application) {
             this.selectedApplication = application;
             this.openDeleteModal = true;
         },
-        async deleteApplication(selectedApplicationId) {
-            this.closeModal();
-            await applicationsGateway.deleteApplication(selectedApplicationId);
-            const applications = await applicationsGateway.getUserApplications();
-            this.applications = this.convertData(applications);
+        async deleteApplication() {
+            this.closeModals();
+            await applicationsGateway.deleteApplication(this.selectedApplication.id);
+            this.refreshApplications();
         },
-        closeModal() {
+        closeModals() {
+            this.rejectApplicationModal = false;
             this.openDeleteModal = false;
-            this.selectedApplication = { id: '', offer: '' };
+            this.validApplicationModal = false;
         },
         getOfferTitle(application) {
             return application.offer.title;
@@ -88,7 +128,25 @@ export default {
                     applicant: this.getApplicant(application.applicant)
                 }
             })
-        } 
+        },
+        triggerApplicationValidation(application) {
+            this.selectedApplication = application
+            this.validApplicationModal = true
+        },
+        async validApplication() {
+            this.closeModals();
+            await applicationsGateway.validApplication(this.selectedApplication.id);
+            this.refreshApplications();
+        },
+        triggerApplicationReject(application) {
+            this.selectedApplication = application
+            this.rejectApplicationModal = true;
+        },
+        async rejectApplication() {
+            this.closeModals();
+            await applicationsGateway.rejectApplication(this.selectedApplication.id);
+            this.refreshApplications();
+        }
     }
 }
 </script>

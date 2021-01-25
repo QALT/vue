@@ -145,5 +145,43 @@ export default {
         })
             .then(response => response.data.deleteApplication)
             .catch(handleError);
+    },
+    validApplication(id) {
+        return apolloClient.mutate({
+            mutation: gql`
+                mutation($id: ID!) {
+                    updateApplication(
+                        where: {
+                          id: $id
+                        }
+                        data: { status: ACCEPTED }
+                    ) {
+                        id
+                    }
+                }
+            `,
+            variables: {id}
+        })
+            .then(response => response.data.updateApplication)
+            .catch(handleError);
+    },
+    rejectApplication(id) {
+        return apolloClient.mutate({
+            mutation: gql`
+                mutation($id: ID!) {
+                    updateApplication(
+                        where: {
+                          id: $id
+                        }
+                        data: { status: REFUSED }
+                    ) {
+                        id
+                    }
+                }
+            `,
+            variables: {id}
+        })
+            .then(response => response.data.updateApplication)
+            .catch(handleError);
     }
 };

@@ -40,5 +40,15 @@ export default {
     deleteApplication(id) {
         return httpClient.delete(`/api/applications/${id}`)
             .catch(handleError);
+    },
+    validApplication(id) {
+        return httpClient.put(`/api/applications/${id}`, {status: 'accepted'})
+            .then(response => response.data)
+            .catch(handleError);
+    },
+    rejectApplication(id) {
+        return httpClient.put(`/api/applications/${id}`, {status: 'refused'})
+            .then(response => response.data)
+            .catch(handleError);
     }
 };
