@@ -2,6 +2,9 @@
     <div>
         <h3>Mes candidatures</h3>
         <b-table striped hover :items="applications" :fields="fields" class="mt-2 text-center">
+            <template #cell(applicant)="data">
+                <u class="cursor-pointer" @click="showCandidate" :data-id="data.value">{{ data.value | applicantName }}</u>
+            </template>
             <template #cell(status)="data">
                 {{ data.value | applicationStatus }}
             </template>
@@ -43,6 +46,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import store from '../../store';
+import router from '../../router';
 import applicationsGateway from '../../services/gateway/applications.gateway';
 import deleteModal from '../../components/deleteModal';
 import modalComponent from '../../components/modalComponent';
@@ -61,6 +65,9 @@ export default {
                 'submitted': 'Soumise'
             }
             return statusTranslation[status];
+        },
+        applicantName: function(applicant) {
+            return applicant.split('-')[1];
         }
     },
     computed: {
@@ -96,6 +103,10 @@ export default {
         this.refreshApplications();
     },
     methods: {
+        showCandidate(applicant) {
+            const id = applicant.target.dataset.id.split('-')[0];
+            router.push(`/users/${id}`);
+        },
         async refreshApplications() {
             const applications = await applicationsGateway.getUserApplications();
             this.applications = this.convertData(applications);
@@ -118,7 +129,7 @@ export default {
             return application.offer.title;
         },
         getApplicant(applicant) {
-            return `${applicant.lastname} ${applicant.firstname}`
+            return `${applicant.id}-${applicant.firstname} ${applicant.lastname}`
         },
         convertData(applications) {
             return applications.map(application => { 

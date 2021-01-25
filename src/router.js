@@ -22,6 +22,7 @@ import EditDegree from './pages/degrees/EditDegree.vue';
 import ListTags from './pages/tags/ListTags.vue';
 import AddTag from './pages/tags/AddTag.vue';
 import EditTag from './pages/tags/EditTag.vue';
+import ShowUser from './pages/users/ShowUser.vue';
 
 const router = new VueRouter({
     mode: "history",
@@ -75,6 +76,12 @@ const router = new VueRouter({
                 { path: ':id/edit/', component: EditTag, props: true }
             ]   
         },
+        {
+            path: "/users", component: EmptyRouterView,
+            children: [
+                { path: ':id', component : ShowUser, props: true},
+            ]   
+        },
         { path: "*", component: NotFound }
     ]
 });
@@ -95,8 +102,11 @@ router.beforeEach((to, from, next) => {
     }
   
     if (store.state.roles) {
-        const employeeRoutes = ["/studies", "/experiences"];
-        if (store.getters.isEmployer && employeeRoutes.includes(to.path)) {
+        if (store.getters.isEmployer && (to.path.startsWith('/studies') || to.path.startsWith('/experiences'))) {
+            return next("/");
+        }
+
+        if (store.getters.isEmployee && to.path.startsWith('/users')) {
             return next("/");
         }
     }
