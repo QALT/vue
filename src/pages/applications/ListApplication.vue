@@ -132,7 +132,7 @@ export default {
             return `${applicant.id}-${applicant.firstname} ${applicant.lastname}`
         },
         convertData(applications) {
-            return applications.map(application => { 
+            return applications?.map(application => { 
                 return {
                     ...application,
                     offer: this.getOfferTitle(application),

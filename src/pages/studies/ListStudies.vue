@@ -53,7 +53,7 @@ export default {
 			this.closeModal();
 			await StudiesGateway.deleteStudy(selectedStudyId);
 			const studies = await StudiesGateway.getStudies();
-			this.studies = studies.map(study => { 
+			this.studies = studies?.map(study => { 
 				return { ...study, degree: this.getDegreeLabel(study) }
 			})
 		},
@@ -63,7 +63,7 @@ export default {
 	},
 	async created() {
 		const studies = await StudiesGateway.getStudies();
-		this.studies = studies.map(study => { 
+		this.studies = studies?.map(study => { 
 			return { ...study, degree: this.getDegreeLabel(study) }
 		})
 	}

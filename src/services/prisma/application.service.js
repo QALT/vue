@@ -31,7 +31,7 @@ export default {
                 },
                 fetchPolicy: "no-cache"
             };
-        } else {
+        } if(store.getters.isEmployee) {
             query = {
                 query: gql`
                     query($userId: ID!) {
@@ -54,6 +54,28 @@ export default {
                 variables: {
                     userId: store.getters.getId
                 },
+                fetchPolicy: 'no-cache'
+            }
+        } else {
+            query = {
+                query: gql`
+                    query {
+                        applications {
+                            id,
+                            comment,
+                            status,
+                            offer {
+                                id,
+                                title
+                            },
+                            applicant {
+                                id,
+                                firstname,
+                                lastname
+                            }
+                        }
+                    }
+                `,
                 fetchPolicy: 'no-cache'
             }
         }

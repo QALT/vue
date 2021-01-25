@@ -103,10 +103,10 @@ export default {
             this.user = {
                 ...user,
                 country: 'France',
-                region: user.address?.region,
-                postalCode: user.address?.postalCode,
-                town: user.address?.town,
-                street: user.address?.street,
+                region: user.address?.region ?? '',
+                postalCode: user.address?.postalCode ?? '',
+                town: user.address?.town ?? '',
+                street: user.address?.street ?? '',
             };
             this.key = Math.round(Math.random() * 100)
         });

@@ -59,7 +59,7 @@ export default {
         .catch(handleError);
     },
     addOffer(title, description, selectedTags) {
-        selectedTags = selectedTags.map( tag => ({id:tag}));
+        selectedTags = selectedTags?.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
                 mutation($title: String!, $description: String!, $email: String!, $selectedTags:[TagWhereUniqueInput!] ) {
@@ -124,7 +124,7 @@ export default {
             .catch(handleError);
     },
     editOffer(id, newOffer) {
-        const selectedTags = newOffer.tags.map( tag => ({id:tag}));
+        const selectedTags = newOffer.tags?.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
                 mutation($id: ID!, $updatedOffer: OfferUpdateInput!) {
