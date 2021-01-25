@@ -4,7 +4,7 @@
             <h4 class="font-weight-normal">Postuler pour l'offre "{{offer.title}}"</h4>
             <b-form @submit.prevent="handleSubmit">
                 <b-form-group label="Message personnalisé pour la candidature">
-                    <textarea style="resize: auto; max-width: 450px;"></textarea>
+                    <textarea style="resize: auto; max-width: 450px;" v-model="form.customMessage"></textarea>
                 </b-form-group>
                 <div class="d-flex mt-3 justify-content-center">
                     <app-form-button>Postuler</app-form-button>
