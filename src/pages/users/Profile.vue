@@ -54,7 +54,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-6 mb-5" v-if="isEmployee">
+            <div class="col-6" v-if="isEmployee">
                 <h4 class="text-center">Formation(s) <b-icon-pencil class="cursor-pointer ml-2" @click="onClickStudies" /></h4>
                 <b-card v-for="study in user.studies" v-bind:key="study.id">
                     <p><b>{{ study.school }}</b></p>

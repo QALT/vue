@@ -19,6 +19,7 @@ export default {
                                 title
                             },
                             applicant {
+                                id,
                                 firstname,
                                 lastname
                             }
@@ -43,6 +44,7 @@ export default {
                                 title
                             },
                             applicant {
+                                id,
                                 firstname,
                                 lastname
                             }
