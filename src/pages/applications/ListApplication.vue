@@ -87,7 +87,7 @@ export default {
             applications: [],
             fields,
             selectedApplication: { id: '', offer: '' },
-            openModal: false,
+            openDeleteModal: false,
             validApplicationModal: false,
             rejectApplicationModal: false
         }
@@ -95,9 +95,6 @@ export default {
     async created() {
         this.refreshApplications();
     },
-    computed: {
-		...mapGetters(['isEmployer', 'isEmployee']),
-	},
     methods: {
         async refreshApplications() {
             const applications = await applicationsGateway.getUserApplications();
@@ -114,7 +111,7 @@ export default {
         },
         closeModals() {
             this.rejectApplicationModal = false;
-            this.openModal = false;
+            this.openDeleteModal = false;
             this.validApplicationModal = false;
         },
         getOfferTitle(application) {
