@@ -24,16 +24,17 @@ export default {
     },
     addOffer(title,description,selectedTags) {
         const userIri = `/api/users/${store.getters.getId}`;
-        selectedTags = selectedTags?.map(tag => "/api/tags/"+tag);
+        selectedTags = selectedTags?.map(tag => "/api/tags/" + tag);
         return httpClient
-            .post("/api/offers", {title, description,tags:selectedTags, employer: userIri})
+            .post("/api/offers", {title, description, tags:selectedTags, employer: userIri})
             .then(response => response.data)
             .then(data => data["hydra:member"])
             .catch(handleError);
     },
     editOffer(id, newOffer) {
+        newOffer.tags = newOffer.tags?.map(tag => "/api/tags/" + tag);
         return httpClient
-            .put(`/api/offers/${id}`, newOffer)
+            .put(`/api/offers/${id}`, {...newOffer, employer: newOffer.employer["@id"]})
             .then(response => response.data)
             .catch(handleError);
     },
