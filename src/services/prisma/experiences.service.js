@@ -37,7 +37,7 @@ export default {
                     userId: store.getters.getId
                 },
                 fetchPolicy: "no-cache"
-            }
+            };
         }
 
         return apolloClient.query(query)

@@ -74,8 +74,8 @@ export default {
                 updatedDegree
             }
         })
-        .then(response => response.data.updateDegree)
-        .catch(handleError);
+            .then(response => response.data.updateDegree)
+            .catch(handleError);
     },
     deleteDegree(id) {
         return apolloClient.mutate({

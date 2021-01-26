@@ -4,7 +4,7 @@ import {handleError} from "../../helpers/api-platform/error";
 
 export default {
     getStudies() {
-        let queryParams = '';
+        let queryParams = "";
 
         if (store.getters.isEmployee) {
             const userIri = `/api/users/${store.getters.getId}`;

@@ -54,8 +54,8 @@ export default {
                 variables: {
                     userId: store.getters.getId
                 },
-                fetchPolicy: 'no-cache'
-            }
+                fetchPolicy: "no-cache"
+            };
         } else {
             query = {
                 query: gql`
@@ -76,13 +76,13 @@ export default {
                         }
                     }
                 `,
-                fetchPolicy: 'no-cache'
-            }
+                fetchPolicy: "no-cache"
+            };
         }
 
         return apolloClient.query(query)
-        .then(response => response.data.applications)
-        .catch(handleError);
+            .then(response => response.data.applications)
+            .catch(handleError);
     },
     addApplication(offerId, customMessage) {
         return apolloClient.mutate({

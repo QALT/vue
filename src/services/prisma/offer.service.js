@@ -29,8 +29,8 @@ export default {
                 variables: {
                     employerId: store.getters.getId
                 },
-                fetchPolicy: 'no-cache'
-            }
+                fetchPolicy: "no-cache"
+            };
         } else {
             query = {
                 query: gql`
@@ -50,13 +50,13 @@ export default {
                         }
                     }
                 `,
-                fetchPolicy: 'no-cache'
+                fetchPolicy: "no-cache"
             };
         }
 
         return apolloClient.query(query)
-        .then(response => response.data.offers)
-        .catch(handleError);
+            .then(response => response.data.offers)
+            .catch(handleError);
     },
     addOffer(title, description, selectedTags) {
         selectedTags = selectedTags?.map( tag => ({id:tag}));
