@@ -8,7 +8,7 @@
                 </b-form-group>
                 <div class="d-flex mt-3 justify-content-center">
                     <app-form-button>Postuler</app-form-button>
-                    <b-button variant="outline-primary">Annuler</b-button>
+                    <b-button variant="outline-primary" @click.prevent="closeModal()">Annuler</b-button>
                 </div>
             </b-form>
         </div>
