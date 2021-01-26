@@ -31,7 +31,7 @@ export default {
                 },
                 fetchPolicy: "no-cache"
             };
-        } if(store.getters.isEmployee) {
+        } else if(store.getters.isEmployee) {
             query = {
                 query: gql`
                     query($userId: ID!) {

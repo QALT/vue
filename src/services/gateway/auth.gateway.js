@@ -21,7 +21,7 @@ export default {
             store.commit("setLastname", lastname);
             store.commit("setRoles", roles);
             router.push("/");
-        }).catch(error => toastNotification("error", error.message));
+        }).catch(() => toastNotification("error", "Une erreur est survenue durant la connexion"));
     },
     register(email, password, lastname, firstname, roles) {
         providers[store.getters.getApiProvider].register(email, password, lastname, firstname, roles).then(() => {
