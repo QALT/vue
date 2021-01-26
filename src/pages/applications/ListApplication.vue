@@ -82,7 +82,7 @@ export default {
             'actions'
         ];
 
-        if (store.getters.isEmployer) {
+        if (store.getters.isEmployer || store.getters.isAdmin) {
             additionalFields = [
                 {key: 'applicant', label: 'Candidat'},
             ];
