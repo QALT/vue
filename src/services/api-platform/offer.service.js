@@ -24,7 +24,7 @@ export default {
     },
     addOffer(title,description,selectedTags) {
         const userIri = `/api/users/${store.getters.getId}`;
-        selectedTags = selectedTags.map(tag => "/api/tags/"+tag);
+        selectedTags = selectedTags?.map(tag => "/api/tags/"+tag);
         return httpClient
             .post("/api/offers", {title, description,tags:selectedTags, employer: userIri})
             .then(response => response.data)

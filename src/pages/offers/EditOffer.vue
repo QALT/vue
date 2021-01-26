@@ -36,7 +36,7 @@ export default {
         .then(offer => {
             this.form.title = offer.title;
             this.form.description = offer.description
-            this.form.tags = offer.tags.map(tag => tag.id)
+            this.form.tags = offer.tags?.map(tag => tag.id)
             this.originalOffer = offer;
             this.isLoading = false;
         })

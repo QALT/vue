@@ -71,7 +71,10 @@ export default {
                     firstname: user.firstname,
                     birthday: user.birthday,
                     address: {
-                        update: user.address
+                        upsert: {
+                            update: user.address,
+                            create: user.address
+                        }
                     }
                 }
             }

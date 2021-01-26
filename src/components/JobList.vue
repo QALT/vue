@@ -91,10 +91,13 @@ export default {
 		async deleteOffer(offerId) {
 			this.closeModal();
 			await OffersGateway.deleteOffer(offerId);
-			this.jobs = await OffersGateway.getOffers();
+			const jobs = await OffersGateway.getOffers()
+			this.jobs = jobs?.map(job => { 
+				return { ...job, tags:this.getJobsLabels(job) }
+			});
 		},
 		openApplicationModal(offer) {
-			const applicants = offer.applications.map(application => application.applicant.id);
+			const applicants = offer?.applications?.map(application => application.applicant.id);
 			const idStore = store.getters.getId
 			const id = store.getters.getApiProvider === 'api-platform' ? parseInt(idStore) : idStore;
 
@@ -110,12 +113,12 @@ export default {
 			this.applicationModalOpened = false;
 		},
 		getJobsLabels(job) { 
-			return job.tags.map(tag => tag.label).join(", ");
+			return job.tags?.map(tag => tag.label).join(", ");
 		},
 	},
 	async created() {
 		const jobs = await OffersGateway.getOffers()
-		this.jobs = jobs.map(job => { 
+		this.jobs = jobs?.map(job => { 
 			return { ...job, tags:this.getJobsLabels(job) }
 		});
 	}

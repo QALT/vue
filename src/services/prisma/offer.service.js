@@ -29,8 +29,8 @@ export default {
                 variables: {
                     employerId: store.getters.getId
                 },
-                fetchPolicy: 'no-cache'
-            }
+                fetchPolicy: "no-cache"
+            };
         } else {
             query = {
                 query: gql`
@@ -50,16 +50,16 @@ export default {
                         }
                     }
                 `,
-                fetchPolicy: 'no-cache'
+                fetchPolicy: "no-cache"
             };
         }
 
         return apolloClient.query(query)
-        .then(response => response.data.offers)
-        .catch(handleError);
+            .then(response => response.data.offers)
+            .catch(handleError);
     },
     addOffer(title, description, selectedTags) {
-        selectedTags = selectedTags.map( tag => ({id:tag}));
+        selectedTags = selectedTags?.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
                 mutation($title: String!, $description: String!, $email: String!, $selectedTags:[TagWhereUniqueInput!] ) {
@@ -124,7 +124,7 @@ export default {
             .catch(handleError);
     },
     editOffer(id, newOffer) {
-        const selectedTags = newOffer.tags.map( tag => ({id:tag}));
+        const selectedTags = newOffer.tags?.map( tag => ({id:tag}));
         return apolloClient.mutate({
             mutation: gql`
                 mutation($id: ID!, $updatedOffer: OfferUpdateInput!) {

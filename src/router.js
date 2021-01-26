@@ -7,22 +7,22 @@ import Profile from "./pages/users/Profile.vue";
 import NotFound from "./pages/NotFound.vue";
 import AddOfferPage from "./pages/offers/AddOffer.vue";
 import EditOfferPage from "./pages/offers/EditOffer.vue";
-import EmptyRouterView from './pages/EmptyRouterView.vue';
-import UserApplicationsPage from './pages/applications/ListApplication.vue';
-import EditApplicationPage from './pages/applications/EditApplication.vue';
-import ListStudiesPage from './pages/studies/ListStudies.vue';
-import AddStudyPage from './pages/studies/AddStudy.vue';
-import EditStudyPage from './pages/studies/EditStudy.vue';
-import ListExperiencePage from './pages/experiences/ListExperience.vue'
-import AddExperiencePage from './pages/experiences/AddExperience.vue'
-import EditExperiencePage from './pages/experiences/EditExperience.vue'
-import ListDegrees from './pages/degrees/ListDegrees.vue';
-import AddDegree from './pages/degrees/AddDegree.vue';
-import EditDegree from './pages/degrees/EditDegree.vue';
-import ListTags from './pages/tags/ListTags.vue';
-import AddTag from './pages/tags/AddTag.vue';
-import EditTag from './pages/tags/EditTag.vue';
-import ShowUser from './pages/users/ShowUser.vue';
+import EmptyRouterView from "./pages/EmptyRouterView.vue";
+import UserApplicationsPage from "./pages/applications/ListApplication.vue";
+import EditApplicationPage from "./pages/applications/EditApplication.vue";
+import ListStudiesPage from "./pages/studies/ListStudies.vue";
+import AddStudyPage from "./pages/studies/AddStudy.vue";
+import EditStudyPage from "./pages/studies/EditStudy.vue";
+import ListExperiencePage from "./pages/experiences/ListExperience.vue";
+import AddExperiencePage from "./pages/experiences/AddExperience.vue";
+import EditExperiencePage from "./pages/experiences/EditExperience.vue";
+import ListDegrees from "./pages/degrees/ListDegrees.vue";
+import AddDegree from "./pages/degrees/AddDegree.vue";
+import EditDegree from "./pages/degrees/EditDegree.vue";
+import ListTags from "./pages/tags/ListTags.vue";
+import AddTag from "./pages/tags/AddTag.vue";
+import EditTag from "./pages/tags/EditTag.vue";
+import ShowUser from "./pages/users/ShowUser.vue";
 
 const router = new VueRouter({
     mode: "history",
@@ -71,15 +71,15 @@ const router = new VueRouter({
         {
             path: "/tags", component: EmptyRouterView,
             children: [
-                { path: '', component : ListTags},
-                { path: 'add', component: AddTag },
-                { path: ':id/edit/', component: EditTag, props: true }
+                { path: "", component : ListTags},
+                { path: "add", component: AddTag },
+                { path: ":id/edit/", component: EditTag, props: true }
             ]   
         },
         {
             path: "/users", component: EmptyRouterView,
             children: [
-                { path: ':id', component : ShowUser, props: true},
+                { path: ":id", component : ShowUser, props: true},
             ]   
         },
         { path: "*", component: NotFound }
@@ -102,11 +102,11 @@ router.beforeEach((to, from, next) => {
     }
   
     if (store.state.roles) {
-        if (store.getters.isEmployer && (to.path.startsWith('/studies') || to.path.startsWith('/experiences'))) {
+        if (store.getters.isEmployer && (to.path.startsWith("/studies") || to.path.startsWith("/experiences"))) {
             return next("/");
         }
 
-        if (store.getters.isEmployee && to.path.startsWith('/users')) {
+        if (store.getters.isEmployee && to.path.startsWith("/users")) {
             return next("/");
         }
     }

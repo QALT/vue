@@ -32,7 +32,7 @@ export default {
     },
     created() {
         degreesGateway.getDegrees().then(degrees => {
-            this.degrees = degrees.map(degree => ({value: degree['@id'] ?? degree.id, text: degree.label}))
+            this.degrees = degrees?.map(degree => ({value: degree['@id'] ?? degree.id, text: degree.label}))
         });
     }
 }
